@@ -15,6 +15,8 @@ import express from "express";
 import { runTurn, ensureWorkspace } from "./zero-runner.mjs";
 import { agentPublicKey, config as dflowConfig } from "./dflow.mjs";
 import { config as marketsConfig } from "./markets.mjs";
+import { config as perpsConfig } from "./perps.mjs";
+import { health as perpsHealth } from "./perps.mjs";
 
 const app = express();
 app.use(express.json({ limit: "256kb" }));
@@ -37,14 +39,26 @@ function authed(req) {
   return h === `Bearer ${SERVICE_TOKEN}`;
 }
 
-app.get("/health", (_req, res) => {
+app.get("/health", async (_req, res) => {
   let wallet = null;
   try {
     wallet = agentPublicKey();
   } catch {
     /* wallet not configured */
   }
-  res.json({ ok: true, wallet, config: dflowConfig, markets: marketsConfig });
+  let perpsHealthStatus = null;
+  try {
+    perpsHealthStatus = await perpsHealth();
+  } catch {
+    /* perps not available */
+  }
+  res.json({
+    ok: true,
+    wallet,
+    config: dflowConfig,
+    markets: marketsConfig,
+    perps: { config: perpsConfig, health: perpsHealthStatus },
+  });
 });
 
 app.post("/chat", async (req, res) => {

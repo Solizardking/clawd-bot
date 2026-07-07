@@ -22,13 +22,18 @@ Browser (/sol-gpt)
 | `src/server.mjs`        | Express + SSE bridge. `POST /chat`, `GET /health`. |
 | `src/zero-runner.mjs`   | Spawns `zero exec`, feeds one turn, parses stream-json, writes the workspace `.zero/config.json` + `AGENTS.md`. |
 | `src/mcp-soltrader.mjs` | stdio MCP server. Tools register in Zero as `mcp_soltrader_*`. |
+| `src/mcp-markets.mjs`   | stdio MCP server for equities/index/crypto market data. Tools register as `mcp_markets_*`. |
+| `src/mcp-perps.mjs`     | stdio MCP server for Phoenix perpetuals. Tools register as `mcp_perps_*`. |
 | `src/dflow.mjs`         | DFlow quote/swap + balances (ported from the app's `src/lib/dflow/trader.ts`). |
+| `src/perps.mjs`         | Phoenix perpetuals via Vulcan CLI — market data, orders, positions, margin, portfolio. |
+| `src/markets.mjs`       | Read-only equities/index/crypto market data from Yahoo Finance. |
 | `src/smoke.mjs`         | End-to-end local test (read-only by default). |
 
-The agent is scoped to trading only: `--enabled-tools` allows just the four
-`mcp_soltrader_*` tools, so it has **no file, shell, or browser access**.
-`--auto high` auto-approves those tool calls (headless exec can't prompt), and
-safety is enforced in the tool itself via `MAX_SWAP_INPUT_AMOUNT`.
+The agent is scoped to trading only: `--enabled-tools` allows only the
+`mcp_soltrader_*`, `mcp_markets_*`, and `mcp_perps_*` tools, so it has **no
+file, shell, or browser access**. `--auto high` auto-approves those tool calls
+(headless exec can't prompt), and safety is enforced in the tool itself via
+`MAX_SWAP_INPUT_AMOUNT` (spot) and `PERPS_MAX_NOTIONAL_USD` (perps).
 
 ## Run locally
 
