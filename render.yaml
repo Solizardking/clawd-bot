@@ -1,0 +1,49 @@
+# Zero Clawd — standalone Render deploy.
+#
+# One Docker web service: the Node SSE bridge + the compiled Zero Clawd agent
+# baked into a single image (see zero-service/Dockerfile, build context = repo
+# root so both zero-main/ and zero-service/ are available).
+services:
+  - type: web
+    name: zero-clawd-service
+    runtime: docker
+    region: oregon
+    plan: starter
+    dockerfilePath: ./zero-service/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      # Optional shared secret guarding POST /chat.
+      - key: ZERO_SERVICE_TOKEN
+        sync: false
+      # Model + provider key (provider auto-selected from whichever *_API_KEY is set).
+      - key: ZERO_MODEL
+        value: gpt-4.1
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: ZERO_MAX_TURNS
+        value: "12"
+      # Trading safety cap (input tokens per swap).
+      - key: MAX_SWAP_INPUT_AMOUNT
+        value: "0.5"
+      # Agent hot wallet + Solana RPC.
+      - key: AGENT_WALLET_PRIVATE_KEY
+        sync: false
+      - key: RPC_URL
+        sync: false
+      # DFlow spot trading.
+      - key: DFLOW_TRADE_API_URL
+        value: https://dev-quote-api.dflow.net
+      - key: DFLOW_API_KEY
+        sync: false
+      - key: DFLOW_SETTLEMENT_MINT
+        value: EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+      - key: DFLOW_PUBLIC_SPOT_SOL_FEE_ACCOUNT
+        value: G1HLzP1Km5E4jc2zBcF721rvWhfwD3qKKrWSr8pgbSnj
+      - key: DFLOW_PRIORITY_FEE
+        value: auto
+      # Stock / equities market data (read-only). See zero-service/.env.example.
+      - key: STOCK_API_URL
+        value: https://query1.finance.yahoo.com
+      - key: STOCK_API_KEY
+        sync: false

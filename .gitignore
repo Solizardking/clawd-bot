@@ -1,0 +1,22 @@
+# Compiled Zero Clawd agent binary
+/zero-main/zero
+/zero-main/zero-clawd
+zero-clawd
+zero
+
+# Node
+node_modules/
+
+# Env / secrets — NEVER commit
+.env
+*.env
+!.env.example
+
+# Scratch agent workspace
+/tmp/
+sol-gpt-workspace/
+finance-gpt-workspace/
+
+# OS / editor junk
+.DS_Store
+*.swp
