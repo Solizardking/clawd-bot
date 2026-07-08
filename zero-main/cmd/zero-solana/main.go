@@ -5,9 +5,11 @@
 //
 // Usage:
 //
-//	zero-solana balance <pubkey> [--rpc-url URL] [--cluster mainnet|devnet|testnet]
+//	zero-solana balance [--rpc-url URL] [--cluster mainnet|devnet|testnet] <pubkey>
 //	zero-solana wallet new
-//	zero-solana airdrop <pubkey> <sol> [--cluster devnet|testnet]
+//	zero-solana airdrop [--cluster devnet|testnet] <pubkey> <sol>
+//
+// Flags must precede positional arguments (stdlib flag package convention).
 package main
 
 import (
@@ -53,9 +55,11 @@ func printUsage(w io.Writer) {
 	fmt.Fprint(w, `zero-solana — zero-config Solana CLI (internal/solanasdk)
 
 Usage:
-  zero-solana balance <pubkey> [--rpc-url URL] [--cluster mainnet|devnet|testnet]
+  zero-solana balance [--rpc-url URL] [--cluster mainnet|devnet|testnet] <pubkey>
   zero-solana wallet new
-  zero-solana airdrop <pubkey> <sol> [--cluster devnet|testnet]
+  zero-solana airdrop [--cluster devnet|testnet] <pubkey> <sol>
+
+Flags must precede the positional arguments.
 
 With no --rpc-url, balance/airdrop default to RPC_URL / HELIUS_RPC_URL /
 SOLANA_RPC_URL from the environment, falling back to the public cluster
