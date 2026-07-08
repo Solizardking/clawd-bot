@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "vulcan": {
+      "command": "/Users/8bit/.local/bin/vulcan",
+      "args": [
+        "mcp"
+      ]
+    }
+  }
+}
