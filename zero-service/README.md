@@ -24,9 +24,11 @@ Browser (/sol-gpt)
 | `src/mcp-soltrader.mjs` | stdio MCP server. Tools register in Zero as `mcp_soltrader_*`. |
 | `src/mcp-markets.mjs`   | stdio MCP server for equities/index/crypto market data. Tools register as `mcp_markets_*`. |
 | `src/mcp-perps.mjs`     | stdio MCP server for Phoenix perpetuals. Tools register as `mcp_perps_*`. |
+| `src/mcp-risk.mjs`      | stdio MCP server for risk-guard calculators. Tools register as `mcp_risk_*`. |
 | `src/dflow.mjs`         | DFlow quote/swap + balances (ported from the app's `src/lib/dflow/trader.ts`). |
 | `src/perps.mjs`         | Phoenix perpetuals via Vulcan CLI — market data, orders, positions, margin, portfolio. |
 | `src/markets.mjs`       | Read-only equities/index/crypto market data from Yahoo Finance. |
+| `src/risk.mjs`          | Token risk scoring, risk-adjusted position sizing, portfolio exposure guard — ported from the clawdbot Go trading engine (`pkg/trading`, `pkg/strategy`). Pure functions, no network/wallet access. |
 | `src/smoke.mjs`         | End-to-end local test (read-only by default). |
 
 The agent is scoped to trading only: `--enabled-tools` allows only the

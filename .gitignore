@@ -4,13 +4,36 @@
 zero-clawd
 zero
 
+# go-bot / clawdbot (vendored source only — never its prebuilt binaries)
+/go-bot/backend
+/go-bot/clawdbot
+/go-bot/build/
+/go-bot/dist/
+
 # Node
 node_modules/
 
-# Env / secrets — NEVER commit
+# Env / secrets — NEVER commit (.env.* also catches .env.local, .env.production, etc.)
 .env
+.env.*
 *.env
 !.env.example
+!.env.template
+!.env.sample
+
+# Solana keypairs and private key material
+wallet.json
+*-wallet.json
+keypair.json
+*-keypair.json
+*_keypair.json
+id.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
 
 # Scratch agent workspace
 /tmp/

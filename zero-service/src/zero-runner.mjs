@@ -53,6 +53,10 @@ const ENABLED_TOOLS = [
   "mcp_perps_deposit_collateral",
   "mcp_perps_withdraw_collateral",
   "mcp_perps_health",
+  // risk (position sizing + portfolio guard, ported from clawdbot)
+  "mcp_risk_assess_token_risk",
+  "mcp_risk_size_position",
+  "mcp_risk_check_portfolio_guard",
 ].join(",");
 
 const AGENTS_MD = `# Zero Clawd — Blockchain-Finance + Stocks + Perps Agent
@@ -123,6 +127,11 @@ Collateral:
 - deposit_collateral   — deposit USDC
 - withdraw_collateral  — withdraw USDC
 
+### risk tools (position sizing + portfolio guard, pure calculators):
+- assess_token_risk    — score a token 0-100 from liquidity/volume/volatility/holders
+- size_position        — risk-based position size so a stop-out loses a fixed % of equity
+- check_portfolio_guard — account-level gate: max positions, exposure caps, drawdown breaker
+
 ## Core rules
 
 - You have NO file, shell, or browser tools. You cannot edit code, run commands, or browse.
@@ -132,6 +141,9 @@ Collateral:
   Prices are read-only — you cannot trade stocks through Zero Clawd.
 - For perps: use preflight_check before any trade. Show the user the expected outcome
   and mode (paper/live) before executing. All perps trading is PAPER by default.
+- When the user hasn't given an explicit size, call size_position (and
+  check_portfolio_guard if you know current exposure) before executing a trade,
+  and briefly state the sizing rationale.
 - If a request is ambiguous (missing amount, token, or ticker), state your best
   assumption briefly and proceed; do not stall.
 - Keep replies concise. No code blocks unless showing a signature/link.
@@ -145,6 +157,7 @@ export function ensureWorkspace() {
   // Markets is a separate light MCP so we keep the soltrader server unchanged.
   const marketsPath = new URL("./mcp-markets.mjs", import.meta.url).pathname;
   const perpsPath = new URL("./mcp-perps.mjs", import.meta.url).pathname;
+  const riskPath = new URL("./mcp-risk.mjs", import.meta.url).pathname;
   const config = {
     mcp: {
       servers: {
@@ -165,6 +178,12 @@ export function ensureWorkspace() {
           command: process.execPath,
           args: [perpsPath],
           env: passthroughPerpsEnv(),
+        },
+        risk: {
+          type: "stdio",
+          command: process.execPath,
+          args: [riskPath],
+          env: {},
         },
       },
     },
