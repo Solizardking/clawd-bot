@@ -835,4 +835,12 @@ Birth seeds ` + "`robinhood-trading`" + ` → ` + mcpPkg.RobinhoodTradingMCPURL 
 - Desktop OAuth and Agentic account onboarding are required before live tools work.
 - Open/authenticate on a **desktop** browser (copy mobile onboarding URLs to desktop).
 - You remain responsible for every order the agent places.
+
+## ClawdBrowser + SOL GPT (all models)
+
+Birth also wires:
+
+- ClawdBrowser zero-service at ` + "`$CLAWDBROWSER_ROOT`" + ` (default ` + "`/Users/8bit/ClawdBrowser`" + `): mcp-clawd, mcp-soltrader, clawd/* gateway/providers/rh-launch, server, zero-runner
+- Full SOL GPT tool catalog in workspace ` + "`sol-gpt-tools.json`" + ` (181+ tools, 124 core) for Kimi, Laguna, Opus 5, DeepSeek, Grok
+- See ` + "`CLAWDBROWSER_BIRTH.md`" + ` in this workspace
 `
