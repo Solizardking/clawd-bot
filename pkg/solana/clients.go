@@ -1,9 +1,14 @@
 // Package solana provides Solana blockchain integration for ClawdBot.
 // Clients for Helius RPC, Birdeye analytics, Jupiter swaps, and wallet management.
+//
+// Core Solana JSON-RPC methods (balance, slot, blockhash) go through the
+// Foundation-hosted solana-go SDK — see rpc_client.go. Helius DAS and other
+// enhanced APIs remain on the hand-rolled JSON-RPC path below.
 package solana
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -186,6 +191,8 @@ type HeliusClient struct {
 	maxRetries int
 	backoff    time.Duration
 	httpClient *http.Client
+	// sdk is the typed solana-go RPC client for standard Solana methods.
+	sdk *RPCClient
 }
 
 const (
@@ -273,29 +280,30 @@ func NewHeliusClientWithOptions(apiKey, rpcURL, wssURL, network string, timeout 
 		httpClient: &http.Client{
 			Timeout: timeout,
 		},
+		sdk: NewRPCClientWithTimeout(rpcURL, timeout),
 	}
 }
 
+// SDK returns the typed solana-go RPC client used for standard Solana methods.
+func (h *HeliusClient) SDK() *RPCClient {
+	if h == nil {
+		return nil
+	}
+	return h.sdk
+}
+
+// GetBalance returns the SOL balance for pubkey via solana-go (confirmed).
 func (h *HeliusClient) GetBalance(pubkey string) (*AccountBalance, error) {
-	var result struct {
-		Value uint64 `json:"value"`
-	}
-	if err := h.rpcInto("getBalance", []any{pubkey}, &result); err != nil {
-		return nil, err
-	}
-
-	return &AccountBalance{
-		SOL:      float64(result.Value) / 1e9,
-		Lamports: result.Value,
-	}, nil
+	ctx, cancel := context.WithTimeout(context.Background(), h.timeout)
+	defer cancel()
+	return h.sdk.GetBalance(ctx, pubkey)
 }
 
+// GetSlot returns the current confirmed slot via solana-go.
 func (h *HeliusClient) GetSlot() (uint64, error) {
-	var result uint64
-	if err := h.rpcInto("getSlot", []any{}, &result); err != nil {
-		return 0, err
-	}
-	return result, nil
+	ctx, cancel := context.WithTimeout(context.Background(), h.timeout)
+	defer cancel()
+	return h.sdk.GetSlot(ctx)
 }
 
 func (h *HeliusClient) GetTokenBalances(pubkey string) ([]TokenBalance, error) {

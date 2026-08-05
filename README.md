@@ -13,7 +13,7 @@
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
 [![License](https://img.shields.io/badge/License-MIT-9945FF?style=for-the-badge)](LICENSE)
 
-**Solana-first · beats Zero on footprint · 225 Go source files · 51 Go packages · 53,308 Go lines · 10 binaries**
+**Solana-first · beats Zero on footprint · 225 Go source files · 50 Go packages · 53,308 Go lines · 10 binaries**
 
 <sub><strong>0.57 MB</strong> source archive · <strong>2.06 MiB</strong> exportable source · <strong>9.97 MB</strong> stripped CLI · Grok-first runtime · GLM-5.2 model surface</sub>
 
@@ -109,7 +109,7 @@ a full mapping from each classical algorithm to its ZK on-chain equivalent.
 
 **ClawdBot** is the world's first **Solana-native sovereign AI agent** — a full-stack autonomous trading intelligence bound by Clawd's full **six-law harness**: three immutable on-chain laws and three off-chain interpretive laws. Built in pure Go for minimal resource consumption, it orchestrates on-chain data providers, zk primitives, and x402-gated surfaces through a military-grade OODA decision loop with persistent epistemological memory.
 
-The system compiles to three standalone binaries that run on everything from NVIDIA Jetson edge devices to cloud VMs — no containers required, no runtime dependencies, instant boot.
+The system compiles to ten standalone binaries — the `clawdbot`, `clawdbot-tui`, and `clawdbot-web` runtimes plus the Zero engine CLI (`zero`) and its seven helper executables (`zero-linux-sandbox`, `zero-seccomp`, `zero-windows-command-runner`, `zero-windows-sandbox-setup`, `zero-perf-bench`, `zero-pr-review`, `zero-release`) — that run on everything from NVIDIA Jetson edge devices to cloud VMs — no containers required, no runtime dependencies, instant boot.
 
 The codebase carries the intellectual DNA of academic pioneers in compression, encryption, and cellular automata — the algorithms of Huffman, Shannon, Fano, Rivest–Shamir–Adleman, Daemen–Rijmen (AES), the National Bureau of Standards (DES), Burrows–Wheeler, Conway, von Neumann, Ulam, and the entire PiedPiper team at IIIT Hyderabad. Every classical result has been re-expressed as a Solana ZK primitive. Every trade is provable on-chain.
 
@@ -304,7 +304,7 @@ clawdbot-go/
 │   ├── zero-pr-review/           Deterministic PR review markdown (GitHub Actions)
 │   └── zero-release/             Release build/package/smoke/verify pipeline
 │
-├── pkg/                         ── 51 Packages, 53K+ lines ──
+├── pkg/                         ── 50 Packages, 53K+ lines ──
 │   │
 │   │  ┌─ Core Agent ────────────────────────────────────────┐
 │   ├── agent/                   Dexter-style iterative tool-calling loop, approvals
@@ -368,7 +368,7 @@ clawdbot-go/
 │   ├── perfbench/               Zero-style performance smoke benchmark
 │   ├── zerolib/                 Vendored Gitlawb/zero libs (review, release,
 │   │                           perfbench, sandbox, redaction)
-│   └── ...                      (see pkg/ for full 51-package listing)
+│   └── ...                      (see pkg/ for full 50-package listing)
 │
 ├── zk-primitives/               ZK agent, TypeScript client, Anchor program
 │   ├── docs/EDGE_DISTRIBUTION.md     ← Cloudflare metadata surface
@@ -550,6 +550,40 @@ clawdbot solana spl token-largest <mint>            # Largest holders
 clawdbot solana spl rpc getSlot                     # Raw RPC passthrough
 ```
 
+### Zero Engine
+
+The `pkg/zero` engine is the flat FIFO task scheduler with a ZK transcript
+hash chain — see [`docs/ZERO.md`](docs/ZERO.md) for the full invariant spec.
+The `cmd/zero-*` helper binaries wrap the vendored `pkg/zerolib` libraries
+(review, release, perfbench, sandbox, redaction):
+
+```bash
+# Zero engine CLI (Gitlawb/zero bridge) — flat scheduling, ZK run attestation
+zero run --attest att.json --transcript run.jsonl "audit the OODA loop"
+zero run --god --attest att.json "design the migration"   # ZK God Mode
+zero ask "..."                        # natural-language intent routing
+clawdbot zero verify run.jsonl        # locally re-verify a transcript chain
+
+# Performance benchmark + Terminal-Bench task harness
+zero-perf-bench                       # cold-start/RSS p95 benchmarks
+zero-perf-bench tasks                 # reproducible Terminal-Bench-style harness
+
+# Release pipeline
+zero-release build                    # build the zero binary
+zero-release package                  # stage + archive + sha256
+zero-release smoke                    # verify binary prints package version
+zero-release verify                   # verify release archive checksums
+
+# GitHub Actions PR review markdown
+zero-pr-review                        # emits deterministic review summary
+
+# Sandbox helpers (Linux / Windows)
+zero-linux-sandbox <command> [args...]        # bubblewrap/landlock wrap (Linux)
+zero-seccomp <command> [args...]              # unix-socket filter compat (Linux)
+zero-windows-command-runner <command> [args...]  # restricted-token wrap (Windows)
+zero-windows-sandbox-setup                    # ACL + helper discovery (Windows)
+```
+
 ### Agent Identity
 
 ```bash
@@ -641,7 +675,7 @@ go build -o build/clawdbot-web ./web/backend
 | `/api/trading/cockpit` | GET | Trading readiness, risk limits, connector status, law state |
 | `/api/doctor` | GET | Runtime, config, trading, and ZK diagnostics |
 | `/api/config` | GET | Read-only configuration |
-| `/api/packages` | GET | All 45 Go packages with file counts |
+| `/api/packages` | GET | All 50 Go packages with file counts |
 | `/api/env` | GET | Safe (non-secret) environment variables |
 | `/api/vault/status` | GET | Local `.env.local` vault metadata, no secret values |
 | `/api/vault/keys` | GET | Authorized key-name list from the local vault |
@@ -756,9 +790,9 @@ ssh user@orin-nano './clawdbot ooda --hw-bus 1 --interval 60'
 
 | Metric | Value |
 |:-------|:------|
-| Go source files | 81 |
-| Packages | 45 |
-| Total Go lines | 24,166+ |
+| Go source files | 225 |
+| Packages | 50 |
+| Total Go lines | 53,308+ |
 | CLI commands | 58 |
 | Birdeye API methods | 22 |
 | Birdeye agent tools | 19 |
@@ -766,11 +800,12 @@ ssh user@orin-nano './clawdbot ooda --hw-bus 1 --interval 60'
 | SPL token commands | 5 |
 | Agent constitution documents | 7 (CONSTITUTION, six-laws, CLAWD, AGENTS, IDENTITY, SOUL, three-laws) |
 | Build targets | 8 platforms |
-| Binaries | `clawdbot`, `clawdbot-tui`, `clawdbot-web` |
+| Binaries | `clawdbot`, `clawdbot-tui`, `clawdbot-web`, `zero`, `zero-linux-sandbox`, `zero-seccomp`, `zero-windows-command-runner`, `zero-windows-sandbox-setup`, `zero-perf-bench`, `zero-pr-review`, `zero-release` |
 | Runtime RAM | < 10 MB |
 | Boot time | < 1 second |
 | Default model provider | xAI Grok (Grok-4.3) |
 | **PiedPiper modules integrated** | **5** (gameoflife, middleout, weissman, zero, routing) |
+| **Vendored Zero libraries** | **5** (review, release, perfbench, sandbox, redaction) |
 | **ZK adaptations of classical algorithms** | **7** |
 
 ---
