@@ -3,14 +3,16 @@
  * No network, no filesystem side effects — safe for dry-run and unit tests.
  */
 
-/** Primary public one-shot surface (Cheshire Terminal). */
-export const DEFAULT_EDGE_INSTALL_URL = "https://cheshireterminal.ai/install";
+/** Primary public one-shot surface (Cheshire Terminal install host). */
+export const DEFAULT_EDGE_INSTALL_URL = "https://install.cheshireterminal.ai";
+/** Path alias on the terminal SPA host (only if CF proxies the apex). */
+export const PATH_EDGE_INSTALL_URL = "https://cheshireterminal.ai/install";
 /** Legacy Cloudflare custom-domain alias (still served by the same Worker). */
 export const LEGACY_EDGE_INSTALL_URL = "https://install.onchainai.fund";
 export const DEFAULT_RAW_INSTALL_URL =
   "https://raw.githubusercontent.com/Solizardking/clawdbot-go/main/install.sh";
 export const DEFAULT_ZK_METADATA_URL =
-  "https://cheshireterminal.ai/install/.well-known/clawdbot-zk.json";
+  "https://install.cheshireterminal.ai/.well-known/clawdbot-zk.json";
 export const DEFAULT_INSTALL_DIR_SUFFIX = ".clawdbot";
 
 /**
@@ -114,7 +116,12 @@ export function resolveInstallPlan(opts = {}) {
   const rawUrl =
     opts.rawInstallUrl || process.env.CLAWDBOT_RAW_INSTALL_URL || DEFAULT_RAW_INSTALL_URL;
   const primaryUrl = prefer === "raw" ? rawUrl : edgeUrl;
-  const fallbackUrl = prefer === "raw" ? edgeUrl : rawUrl;
+  // Live install probe order: preferred edge → legacy CF host → raw GitHub install.sh
+  const candidateUrls =
+    prefer === "raw"
+      ? [rawUrl, edgeUrl, LEGACY_EDGE_INSTALL_URL]
+      : [edgeUrl, LEGACY_EDGE_INSTALL_URL, rawUrl];
+  const fallbackUrl = candidateUrls.find((u) => u !== primaryUrl) || rawUrl;
 
   /** @type {Record<string, string>} */
   const env = {
@@ -156,12 +163,14 @@ export function resolveInstallPlan(opts = {}) {
     prefer,
     primaryUrl,
     fallbackUrl,
+    candidateUrls: [...new Set(candidateUrls.filter(Boolean))],
     edgeUrl,
     rawUrl,
     zkMetadataUrl: DEFAULT_ZK_METADATA_URL,
     installer: "install.sh",
     upstream: {
       edge: DEFAULT_EDGE_INSTALL_URL,
+      pathEdge: PATH_EDGE_INSTALL_URL,
       legacyEdge: LEGACY_EDGE_INSTALL_URL,
       rawGitHub: DEFAULT_RAW_INSTALL_URL,
       zkMetadata: DEFAULT_ZK_METADATA_URL,
@@ -178,7 +187,8 @@ export function resolveInstallPlan(opts = {}) {
     },
     notes: [
       "Dry-run resolves the install plan only; it does not mutate $HOME or run install.sh.",
-      "Live install fetches the primary URL (edge Worker or raw install.sh) and pipes to bash.",
+      "Live install probes candidateUrls in order and pipes the first script response to bash.",
+      "If install.cheshireterminal.ai returns a Cloudflare Bot Fight 403, legacy install.onchainai.fund is used next.",
       "CLAWDBOT_INSTALL_COMPLETE=1 enables core-ai sidecar + full stack defaults.",
     ],
   };

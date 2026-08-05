@@ -39,10 +39,10 @@ test("resolveInstallPlan references real installer upstream URLs", () => {
   assert.equal(plan.edgeUrl, DEFAULT_EDGE_INSTALL_URL);
   assert.equal(plan.rawUrl, DEFAULT_RAW_INSTALL_URL);
   assert.equal(plan.primaryUrl, DEFAULT_EDGE_INSTALL_URL);
-  assert.match(plan.primaryUrl, /cheshireterminal\.ai\/install|install\.sh/);
+  assert.match(plan.primaryUrl, /install\.cheshireterminal\.ai|install\.sh/);
   assert.match(plan.rawUrl, /install\.sh$/);
   assert.match(plan.upstream.rawGitHub, /Solizardking\/clawdbot-go/);
-  assert.match(plan.upstream.edge, /cheshireterminal\.ai\/install/);
+  assert.match(plan.upstream.edge, /install\.cheshireterminal\.ai/);
   assert.match(plan.upstream.legacyEdge, /install\.onchainai\.fund/);
   assert.equal(plan.installDir, "/tmp/fake-home-clawdbot-install-test/.clawdbot");
   assert.equal(plan.env.CLAWDBOT_INSTALL_DIR, plan.installDir);
@@ -93,7 +93,7 @@ test("buildPlan attaches package version from package.json", () => {
   assert.equal(plan.dryRun, true);
   assert.equal(plan.package, "clawdbot-install");
   assert.ok(
-    plan.primaryUrl.includes("cheshireterminal.ai/install") ||
+    plan.primaryUrl.includes("install.cheshireterminal.ai") ||
       plan.primaryUrl.includes("install"),
   );
 });

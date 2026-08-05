@@ -3,11 +3,29 @@
 This directory contains the Cloudflare Worker that turns the canonical GitHub
 installer into branded install and catalog-discovery surfaces:
 
-Primary public install surface (Worker route on the Cheshire Terminal zone):
+Primary public install surface (Worker custom domain on the Cheshire Terminal zone):
 
 ```bash
-curl -fsSL https://cheshireterminal.ai/install | bash
+curl -fsSL https://install.cheshireterminal.ai | bash
 ```
+
+> **Why not `cheshireterminal.ai/install`?** The apex SPA is served by Fly.
+> Cloudflare Worker *path* routes only apply when the hostname is proxied
+> through Cloudflare. Use the dedicated `install.cheshireterminal.ai` host
+> (same pattern as `install.onchainai.fund`).
+>
+> **Bot Fight / Super Bot Fight:** if `curl -fsSL https://install.cheshireterminal.ai`
+> returns **HTTP 403** with `cf-mitigated: challenge`, add a **Configuration Rule**
+> on the `cheshireterminal.ai` zone:
+>
+> 1. Cloudflare Dashboard → **Rules** → **Configuration Rules** → Create  
+> 2. When hostname equals `install.cheshireterminal.ai`  
+> 3. Then: **Security** → *Disable Super Bot Fight Mode* / skip Bot Fight  
+> 4. (Optional) Security Level: *Essentially Off* for this hostname only  
+>
+> Until that rule is active, use the legacy host (same Worker, no challenge):
+> `curl -fsSL https://install.onchainai.fund | bash`. The npm package
+> (`npx clawdbot-install`) automatically falls back.
 
 Legacy Cloudflare custom-domain host (same Worker):
 
@@ -59,7 +77,13 @@ The route configuration lives in `../wrangler.toml`.
 install.onchainai.fund
 ```
 
-3b. Bind the primary path on the Cheshire Terminal zone (does not take over `/`):
+3b. Bind the primary install host on the Cheshire Terminal zone:
+
+```text
+install.cheshireterminal.ai   (Worker custom domain)
+```
+
+3c. Optional path aliases (only if the apex is Cloudflare-proxied):
 
 ```text
 cheshireterminal.ai/install*
@@ -104,12 +128,12 @@ Wrangler secrets only if a future route needs private credentials.
 ## Smoke Tests
 
 ```bash
-# Primary — cheshireterminal.ai
-curl -fsSL https://cheshireterminal.ai/install/healthz
-curl -fsSL https://cheshireterminal.ai/install/.well-known/clawdbot-install.json
-curl -fsSL https://cheshireterminal.ai/install/.well-known/clawdbot-zk.json
-curl -fsSL https://cheshireterminal.ai/install/routes
-curl -fsSL https://cheshireterminal.ai/install | bash -n
+# Primary — install.cheshireterminal.ai
+curl -fsSL https://install.cheshireterminal.ai/healthz
+curl -fsSL https://install.cheshireterminal.ai/.well-known/clawdbot-install.json
+curl -fsSL https://install.cheshireterminal.ai/.well-known/clawdbot-zk.json
+curl -fsSL https://install.cheshireterminal.ai/routes
+curl -fsSL https://install.cheshireterminal.ai | bash -n
 
 # Legacy host
 curl -fsSL https://install.onchainai.fund/healthz

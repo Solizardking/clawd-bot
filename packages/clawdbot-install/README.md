@@ -3,7 +3,7 @@
 One-shot npm/npx installer for **ClawdBot Go** — the same surface as:
 
 ```bash
-curl -fsSL https://cheshireterminal.ai/install | bash
+curl -fsSL https://install.cheshireterminal.ai | bash
 curl -fsSL https://install.onchainai.fund | bash
 curl -fsSL https://raw.githubusercontent.com/Solizardking/clawdbot-go/main/install.sh | bash
 ```
@@ -24,14 +24,14 @@ npx clawdbot-install --dry-run
 CLAWDBOT_INSTALL_DRY_RUN=1 npx clawdbot-install
 ```
 
-Prints a JSON plan with `primaryUrl`, `fallbackUrl`, `env`, and the equivalent curl command. The plan always references the real installer upstream (`cheshireterminal.ai/install` and/or raw `install.sh`).
+Prints a JSON plan with `primaryUrl`, `fallbackUrl`, `env`, and the equivalent curl command. The plan always references the real installer upstream (`install.cheshireterminal.ai` and/or raw `install.sh`).
 
 ### Full stack
 
 ```bash
 npx clawdbot-install --complete
 # equivalent:
-curl -fsSL https://cheshireterminal.ai/install | bash
+curl -fsSL https://install.cheshireterminal.ai | bash
 ```
 
 ## Options
@@ -41,7 +41,7 @@ curl -fsSL https://cheshireterminal.ai/install | bash
 | `--dry-run`, `-n` | Resolve plan only |
 | `--complete` | `CLAWDBOT_INSTALL_COMPLETE=1` |
 | `--core-ai` | `CLAWDBOT_INSTALL_CORE_AI=1` |
-| `--prefer-edge` | Use `https://cheshireterminal.ai/install` (default) |
+| `--prefer-edge` | Use `https://install.cheshireterminal.ai` (default) |
 | `--prefer-raw` | Use raw GitHub `install.sh` |
 | `--dir <path>` | Install home |
 | `--ref <ref>` | Git/archive ref (default `main`) |

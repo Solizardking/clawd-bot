@@ -19,7 +19,14 @@ ZK_PROGRAM_ID = "CLAWDzk11111111111111111111111111111111111"
 pattern = "install.onchainai.fund"
 custom_domain = true
 
-# Primary public install surface on the Cheshire Terminal host
+# Primary public install surface (Cheshire Terminal zone).
+# Apex cheshireterminal.ai is served by Fly for the SPA, so path routes on /
+# never reach this Worker. Use the dedicated install host instead:
+[[routes]]
+pattern = "install.cheshireterminal.ai"
+custom_domain = true
+
+# Optional path aliases if/when the apex is Cloudflare-proxied in front of Fly
 [[routes]]
 pattern = "cheshireterminal.ai/install*"
 zone_name = "cheshireterminal.ai"

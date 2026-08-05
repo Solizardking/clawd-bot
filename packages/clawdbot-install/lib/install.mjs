@@ -31,7 +31,7 @@ function printHelp() {
   console.log(`clawdbot-install v${v}
 
 One-shot installer for ClawdBot Go. Wraps the same install surface as:
-  curl -fsSL https://cheshireterminal.ai/install | bash
+  curl -fsSL https://install.cheshireterminal.ai | bash
   curl -fsSL https://install.onchainai.fund | bash
   curl -fsSL https://raw.githubusercontent.com/Solizardking/clawdbot-go/main/install.sh | bash
 
@@ -45,7 +45,7 @@ Options:
   --complete          Set CLAWDBOT_INSTALL_COMPLETE=1 (core-ai + full stack defaults)
   --core-ai           Set CLAWDBOT_INSTALL_CORE_AI=1
   --vulcan / --no-vulcan
-  --prefer-edge       Use https://cheshireterminal.ai/install (default)
+  --prefer-edge       Use https://install.cheshireterminal.ai (default)
   --prefer-raw        Use raw GitHub install.sh URL
   --dir <path>        CLAWDBOT_INSTALL_DIR
   --ref <ref>         CLAWDBOT_REF (default: main)
@@ -63,27 +63,71 @@ Environment:
 }
 
 /**
- * Execute the live install by curling the primary URL into bash.
+ * Probe an install URL: must return a shell script, not HTML/challenge pages.
+ * @param {string} url
+ * @returns {boolean}
+ */
+export function isUsableInstallUrl(url) {
+  const result = spawnSync(
+    "curl",
+    ["-fsSL", "--max-time", "20", "-A", "clawdbot-install/1.0", url],
+    { encoding: "utf8", maxBuffer: 512 * 1024 },
+  );
+  if (result.status !== 0 || result.error) return false;
+  const body = String(result.stdout || "");
+  if (!body) return false;
+  // Reject Cloudflare challenge / SPA HTML
+  if (/<!DOCTYPE html>|cf-mitigated|Just a moment/i.test(body)) return false;
+  // Accept shebang or export-based wrapper scripts
+  return body.startsWith("#!") || /CLAWDBOT_INSTALL|install\.sh|bash/.test(body);
+}
+
+/**
+ * Execute the live install by curling a reachable install URL into bash.
+ * Probes candidateUrls (primary → legacy edge → raw) so a Bot Fight 403 on the
+ * brand host does not brick one-shot installs.
  * @param {ReturnType<typeof buildPlan>} plan
- * @returns {{ status: number, command: string }}
+ * @returns {{ status: number, command: string, url: string }}
  */
 export function runLiveInstall(plan) {
   const env = { ...process.env, ...plan.env };
+  const candidates = plan.candidateUrls?.length
+    ? plan.candidateUrls
+    : [plan.primaryUrl, plan.fallbackUrl].filter(Boolean);
 
-  // Prefer curl | bash to match the documented one-shot surface exactly.
-  const shellCmd = `curl -fsSL ${shellEscape(plan.primaryUrl)} | bash`;
+  let chosen = null;
+  for (const url of candidates) {
+    process.stderr.write(`[clawdbot-install] probing ${url} … `);
+    if (isUsableInstallUrl(url)) {
+      process.stderr.write("ok\n");
+      chosen = url;
+      break;
+    }
+    process.stderr.write("skip\n");
+  }
+
+  if (!chosen) {
+    console.error(
+      "[clawdbot-install] no reachable install surface. Tried:\n  " +
+        candidates.join("\n  ") +
+        "\nIf install.cheshireterminal.ai is challenged, disable Bot Fight for that host in Cloudflare, or use:\n  curl -fsSL https://install.onchainai.fund | bash",
+    );
+    process.exit(1);
+  }
+
+  const shellCmd = `curl -fsSL ${shellEscape(chosen)} | bash`;
+  console.log(`[clawdbot-install] running: ${shellCmd}`);
   const result = spawnSync("bash", ["-lc", shellCmd], {
     env,
     stdio: "inherit",
   });
 
   if (result.error) {
-    // Fallback: try the other URL once if primary fails to spawn (unlikely).
     console.error(`[clawdbot-install] bash spawn failed: ${result.error.message}`);
     process.exit(1);
   }
 
-  return { status: result.status ?? 1, command: shellCmd };
+  return { status: result.status ?? 1, command: shellCmd, url: chosen };
 }
 
 function shellEscape(url) {

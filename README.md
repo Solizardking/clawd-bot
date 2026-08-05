@@ -65,8 +65,8 @@ package — both resolve to the same `install.sh` truth (archive clone, binary p
 zkrouter + public RPC defaults, optional core-ai sidecar).
 
 ```bash
-# curl (recommended) — cheshireterminal.ai
-curl -fsSL https://cheshireterminal.ai/install | bash
+# curl (recommended) — Cheshire Terminal
+curl -fsSL https://install.cheshireterminal.ai | bash
 
 # npm / npx
 npx clawdbot-install
@@ -171,19 +171,20 @@ The codebase carries the intellectual DNA of academic pioneers in compression, e
 ### One-Shot Install (recommended)
 
 Pick **one** line. Curl and npm both drive the same installer surface
-(`install.sh` via `https://cheshireterminal.ai/install`).
+(`install.sh` via `https://install.cheshireterminal.ai`).
 
 ```bash
 # ── curl (primary) — Cheshire Terminal ──────────────────────────────────────
-curl -fsSL https://cheshireterminal.ai/install | bash
+curl -fsSL https://install.cheshireterminal.ai | bash
+
+# if Cloudflare Bot Fight challenges the brand host, use the legacy alias
+# (same Worker — see cloudflare/README.md for the skip rule):
+curl -fsSL https://install.onchainai.fund | bash
 
 # raw GitHub install script (same script, no edge Worker)
 curl -fsSL https://raw.githubusercontent.com/Solizardking/clawdbot-go/main/install.sh | bash
 
-# legacy Cloudflare install host (same Worker)
-curl -fsSL https://install.onchainai.fund | bash
-
-# ── npm / npx (same install, Node wrapper) ──────────────────────────────────
+# ── npm / npx (same install; auto-falls-back if brand host is challenged) ──
 npx clawdbot-install
 # npm i -g clawdbot-install && clawdbot-install
 # dry-run (prints plan, no $HOME mutation):
@@ -194,7 +195,7 @@ Complete stack (core-ai sidecar + Vulcan) — the primary curl already defaults 
 complete mode:
 
 ```bash
-curl -fsSL https://cheshireterminal.ai/install | bash
+curl -fsSL https://install.cheshireterminal.ai | bash
 # or:
 npx clawdbot-install --complete
 ```
@@ -202,13 +203,12 @@ npx clawdbot-install --complete
 ZK metadata (read-only, no install):
 
 ```bash
-curl -fsSL https://cheshireterminal.ai/install/.well-known/clawdbot-zk.json
+curl -fsSL https://install.cheshireterminal.ai/.well-known/clawdbot-zk.json
 ```
 
-> The `x402.wtf` / `zk.x402.wtf/clawdbot` aliases are optional and only work once
-> their DNS records and Worker routes are provisioned in Cloudflare (see
-> `cloudflare/README.md`). Prefer `https://cheshireterminal.ai/install` or the
-> raw GitHub `install.sh` URL above.
+> The apex `cheshireterminal.ai` SPA is served by Fly; the install Worker is on
+> the dedicated host `install.cheshireterminal.ai` (and legacy
+> `install.onchainai.fund`). See `cloudflare/README.md`.
 
 > **Free AI included** — no API keys required to get started.  
 > The installer pre-configures [zkrouter](https://zk.x402.wtf) (free AI routing) and a  

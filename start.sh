@@ -4,7 +4,7 @@
 # Installs dependencies, compiles everything, runs animated launcher
 #
 # Fresh machines (no clone yet) — prefer the public one-shot:
-#   curl -fsSL https://cheshireterminal.ai/install | bash
+#   curl -fsSL https://install.cheshireterminal.ai | bash
 #   npx clawdbot-install
 # ─────────────────────────────────────────────────────────────────────
 set -euo pipefail
@@ -16,11 +16,11 @@ RED='\033[1;38;2;255;64;96m'
 DIM='\033[38;2;85;102;128m'
 RESET='\033[0m'
 
-# Public one-shot install surface (Cloudflare Worker on cheshireterminal.ai)
-CLAWD_INSTALL_URL="${CLAWD_INSTALL_URL:-https://cheshireterminal.ai/install}"
+# Public one-shot install surface (Cloudflare Worker — Cheshire Terminal zone)
+CLAWD_INSTALL_URL="${CLAWD_INSTALL_URL:-https://install.cheshireterminal.ai}"
 CLAWD_INSTALL_LEGACY_URL="${CLAWD_INSTALL_LEGACY_URL:-https://install.onchainai.fund}"
 CLAWD_INSTALL_RAW_URL="${CLAWD_INSTALL_RAW_URL:-https://raw.githubusercontent.com/Solizardking/clawdbot-go/main/install.sh}"
-CLAWD_ZK_META_URL="${CLAWD_ZK_META_URL:-https://cheshireterminal.ai/install/.well-known/clawdbot-zk.json}"
+CLAWD_ZK_META_URL="${CLAWD_ZK_META_URL:-https://install.cheshireterminal.ai/.well-known/clawdbot-zk.json}"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT="$SCRIPT_DIR"

@@ -7,8 +7,8 @@ Public surfaces for the current ecosystem:
 - **Runtime repo** — `https://github.com/Solizardking/clawdbot-go`
 - **Ecosystem hub** — `https://github.com/solizardking/solana-clawd`
 - **x402 gateway** — `https://zk.x402.wtf`
-- **Installer** — `https://cheshireterminal.ai/install`
-- **Installer metadata** — `https://cheshireterminal.ai/install/.well-known/clawdbot-zk.json`
+- **Installer** — `https://install.cheshireterminal.ai`
+- **Installer metadata** — `https://install.cheshireterminal.ai/.well-known/clawdbot-zk.json`
 - **Legacy installer** — `https://install.onchainai.fund`
 
 - **Terminal** — `https://cheshireterminal.ai`
@@ -32,15 +32,15 @@ clawdbot catalog compress --dry-run
 Cloudflare edge install and ZK metadata surfaces (verified working):
 
 ```bash
-curl -fsSL https://cheshireterminal.ai/install | bash
-curl -fsSL https://cheshireterminal.ai/install/.well-known/clawdbot-zk.json
+curl -fsSL https://install.cheshireterminal.ai | bash
+curl -fsSL https://install.cheshireterminal.ai/.well-known/clawdbot-zk.json
 # legacy:
 curl -fsSL https://install.onchainai.fund | bash
 ```
 
 > The `zk.x402.wtf/clawdbot` aliases require their DNS records and Worker routes
 > to be provisioned in Cloudflare first (see `cloudflare/README.md`). Prefer
-> `cheshireterminal.ai/install`.
+> `install.cheshireterminal.ai`.
 
 ### Robinhood Agentic Trading MCP (birth seed)
 
