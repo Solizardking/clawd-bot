@@ -46,6 +46,7 @@ curl -fsSL https://install.onchainai.fund/.well-known/clawdbot-zk.json
 | Agent | Slug | Category | Description | Status |
 |-------|------|----------|-------------|--------|
 | **Clawd Core** | `clawd` | Orchestration | The sovereign agent runtime and constitution enforcer | ✅ Production |
+| **eliZERO** | `elizero` | Orchestration | First elizaOS Zero agent powered by $CLAWD (flat-loop Zero engine, birth funding, x402) | ✅ Production |
 | **Clawdex** | `clawdex` | Coding | Dual-engine coding agent: Clawd Code + OpenAI Codex + Browser Use | ✅ Production |
 | **Solana Arbitrage Scanner** | `solana-arbitrage-scanner` | DeFi | Cross-DEX arbitrage opportunity detection | ✅ Production |
 | **Solana Autonomous Trader** | `solana-autonomous-trader` | Trading | Autonomous trade execution with risk management | ✅ Production |

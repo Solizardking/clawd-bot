@@ -1,0 +1,14 @@
+# Local env and secrets (root .gitignore also covers these)
+.env
+.env.*
+!.env.example
+
+# Frontend
+frontend/node_modules/
+# Keep dist/ when intentionally shipping a prebuilt console bundle.
+# Uncomment the next line if you prefer build-from-source only:
+# frontend/dist/
+
+# Backend build artifacts
+*.test
+*.out

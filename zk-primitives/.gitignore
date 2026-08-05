@@ -22,3 +22,8 @@ test-ledger/
 *.secret.json
 *.proof.local.json
 *.vk.local.json
+
+# Allow committed templates
+!.env.example
+!.env.template
+!.env.sample

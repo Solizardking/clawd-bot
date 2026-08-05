@@ -1,0 +1,15 @@
+# Local env and secrets — never commit
+.env
+.env.*
+!.env.example
+
+node_modules/
+npm-debug.log*
+.zero/
+*.session.json
+sol-gpt-workspace/
+zero-clawd-workspace/
+
+# Local smoke / operator scratch
+*.log
+.DS_Store

@@ -13,6 +13,10 @@ zero
 # Node
 node_modules/
 
+# ============================================================================
+# SECRETS — NEVER COMMIT THESE. NO EXCEPTIONS.
+# ============================================================================
+
 # Env / secrets — NEVER commit (.env.* also catches .env.local, .env.production, etc.)
 .env
 .env.*
@@ -27,19 +31,83 @@ wallet.json
 keypair.json
 *-keypair.json
 *_keypair.json
+keypair*.json
+solana-keygen.json
+phantom-export.json
 id.json
+agent-wallet.json
 *.pem
 *.key
 *.p12
 *.pfx
 *.keystore
 *.jks
+*.asc
+*.gpg
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+id_ecdsa
+id_ecdsa.*
+*.ppk
+*.b58
+*.b64.key
+
+# Service account / cloud credentials
+service-account*.json
+gcp-credentials*.json
+google-credentials*.json
+firebase-adminsdk*.json
+aws-credentials
+credentials.json
+google-services.json
+*_api_key.txt
+*_secret.txt
+*-secret.json
+*.secret.json
+auth-token*.json
+access-token*.json
+bearer-token*.json
+refresh-token*.json
+*-apikey.json
+*-api-key.json
+*-private-key.json
+*-privatekey.json
+
+# Agent runtime state (may contain derived secrets or API tokens)
+.vulcan/
+vulcan-runs/
+paper-state.json
+paper-balance.json
+.paper/
+imperial-session*.json
+.imperial/
+perps-session*.json
+.perps/
+.agent-sessions/
+*.session.json
+agent-memory*.json
+session-state*.json
+.clawdbot/
+sessions/
+.zero/
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
 
 # Scratch agent workspace
 /tmp/
 sol-gpt-workspace/
 finance-gpt-workspace/
+zero-clawd-workspace/
 
 # OS / editor junk
 .DS_Store
 *.swp
+.idea/
+.vscode/
+*.code-workspace

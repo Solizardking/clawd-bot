@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "license": "MIT",
   "description": "Backend service that drives the Zero agent (headless stream-json) as a blockchain-finance + equities research agent (Zero Clawd).",
   "engines": {
     "node": ">=20"
@@ -10,7 +11,8 @@
   "scripts": {
     "start": "node src/server.mjs",
     "mcp": "node src/mcp-soltrader.mjs",
-    "smoke": "node src/smoke.mjs"
+    "smoke": "node src/smoke.mjs",
+    "oss-check": "node ../scripts/oss-readiness-check.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.0",
