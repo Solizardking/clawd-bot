@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	birthPkg "github.com/8bitlabs/clawdbot/pkg/birth"
 	dnaPkg "github.com/8bitlabs/clawdbot/pkg/dna"
 	mcpPkg "github.com/8bitlabs/clawdbot/pkg/mcp"
 	skillsPkg "github.com/8bitlabs/clawdbot/pkg/skills"
@@ -510,6 +511,13 @@ func EnsureDefaults() error {
 	agenticNotePath := filepath.Join(ws, "ROBINHOOD_AGENTIC.md")
 	if err := writeFileIfMissing(agenticNotePath, []byte(mcpPkg.AgenticTradingOperatorNote), 0o644); err != nil {
 		return fmt.Errorf("write Robinhood Agentic note: %w", err)
+	}
+
+	// ClawdBrowser zero-service modules + full SOL GPT tool catalog for every model.
+	if repoRoot, err := birthPkg.FindRepoRoot(""); err == nil {
+		if err := birthPkg.WriteBirthAccessArtifacts(ws, repoRoot); err != nil {
+			return fmt.Errorf("write ClawdBrowser/SOL GPT birth artifacts: %w", err)
+		}
 	}
 
 	return nil

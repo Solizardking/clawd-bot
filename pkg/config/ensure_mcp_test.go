@@ -74,6 +74,42 @@ func TestEnsureDefaultsWritesRobinhoodTradingMCP(t *testing.T) {
 	if !strings.Contains(string(agents), "place trades only") || !strings.Contains(string(agents), "Agentic") {
 		t.Fatalf("birth AGENTS.md missing Agentic limits:\n%s", agents)
 	}
+
+	// ClawdBrowser + SOL GPT birth artifacts (full tool catalog for every model).
+	for _, name := range []string{
+		"CLAWDBROWSER_BIRTH.md",
+		"sol-gpt-tools.json",
+		"sol-gpt-tool-names.json",
+		"clawdbrowser-modules.json",
+	} {
+		p := filepath.Join(home, "workspace", name)
+		if _, err := os.Stat(p); err != nil {
+			t.Fatalf("missing birth artifact %s: %v", name, err)
+		}
+	}
+	namesRaw, err := os.ReadFile(filepath.Join(home, "workspace", "sol-gpt-tool-names.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var namesDoc struct {
+		Count int      `json:"count"`
+		Names []string `json:"names"`
+	}
+	if err := json.Unmarshal(namesRaw, &namesDoc); err != nil {
+		t.Fatal(err)
+	}
+	if namesDoc.Count < 171 || len(namesDoc.Names) < 171 {
+		t.Fatalf("SOL GPT birth catalog too small: count=%d names=%d", namesDoc.Count, len(namesDoc.Names))
+	}
+	if _, ok := doc.MCPServers["clawd"]; !ok {
+		// clawd is always in full Write path; EnsureDefaults uses Ensure which merges.
+		// Fresh home should have written full seed with clawd.
+	}
+	// Re-read MCP after ensure — fresh install writes full seed including clawd.
+	raw2, _ := os.ReadFile(mcpPath)
+	if !strings.Contains(string(raw2), "mcp-clawd.mjs") {
+		t.Fatalf("MCP seed missing ClawdBrowser mcp-clawd.mjs:\n%s", raw2)
+	}
 }
 
 func TestInstallShSeedsRobinhoodTrading(t *testing.T) {

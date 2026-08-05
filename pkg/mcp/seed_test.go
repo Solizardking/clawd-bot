@@ -25,6 +25,24 @@ func TestBuildCoreAIMCPServersIncludesRobinhoodTrading(t *testing.T) {
 	}
 }
 
+func TestBuildCoreAIMCPServersIncludesClawdBrowserMCP(t *testing.T) {
+	servers := BuildCoreAIMCPServers("/opt/core-ai")
+	clawd, ok := servers[ClawdMCPServerName]
+	if !ok {
+		t.Fatalf("missing %q; keys %v", ClawdMCPServerName, serverKeys(servers))
+	}
+	if clawd.Command != "node" || len(clawd.Args) == 0 {
+		t.Fatalf("clawd MCP must be node stdio: %#v", clawd)
+	}
+	if !strings.Contains(clawd.Args[0], "mcp-clawd.mjs") {
+		t.Fatalf("clawd args should point at mcp-clawd.mjs, got %#v", clawd.Args)
+	}
+	st, ok := servers[ClawdSolTraderServerName]
+	if !ok || !strings.Contains(strings.Join(st.Args, " "), "mcp-soltrader.mjs") {
+		t.Fatalf("clawd-soltrader seed missing or wrong: %#v", st)
+	}
+}
+
 func TestBuildCoreAIMCPServersKeepsExistingSidecars(t *testing.T) {
 	servers := BuildCoreAIMCPServers("/Users/test/.clawdbot/core-ai")
 	for _, name := range []string{"helius", "pump-mcp", ZKCompressionServerName} {

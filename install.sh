@@ -169,6 +169,29 @@ write_core_ai_mcp_config() {
     "robinhood-trading": {
       "type": "http",
       "url": "https://agent.robinhood.com/mcp/trading"
+    },
+    "clawd": {
+      "command": "node",
+      "args": ["${CLAWDBROWSER_ROOT:-/Users/8bit/ClawdBrowser}/zero-service/src/mcp-clawd.mjs"],
+      "env": {
+        "CLAWDBROWSER_ROOT": "${CLAWDBROWSER_ROOT:-/Users/8bit/ClawdBrowser}",
+        "HELIUS_API_KEY": "\${HELIUS_API_KEY}",
+        "SOLANA_RPC_URL": "\${SOLANA_RPC_URL}",
+        "XAI_API_KEY": "\${XAI_API_KEY}",
+        "OPENAI_API_KEY": "\${OPENAI_API_KEY}",
+        "OPENROUTER_API_KEY": "\${OPENROUTER_API_KEY}",
+        "BIRDEYE_API_KEY": "\${BIRDEYE_API_KEY}"
+      }
+    },
+    "clawd-soltrader": {
+      "command": "node",
+      "args": ["${CLAWDBROWSER_ROOT:-/Users/8bit/ClawdBrowser}/zero-service/src/mcp-soltrader.mjs"],
+      "env": {
+        "CLAWDBROWSER_ROOT": "${CLAWDBROWSER_ROOT:-/Users/8bit/ClawdBrowser}",
+        "SOLANA_RPC_URL": "\${SOLANA_RPC_URL}",
+        "HELIUS_API_KEY": "\${HELIUS_API_KEY}",
+        "DFLOW_API_KEY": "\${DFLOW_API_KEY}"
+      }
     }
   }
 }

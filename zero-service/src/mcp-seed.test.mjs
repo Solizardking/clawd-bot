@@ -7,6 +7,10 @@ import assert from "node:assert/strict";
 import {
   ROBINHOOD_TRADING_SERVER_NAME,
   ROBINHOOD_TRADING_MCP_URL,
+  CLAWD_MCP_SERVER_NAME,
+  CLAWD_SOLTRADER_SERVER_NAME,
+  DEFAULT_CLAWDBROWSER_ROOT,
+  clawdBrowserModulePaths,
   buildWorkspaceMCPConfig,
   buildWorkspaceMCPServers,
   ROBINHOOD_AGENTIC_NOTE,
@@ -48,4 +52,20 @@ test("Agentic note states trade restriction and OAuth", () => {
   assert.match(ROBINHOOD_AGENTIC_NOTE, /place trades only/i);
   assert.match(ROBINHOOD_AGENTIC_NOTE, /OAuth|desktop/i);
   assert.ok(ROBINHOOD_AGENTIC_NOTE.includes(ROBINHOOD_TRADING_MCP_URL));
+});
+
+test("birth seeds ClawdBrowser clawd MCP paths", () => {
+  const mods = clawdBrowserModulePaths();
+  assert.equal(mods.root, DEFAULT_CLAWDBROWSER_ROOT);
+  assert.ok(mods.mcpClawd.endsWith("mcp-clawd.mjs"));
+  assert.ok(mods.mcpSoltrader.endsWith("mcp-soltrader.mjs"));
+  assert.ok(mods.providers.includes("/clawd/providers.mjs"));
+  assert.ok(mods.zeroRunner.endsWith("zero-runner.mjs"));
+
+  const servers = buildWorkspaceMCPServers(paths);
+  assert.ok(servers[CLAWD_MCP_SERVER_NAME]);
+  assert.equal(servers[CLAWD_MCP_SERVER_NAME].type, "stdio");
+  assert.ok(String(servers[CLAWD_MCP_SERVER_NAME].args[0]).includes("mcp-clawd.mjs"));
+  assert.ok(servers[CLAWD_SOLTRADER_SERVER_NAME]);
+  assert.ok(String(servers[CLAWD_SOLTRADER_SERVER_NAME].args[0]).includes("mcp-soltrader.mjs"));
 });

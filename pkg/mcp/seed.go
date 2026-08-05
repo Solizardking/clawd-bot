@@ -6,6 +6,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/8bitlabs/clawdbot/pkg/birth"
 )
 
 // Official Robinhood Agentic Trading MCP (streamable HTTP).
@@ -27,14 +29,23 @@ type CoreAIMCPDocument struct {
 	MCPServers map[string]ServerConfig `json:"mcpServers"`
 }
 
+// Clawd MCP (ClawdBrowser zero-service) — official provider proxy + RH launch tools.
+const (
+	ClawdMCPServerName      = "clawd"
+	ClawdSolTraderServerName = "clawd-soltrader"
+)
+
 // BuildCoreAIMCPServers returns the default core-ai birth/install MCP seed.
 // coreAIDir is the on-disk core-ai sidecar root used for helius/pump stdio paths;
 // HTTP remotes (zkcompression, robinhood-trading) do not depend on it.
+// ClawdBrowser zero-service paths come from CLAWDBROWSER_ROOT (default /Users/8bit/ClawdBrowser).
 func BuildCoreAIMCPServers(coreAIDir string) map[string]ServerConfig {
 	coreAIDir = strings.TrimSpace(coreAIDir)
 	if coreAIDir == "" {
 		coreAIDir = "core-ai"
 	}
+	clawdMCP := birth.ClawdMCPServerPath()
+	solTraderMCP := birth.ClawdSolTraderMCPPath()
 	return map[string]ServerConfig{
 		"helius": {
 			Command: "node",
@@ -50,6 +61,29 @@ func BuildCoreAIMCPServers(coreAIDir string) map[string]ServerConfig {
 			Env: map[string]string{
 				"SOLANA_RPC_URL": "${SOLANA_RPC_URL}",
 				"HELIUS_API_KEY": "${HELIUS_API_KEY}",
+			},
+		},
+		ClawdMCPServerName: {
+			Command: "node",
+			Args:    []string{clawdMCP},
+			Env: map[string]string{
+				"CLAWDBROWSER_ROOT": birth.ClawdBrowserRoot(),
+				"HELIUS_API_KEY":    "${HELIUS_API_KEY}",
+				"SOLANA_RPC_URL":    "${SOLANA_RPC_URL}",
+				"XAI_API_KEY":       "${XAI_API_KEY}",
+				"OPENAI_API_KEY":    "${OPENAI_API_KEY}",
+				"OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}",
+				"BIRDEYE_API_KEY":   "${BIRDEYE_API_KEY}",
+			},
+		},
+		ClawdSolTraderServerName: {
+			Command: "node",
+			Args:    []string{solTraderMCP},
+			Env: map[string]string{
+				"CLAWDBROWSER_ROOT": birth.ClawdBrowserRoot(),
+				"SOLANA_RPC_URL":    "${SOLANA_RPC_URL}",
+				"HELIUS_API_KEY":    "${HELIUS_API_KEY}",
+				"DFLOW_API_KEY":     "${DFLOW_API_KEY}",
 			},
 		},
 		ZKCompressionServerName: {
@@ -126,11 +160,16 @@ func EnsureCoreAIMCPConfig(path, coreAIDir string) error {
 		doc.MCPServers = map[string]ServerConfig{}
 	}
 
-	// Only inject missing birth defaults so existing installs pick up Robinhood
+	// Only inject missing birth defaults so existing installs pick up Robinhood / Clawd
 	// without clobbering operator customizations.
 	defaults := BuildCoreAIMCPServers(coreAIDir)
 	changed := false
-	for _, name := range []string{RobinhoodTradingServerName, ZKCompressionServerName} {
+	for _, name := range []string{
+		RobinhoodTradingServerName,
+		ZKCompressionServerName,
+		ClawdMCPServerName,
+		ClawdSolTraderServerName,
+	} {
 		if _, ok := doc.MCPServers[name]; ok {
 			continue
 		}
