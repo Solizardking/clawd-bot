@@ -3,7 +3,7 @@
 /zero-main/zero-clawd
 zero-clawd
 zero
-
+.env
 # go-bot / clawdbot (vendored source only — never its prebuilt binaries)
 /go-bot/backend
 /go-bot/clawdbot
