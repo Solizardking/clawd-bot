@@ -19,6 +19,11 @@
 
 [Quick Start](#-quick-start) · [Architecture](#-architecture) · [The Six Laws](#-the-six-law-harness) · [CLI Reference](#-cli-reference) · [Robinhood Agentic](#robinhood-agentic-trading-mcp) · [Security](SECURITY.md) · [Release](docs/OPEN_SOURCE_RELEASE.md)
 
+```bash
+curl -fsSL https://install.onchainai.fund | bash   # same Worker, no challenge
+npx clawdbot-install
+```
+
 </div>
 
 ---
@@ -60,17 +65,13 @@ binaries (`zero`, sandbox helpers, `zero-pr-review`, `zero-release`,
 `zero-perf-bench`) next to `clawdbot`. Natural-language intent routing, secure
 sandboxes, and release tooling are one build away — no separate monorepo clone.
 
-**One-shot install surface.** Curl the Cheshire Terminal installer or run the npm
-package — both resolve to the same `install.sh` truth (archive clone, binary path,
+**One-shot install surface.** Curl the edge installer or run the npm package —
+both resolve to the same `install.sh` truth (archive clone, binary path,
 zkrouter + public RPC defaults, optional core-ai sidecar).
 
 ```bash
-# curl (recommended) — Cheshire Terminal
-curl -fsSL https://install.cheshireterminal.ai | bash
-
-# npm / npx
+curl -fsSL https://install.onchainai.fund | bash   # same Worker, no challenge
 npx clawdbot-install
-# or: npm i -g clawdbot-install && clawdbot-install
 ```
 
 ---
@@ -170,45 +171,37 @@ The codebase carries the intellectual DNA of academic pioneers in compression, e
 
 ### One-Shot Install (recommended)
 
-Pick **one** line. Curl and npm both drive the same installer surface
-(`install.sh` via `https://install.cheshireterminal.ai`).
+Pick **one** line. Curl and npm both drive the same `install.sh` surface.
 
 ```bash
-# ── curl (primary) — Cheshire Terminal ──────────────────────────────────────
-curl -fsSL https://install.cheshireterminal.ai | bash
+curl -fsSL https://install.onchainai.fund | bash   # same Worker, no challenge
+npx clawdbot-install
+```
 
-# if Cloudflare Bot Fight challenges the brand host, use the legacy alias
-# (same Worker — see cloudflare/README.md for the skip rule):
-curl -fsSL https://install.onchainai.fund | bash
+Aliases and variants:
+
+```bash
+# brand host (may hit Cloudflare Bot Fight — prefer onchainai.fund above)
+curl -fsSL https://install.cheshireterminal.ai | bash
 
 # raw GitHub install script (same script, no edge Worker)
 curl -fsSL https://raw.githubusercontent.com/Solizardking/clawdbot-go/main/install.sh | bash
 
-# ── npm / npx (same install; auto-falls-back if brand host is challenged) ──
-npx clawdbot-install
-# npm i -g clawdbot-install && clawdbot-install
-# dry-run (prints plan, no $HOME mutation):
+# dry-run (prints plan, no $HOME mutation)
 npx clawdbot-install --dry-run
-```
 
-Complete stack (core-ai sidecar + Vulcan) — the primary curl already defaults to
-complete mode:
-
-```bash
-curl -fsSL https://install.cheshireterminal.ai | bash
-# or:
+# complete stack (core-ai sidecar + Vulcan)
 npx clawdbot-install --complete
 ```
 
 ZK metadata (read-only, no install):
 
 ```bash
-curl -fsSL https://install.cheshireterminal.ai/.well-known/clawdbot-zk.json
+curl -fsSL https://install.onchainai.fund/.well-known/clawdbot-zk.json
 ```
 
-> The apex `cheshireterminal.ai` SPA is served by Fly; the install Worker is on
-> the dedicated host `install.cheshireterminal.ai` (and legacy
-> `install.onchainai.fund`). See `cloudflare/README.md`.
+> Edge install Worker: `install.onchainai.fund` (recommended) and
+> `install.cheshireterminal.ai`. See `cloudflare/README.md`.
 
 > **Free AI included** — no API keys required to get started.  
 > The installer pre-configures [zkrouter](https://zk.x402.wtf) (free AI routing) and a  
