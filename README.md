@@ -13,7 +13,7 @@
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
 [![License](https://img.shields.io/badge/License-MIT-9945FF?style=for-the-badge)](LICENSE)
 
-**Solana-first · beats Zero on footprint · 81 Go source files · 45 Go packages · 24,166 Go lines · 3 binaries**
+**Solana-first · beats Zero on footprint · 225 Go source files · 51 Go packages · 53,308 Go lines · 10 binaries**
 
 <sub><strong>0.57 MB</strong> source archive · <strong>2.06 MiB</strong> exportable source · <strong>9.97 MB</strong> stripped CLI · Grok-first runtime · GLM-5.2 model surface</sub>
 
@@ -292,43 +292,83 @@ tooling is fetched and built as a sidecar after the Go binary is installed.
 ```
 clawdbot-go/
 │
-├── cmd/                         ── Executables ──
+├── cmd/                         ── 10 Executables ──
 │   ├── clawdbot/                 CLI agent (cobra)
-│   └── clawdbot-tui/             TUI launcher (tcell/tview)
+│   ├── clawdbot-tui/             TUI launcher (tcell/tview)
+│   ├── zero/                     Zero engine CLI (Gitlawb/zero bridge)
+│   ├── zero-linux-sandbox/       bubblewrap/landlock helper (Linux)
+│   ├── zero-seccomp/             Unix-socket seccomp compat wrapper (Linux)
+│   ├── zero-windows-command-runner/ Restricted-token helper (Windows)
+│   ├── zero-windows-sandbox-setup/ Sandbox ACL/helper setup (Windows)
+│   ├── zero-perf-bench/          Cold-start/RSS benchmark + Terminal-Bench task harness
+│   ├── zero-pr-review/           Deterministic PR review markdown (GitHub Actions)
+│   └── zero-release/             Release build/package/smoke/verify pipeline
 │
-├── pkg/                         ── 45 Packages, 24K+ lines ──
+├── pkg/                         ── 51 Packages, 53K+ lines ──
 │   │
 │   │  ┌─ Core Agent ────────────────────────────────────────┐
-│   ├── agent/                   OODA loop, hooks, tool executor, prompts
+│   ├── agent/                   Dexter-style iterative tool-calling loop, approvals
 │   ├── strategy/                RSI + EMA cross + ATR signal engine
-│   ├── memory/                  ClawVault + Supabase MemoryEngine
-│   ├── research/                Dexter deep research agent
+│   ├── memory/                  KNOW/LEARNED/INFERRED engine, ClawVault + Supabase
+│   ├── research/                Autonomous experiment loop (mutate → backtest)
+│   ├── godmode/                 Model-list racing scorer, autotune, feedback
+│   ├── zero/                    Flat FIFO task scheduler, ZK transcript chain
+│   ├── tools/                   Tool interface + registry
+│   ├── commands/                Slash-command registry
+│   ├── providers/               LLM abstraction (OpenRouter, Anthropic, OpenAI, Ollama)
+│   ├── session/                 Chat session history + summarization
+│   ├── clawdcode/               Clawd Code TypeScript harness wrapper
+│   ├── skills/                  Skill discovery, search cache, birth manifest
+│   ├── catalog/                 Skills + agents + ZK surface index
+│   ├── mcp/                     Model Context Protocol server
+│   ├── dna/                     Synthetic agent DNA profile + Solana attestation
+│   ├── identity/                Canonical "platform:id" sender resolution
+│   ├── auth/                    OAuth/token credential store (PKCE, 0600 perms)
+│   ├── laws/                    Six-law runtime harness
+│   ├── state/                   Persistent agent state (atomic JSON)
+│   ├── migrate/                 Version-based config migration
+│   ├── doctor/                  Local runtime + trading diagnostics
+│   │  └─────────────────────────────────────────────────────┘
+│   │
+│   │  ┌─ Trading & DeFi ────────────────────────────────────┐
+│   ├── trading/                 Portfolio risk guard, token risk scoring, cockpit
+│   ├── vulcan/                  Vulcan CLI wrapper for Phoenix perp modes
+│   ├── phoenix/                 Phoenix perp REST client (market data + trader)
+│   ├── aster/                   Aster DEX perps (HMAC-SHA256 signed)
+│   ├── solana/                  Birdeye v3, Helius RPC + DAS, Jupiter spot swaps
+│   ├── wallet/                  Solana keypair generate/load helpers
+│   ├── birthfund/               Agent birth funding plans + JSONL ledger
+│   ├── strategy/                Risk-adjusted sizing, backtest harness
 │   │  └─────────────────────────────────────────────────────┘
 │   │
 │   │  ┌─ PiedPiper Inherited ───────────────────────────────┐
 │   ├── gameoflife/              Conway's Life — universal computer
-│   ├── middleout/               Content-cache, Ralph loop, router
-│   ├── weissman/                Compression score
-│   ├── zero/                    Zero-dependency benchmark
+│   ├── middleout/               Content-cache (zstd LRU), Ralph loop, router
+│   ├── weissman/                Weissman score + footprint report
+│   ├── routing/                 Decentralized agent routing heuristics
 │   │  └─────────────────────────────────────────────────────┘
 │   │
-│   │  ┌─ Solana Integrations ───────────────────────────────┐
-│   ├── solana/                  Birdeye v3, Helius RPC + DAS, Jupiter swaps
-│   ├── aster/                   Aster DEX perps (HMAC-signed)
-│   │  └─────────────────────────────────────────────────────┘
-│   │
-│   │  ┌─ Infrastructure ───────────────────────────────────-┐
+│   │  ┌─ Infrastructure ────────────────────────────────────┐
 │   ├── config/                  Config loading, env overrides
+│   ├── constants/               Runtime constants + channel names
 │   ├── hardware/                I2C Modulino® adapter + drivers
-│   ├── providers/               LLM abstraction (OpenRouter, etc.)
-│   ├── channels/                Telegram, Discord, WebSocket
-│   ├── catalog/                 Skills + agents + ZK index
-│   ├── mcp/                     Model Context Protocol server
-│   ├── auth/                    Authentication + pairing
-│   ├── bus/                     Event bus (pub/sub)
-│   ├── commands/                Command registry and routing
-│   ├── tools/                   Tool interface + registry
-│   └── ...                      health, heartbeat, logger, identity, etc.
+│   ├── devices/                 Thread-safe I2C device registry
+│   ├── channels/                Telegram, Discord, WebSocket, CLI
+│   ├── bus/                     Message bus (pub/sub)
+│   ├── cron/                    Scheduled job execution (OODA, research, heartbeat)
+│   ├── health/                  Connector/subsystem health checks
+│   ├── heartbeat/               Periodic proactive notifications
+│   ├── logger/                  Structured category-filtered logging
+│   ├── keyvault/                Locked-down local env vault
+│   ├── media/                   Media file lifecycle (store/resolve/release)
+│   ├── fileutil/                Workspace-safe file operations
+│   ├── utils/                   Shared string/slice/file helpers
+│   ├── voice/                   Whisper API transcription
+│   ├── ooda/                    TypeScript OODA harness runner
+│   ├── perfbench/               Zero-style performance smoke benchmark
+│   ├── zerolib/                 Vendored Gitlawb/zero libs (review, release,
+│   │                           perfbench, sandbox, redaction)
+│   └── ...                      (see pkg/ for full 51-package listing)
 │
 ├── zk-primitives/               ZK agent, TypeScript client, Anchor program
 │   ├── docs/EDGE_DISTRIBUTION.md     ← Cloudflare metadata surface
