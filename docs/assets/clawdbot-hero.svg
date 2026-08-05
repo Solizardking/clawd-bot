@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
   <title id="title">ClawdBot Go animated hero</title>
-  <desc id="desc">Animated neon command surface for the Solana-first ClawdBot Go runtime, showing OODA, ZK, x402, Phoenix, Helius, and the compact source footprint.</desc>
+  <desc id="desc">Animated neon command surface for the Solana-first ClawdBot Go runtime — one-shot curl and npm install, OODA, ZK, x402, Phoenix, Helius.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#061117"/>
@@ -29,6 +29,11 @@
     <pattern id="grid" width="42" height="42" patternUnits="userSpaceOnUse">
       <path d="M42 0H0V42" fill="none" stroke="#1b3750" stroke-width="1" opacity="0.42"/>
     </pattern>
+    <clipPath id="typeClip">
+      <rect x="70" y="88" width="0" height="36">
+        <animate attributeName="width" values="0;620;620;0;0" keyTimes="0;0.35;0.75;0.9;1" dur="8s" repeatCount="indefinite"/>
+      </rect>
+    </clipPath>
     <style>
       .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
       .sans { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
@@ -46,22 +51,40 @@
   </rect>
 
   <g filter="url(#glow)">
-    <text x="70" y="116" class="mono" font-size="22" fill="#14f195">go run ./cmd/clawdbot --solana --zk --ooda</text>
+    <!-- Typing one-shot install line -->
+    <g clip-path="url(#typeClip)">
+      <text x="70" y="116" class="mono" font-size="20" fill="#14f195">curl -fsSL https://install.onchainai.fund | bash</text>
+    </g>
+    <text x="70" y="116" class="mono" font-size="20" fill="#14f195" opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.38;0.42;0.72;0.78;1" dur="8s" repeatCount="indefinite"/>
+      npx clawdbot-install
+    </text>
+    <!-- caret -->
+    <rect x="70" y="98" width="10" height="22" fill="#14f195" opacity="0.9">
+      <animate attributeName="opacity" values="1;0;1" dur="0.9s" repeatCount="indefinite"/>
+      <animate attributeName="x" values="70;690;690;70;70" keyTimes="0;0.35;0.75;0.9;1" dur="8s" repeatCount="indefinite"/>
+    </rect>
+
     <text x="70" y="210" class="sans" font-size="78" font-weight="800" letter-spacing="2" fill="url(#word)">CLAWDBOT GO</text>
-    <text x="74" y="258" class="sans" font-size="25" fill="#d6f5ff">Sovereign Solana trading intelligence in a compact Go runtime</text>
+    <text x="74" y="258" class="sans" font-size="25" fill="#d6f5ff">Sovereign Solana trading intelligence — one-shot install</text>
   </g>
 
-  <g class="mono" font-size="18" fill="#d9fff2">
-    <text x="78" y="314">0.52 MB source archive</text>
-    <text x="78" y="346">3.86 MiB working source</text>
-    <text x="78" y="378">4.20 MB target: PASSED</text>
+  <g class="mono" font-size="17" fill="#d9fff2">
+    <text x="78" y="314">
+      <tspan fill="#14f195">npx</tspan> clawdbot-install
+      <animate attributeName="opacity" values="0.55;1;0.55" dur="2.4s" repeatCount="indefinite"/>
+    </text>
+    <text x="78" y="346">0.57 MB source · 9.97 MB CLI · Grok-first</text>
+    <text x="78" y="378">OODA · ZK · x402 · Phoenix · Helius</text>
   </g>
 
   <g transform="translate(745 108)">
     <circle cx="160" cy="110" r="98" fill="none" stroke="#00d4ff" stroke-width="2" opacity="0.65"/>
     <circle cx="160" cy="110" r="62" fill="none" stroke="#14f195" stroke-width="2" opacity="0.75"/>
     <circle cx="160" cy="110" r="24" fill="#14f195" opacity="0.12"/>
-    <circle cx="160" cy="110" r="7" fill="#14f195"/>
+    <circle cx="160" cy="110" r="7" fill="#14f195">
+      <animate attributeName="r" values="5;9;5" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
     <g>
       <circle cx="160" cy="12" r="6" fill="#14f195"/>
       <circle cx="258" cy="110" r="6" fill="#00d4ff"/>
@@ -82,6 +105,9 @@
     <text x="786" y="324" fill="#14f195">Phoenix</text>
     <text x="884" y="324" fill="#00d4ff">Helius</text>
     <text x="972" y="324" fill="#cfa8ff">Jupiter</text>
+    <rect x="760" y="286" width="360" height="62" rx="14" fill="none" stroke="#14f195" stroke-opacity="0.35">
+      <animate attributeName="stroke-opacity" values="0.15;0.7;0.15" dur="2.8s" repeatCount="indefinite"/>
+    </rect>
   </g>
 
   <g opacity="0.9">

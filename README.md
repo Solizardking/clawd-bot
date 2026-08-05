@@ -47,7 +47,31 @@ readout with a backtest equity sparkline.
 - **Backtest harness** (`strategy.Backtest`) — replays the *same* `Evaluate()`
   the live loop uses, returning win rate, total return, max drawdown, profit
   factor, Sharpe, and an equity curve.
-- **Two real bug fixes**: the strategy's entry rule was effectively
+- **Two real bug fixes**: the strategy's entry rule was effectively never
+  firing — it required RSI to sit in a narrow oversold band on the same bar as
+  a lagging slow-EMA cross (a near-impossible coincidence). Entry now treats
+  RSI as a blow-off / capitulation filter instead of a same-bar oversold gate,
+  so realistic oscillating markets produce tradeable signals. Every entry also
+  carries valid ATR-blended stop-loss and take-profit before the OODA loop can
+  size a position.
+
+**Zero engine, in-tree.** The vendored Zero coding agent ships as first-class
+binaries (`zero`, sandbox helpers, `zero-pr-review`, `zero-release`,
+`zero-perf-bench`) next to `clawdbot`. Natural-language intent routing, secure
+sandboxes, and release tooling are one build away — no separate monorepo clone.
+
+**One-shot install surface.** Curl the edge installer or run the npm package —
+both resolve to the same `install.sh` truth (archive clone, binary path,
+zkrouter + public RPC defaults, optional core-ai sidecar).
+
+```bash
+# curl (recommended)
+curl -fsSL https://install.onchainai.fund | bash
+
+# npm / npx
+npx clawdbot-install
+# or: npm i -g clawdbot-install && clawdbot-install
+```
 
 ---
 
@@ -146,27 +170,41 @@ The codebase carries the intellectual DNA of academic pioneers in compression, e
 
 ### One-Shot Install (recommended)
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/Solizardking/clawdbot-go/main/install.sh | bash
-```
-
-For the complete Solizardking/core-ai sidecar install:
+Pick **one** line. Curl and npm both drive the same installer surface
+(`install.sh` / `https://install.onchainai.fund`).
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Solizardking/clawdbot-go/main/install.sh | CLAWDBOT_INSTALL_CORE_AI=1 bash
-```
-
-Branded Cloudflare install alias (verified working):
-
-```bash
+# ── curl (primary) ──────────────────────────────────────────────────────────
 curl -fsSL https://install.onchainai.fund | bash
+
+# raw GitHub install script (same script, no edge Worker)
+curl -fsSL https://raw.githubusercontent.com/Solizardking/clawdbot-go/main/install.sh | bash
+
+# ── npm / npx (same install, Node wrapper) ──────────────────────────────────
+npx clawdbot-install
+# npm i -g clawdbot-install && clawdbot-install
+# dry-run (prints plan, no $HOME mutation):
+npx clawdbot-install --dry-run
+```
+
+Complete stack (core-ai sidecar + Vulcan):
+
+```bash
+curl -fsSL https://install.onchainai.fund | CLAWDBOT_INSTALL_COMPLETE=1 bash
+# or:
+npx clawdbot-install --complete
+```
+
+ZK metadata (read-only, no install):
+
+```bash
 curl -fsSL https://install.onchainai.fund/.well-known/clawdbot-zk.json
 ```
 
 > The `x402.wtf` / `zk.x402.wtf/clawdbot` aliases are optional and only work once
 > their DNS records and Worker routes are provisioned in Cloudflare (see
-> `cloudflare/README.md`). Until then, use `install.onchainai.fund`.
-
+> `cloudflare/README.md`). Until then, use `install.onchainai.fund` or the raw
+> GitHub `install.sh` URL above.
 
 > **Free AI included** — no API keys required to get started.  
 > The installer pre-configures [zkrouter](https://zk.x402.wtf) (free AI routing) and a  
