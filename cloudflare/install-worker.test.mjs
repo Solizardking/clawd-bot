@@ -84,6 +84,37 @@ test("unsupported methods are rejected", async () => {
   assert.equal(response.headers.get("allow"), "GET, HEAD, OPTIONS");
 });
 
+test("cheshireterminal.ai/install serves complete one-shot wrapper", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("https://cheshireterminal.ai/install"),
+    {
+      UPSTREAM_INSTALL_URL: "https://example.test/install.sh",
+      DEFAULT_ZK_PRIMITIVES_DIR: "$HOME/.clawdbot/src/zk-primitives",
+    },
+  );
+
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("content-type") || "", /text\/x-shellscript/);
+  const body = await response.text();
+  assert.match(body, /export CLAWDBOT_INSTALL_COMPLETE/);
+  assert.match(body, /curl -fsSL 'https:\/\/example\.test\/install\.sh' \| bash/);
+});
+
+test("cheshireterminal.ai/install metadata uses install base path", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("https://cheshireterminal.ai/install/.well-known/clawdbot-install.json"),
+  );
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(body.commands.complete, "curl -fsSL https://cheshireterminal.ai/install | bash");
+  assert.equal(
+    body.commands.zkMetadata,
+    "curl -fsSL https://cheshireterminal.ai/install/.well-known/clawdbot-zk.json",
+  );
+});
+
 test("raw installer proxy preserves script headers", async () => {
   const worker = await loadWorker();
   const originalFetch = globalThis.fetch;

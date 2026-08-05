@@ -19,6 +19,15 @@ ZK_PROGRAM_ID = "CLAWDzk11111111111111111111111111111111111"
 pattern = "install.onchainai.fund"
 custom_domain = true
 
+# Primary public install surface on the Cheshire Terminal host
+[[routes]]
+pattern = "cheshireterminal.ai/install*"
+zone_name = "cheshireterminal.ai"
+
+[[routes]]
+pattern = "www.cheshireterminal.ai/install*"
+zone_name = "cheshireterminal.ai"
+
 [[routes]]
 pattern = "install.x402.wtf/*"
 zone_name = "x402.wtf"

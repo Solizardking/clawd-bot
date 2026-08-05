@@ -6,7 +6,10 @@ const DEFAULT_X402_GATEWAY = "https://zk.x402.wtf";
 const DEFAULT_TERMINAL_URL = "https://cheshireterminal.ai";
 const DEFAULT_ZK_PROGRAM_ID = "CLAWDzk11111111111111111111111111111111111";
 
-const BASE_PREFIXES = ["/clawdbot"];
+// Path prefixes that host the full install surface under a site root
+// (e.g. https://cheshireterminal.ai/install → complete wrapper).
+// Order matters: longer / more specific prefixes should come first if nested.
+const BASE_PREFIXES = ["/clawdbot", "/install"];
 const JSON_ROUTES = new Set([
   "/.well-known/clawdbot-install.json",
   "/.well-known/clawdbot-zk.json",

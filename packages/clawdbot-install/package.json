@@ -1,7 +1,7 @@
 {
   "name": "clawdbot-install",
-  "version": "1.0.0",
-  "description": "One-shot installer for ClawdBot Go — curl/npm wrapper over install.onchainai.fund and the clawdbot-go install.sh surface",
+  "version": "1.0.1",
+  "description": "One-shot installer for ClawdBot Go — curl/npm wrapper over cheshireterminal.ai/install and the clawdbot-go install.sh surface",
   "type": "module",
   "license": "MIT",
   "author": "Clawd / Solizardking",
@@ -26,6 +26,7 @@
     "x402",
     "zk",
     "ooda",
+    "cheshireterminal",
     "install.onchainai.fund"
   ],
   "engines": {

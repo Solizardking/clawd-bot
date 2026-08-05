@@ -17,7 +17,7 @@
 
 <sub><strong>0.57 MB</strong> source archive · <strong>2.06 MiB</strong> exportable source · <strong>9.97 MB</strong> stripped CLI · Grok-first runtime · GLM-5.2 model surface</sub>
 
-[Quick Start](#-quick-start) · [Architecture](#-architecture) · [The Six Laws](#-the-six-law-harness) · [CLI Reference](#-cli-reference) · [Security](SECURITY.md) · [Release](docs/OPEN_SOURCE_RELEASE.md)
+[Quick Start](#-quick-start) · [Architecture](#-architecture) · [The Six Laws](#-the-six-law-harness) · [CLI Reference](#-cli-reference) · [Robinhood Agentic](#robinhood-agentic-trading-mcp) · [Security](SECURITY.md) · [Release](docs/OPEN_SOURCE_RELEASE.md)
 
 </div>
 
@@ -60,13 +60,13 @@ binaries (`zero`, sandbox helpers, `zero-pr-review`, `zero-release`,
 `zero-perf-bench`) next to `clawdbot`. Natural-language intent routing, secure
 sandboxes, and release tooling are one build away — no separate monorepo clone.
 
-**One-shot install surface.** Curl the edge installer or run the npm package —
-both resolve to the same `install.sh` truth (archive clone, binary path,
+**One-shot install surface.** Curl the Cheshire Terminal installer or run the npm
+package — both resolve to the same `install.sh` truth (archive clone, binary path,
 zkrouter + public RPC defaults, optional core-ai sidecar).
 
 ```bash
-# curl (recommended)
-curl -fsSL https://install.onchainai.fund | bash
+# curl (recommended) — cheshireterminal.ai
+curl -fsSL https://cheshireterminal.ai/install | bash
 
 # npm / npx
 npx clawdbot-install
@@ -171,14 +171,17 @@ The codebase carries the intellectual DNA of academic pioneers in compression, e
 ### One-Shot Install (recommended)
 
 Pick **one** line. Curl and npm both drive the same installer surface
-(`install.sh` / `https://install.onchainai.fund`).
+(`install.sh` via `https://cheshireterminal.ai/install`).
 
 ```bash
-# ── curl (primary) ──────────────────────────────────────────────────────────
-curl -fsSL https://install.onchainai.fund | bash
+# ── curl (primary) — Cheshire Terminal ──────────────────────────────────────
+curl -fsSL https://cheshireterminal.ai/install | bash
 
 # raw GitHub install script (same script, no edge Worker)
 curl -fsSL https://raw.githubusercontent.com/Solizardking/clawdbot-go/main/install.sh | bash
+
+# legacy Cloudflare install host (same Worker)
+curl -fsSL https://install.onchainai.fund | bash
 
 # ── npm / npx (same install, Node wrapper) ──────────────────────────────────
 npx clawdbot-install
@@ -187,10 +190,11 @@ npx clawdbot-install
 npx clawdbot-install --dry-run
 ```
 
-Complete stack (core-ai sidecar + Vulcan):
+Complete stack (core-ai sidecar + Vulcan) — the primary curl already defaults to
+complete mode:
 
 ```bash
-curl -fsSL https://install.onchainai.fund | CLAWDBOT_INSTALL_COMPLETE=1 bash
+curl -fsSL https://cheshireterminal.ai/install | bash
 # or:
 npx clawdbot-install --complete
 ```
@@ -198,13 +202,13 @@ npx clawdbot-install --complete
 ZK metadata (read-only, no install):
 
 ```bash
-curl -fsSL https://install.onchainai.fund/.well-known/clawdbot-zk.json
+curl -fsSL https://cheshireterminal.ai/install/.well-known/clawdbot-zk.json
 ```
 
 > The `x402.wtf` / `zk.x402.wtf/clawdbot` aliases are optional and only work once
 > their DNS records and Worker routes are provisioned in Cloudflare (see
-> `cloudflare/README.md`). Until then, use `install.onchainai.fund` or the raw
-> GitHub `install.sh` URL above.
+> `cloudflare/README.md`). Prefer `https://cheshireterminal.ai/install` or the
+> raw GitHub `install.sh` URL above.
 
 > **Free AI included** — no API keys required to get started.  
 > The installer pre-configures [zkrouter](https://zk.x402.wtf) (free AI routing) and a  
@@ -283,17 +287,7 @@ local MCP packages when `npm` is available, and writes:
 ```
 
 The core-ai MCP seed includes local Helius/pump stdio servers, Light Protocol
-`zkcompression` over HTTP, and Robinhood Agentic Trading:
-
-```json
-"robinhood-trading": {
-  "type": "http",
-  "url": "https://agent.robinhood.com/mcp/trading"
-}
-```
-
-The agent may **place trades only** in a Robinhood **Agentic** account after
-desktop OAuth / Agentic onboarding. Read may cover other Robinhood accounts.
+`zkcompression` over HTTP, and Robinhood Agentic Trading (see next section).
 
 Relevant knobs:
 
@@ -308,6 +302,63 @@ CLAWDBOT_CORE_AI_MCP_CONFIG=~/.clawdbot/core-ai.mcp.json
 Use `CLAWDBOT_SOURCE_MODE=archive` for small installs. Use
 `CLAWDBOT_SOURCE_MODE=git` only when the installed source must be a mutable git
 checkout.
+
+### Robinhood Agentic Trading MCP
+
+Birth and install seed the official Robinhood Trading MCP so a fresh agent can
+connect without pasting the URL by hand:
+
+| Field | Value |
+|-------|--------|
+| Server name | `robinhood-trading` |
+| Transport | Streamable HTTP (`type: http`) |
+| URL | `https://agent.robinhood.com/mcp/trading` |
+
+**Seed writers (all in this monorepo):**
+
+| Path | What it writes |
+|------|----------------|
+| `install.sh` → `write_core_ai_mcp_config` | `~/.clawdbot/core-ai.mcp.json` |
+| `pkg/mcp` (`WriteCoreAIMCPConfig` / `EnsureCoreAIMCPConfig`) | Same seed; Ensure merges into existing files without clobbering custom servers |
+| `pkg/config.EnsureDefaults` | Birth path: ensures MCP seed + `workspace/ROBINHOOD_AGENTIC.md` |
+| `.agents/mcp.json` | Project harness MCP registry |
+| `.grok/config.toml` | Project Grok connector seed |
+| `zero-service` `ensureWorkspace` | `.zero/config.json` MCP map for the Zero Clawd service |
+
+Example seed fragment:
+
+```json
+{
+  "mcpServers": {
+    "robinhood-trading": {
+      "type": "http",
+      "url": "https://agent.robinhood.com/mcp/trading"
+    }
+  }
+}
+```
+
+**Platform connect (any MCP host):** use the same URL as a custom HTTP connector.
+Examples: Claude Code `claude mcp add robinhood-trading --transport http https://agent.robinhood.com/mcp/trading`, Grok custom connector, Cursor Tools & MCPs, Codex Streamable HTTP.
+
+**Agentic account rules (Robinhood product):**
+
+- The agent may **place trades only** in your Robinhood **Agentic** account.
+- Read access may cover other Robinhood accounts (positions, balances, transactions, watchlists, account numbers).
+- You need a primary individual investing account in good standing, then desktop OAuth + Agentic onboarding after the MCP connects.
+- Complete onboarding on a **desktop** browser (copy mobile onboarding URLs to desktop).
+- You remain responsible for every order the agent places; review prompts and account activity.
+
+**Operator skill:** `agent/skills/robinhood-agentic-trading/SKILL.md` — load when wiring birth, authenticating the connector, or placing Agentic-account trades.
+
+**Offline check:**
+
+```bash
+go test ./pkg/mcp/ ./pkg/config/ -count=1
+# optional live handshake (requires OAuth + network):
+# grok mcp list
+# grok mcp doctor robinhood-trading
+```
 
 ### Module Path Compatibility
 

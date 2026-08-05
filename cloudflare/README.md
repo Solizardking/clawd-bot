@@ -3,7 +3,13 @@
 This directory contains the Cloudflare Worker that turns the canonical GitHub
 installer into branded install and catalog-discovery surfaces:
 
-Verified working today (Worker deployed as a Cloudflare custom domain):
+Primary public install surface (Worker route on the Cheshire Terminal zone):
+
+```bash
+curl -fsSL https://cheshireterminal.ai/install | bash
+```
+
+Legacy Cloudflare custom-domain host (same Worker):
 
 ```bash
 curl -fsSL https://install.onchainai.fund | bash
@@ -53,6 +59,13 @@ The route configuration lives in `../wrangler.toml`.
 install.onchainai.fund
 ```
 
+3b. Bind the primary path on the Cheshire Terminal zone (does not take over `/`):
+
+```text
+cheshireterminal.ai/install*
+www.cheshireterminal.ai/install*
+```
+
 4. Use Worker routes for `x402.wtf` installs while existing Vercel DNS records
    are present:
 
@@ -91,6 +104,14 @@ Wrangler secrets only if a future route needs private credentials.
 ## Smoke Tests
 
 ```bash
+# Primary — cheshireterminal.ai
+curl -fsSL https://cheshireterminal.ai/install/healthz
+curl -fsSL https://cheshireterminal.ai/install/.well-known/clawdbot-install.json
+curl -fsSL https://cheshireterminal.ai/install/.well-known/clawdbot-zk.json
+curl -fsSL https://cheshireterminal.ai/install/routes
+curl -fsSL https://cheshireterminal.ai/install | bash -n
+
+# Legacy host
 curl -fsSL https://install.onchainai.fund/healthz
 curl -fsSL https://install.onchainai.fund/.well-known/clawdbot-install.json
 curl -fsSL https://install.onchainai.fund/.well-known/clawdbot-zk.json

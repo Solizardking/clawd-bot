@@ -31,6 +31,7 @@ function printHelp() {
   console.log(`clawdbot-install v${v}
 
 One-shot installer for ClawdBot Go. Wraps the same install surface as:
+  curl -fsSL https://cheshireterminal.ai/install | bash
   curl -fsSL https://install.onchainai.fund | bash
   curl -fsSL https://raw.githubusercontent.com/Solizardking/clawdbot-go/main/install.sh | bash
 
@@ -44,7 +45,7 @@ Options:
   --complete          Set CLAWDBOT_INSTALL_COMPLETE=1 (core-ai + full stack defaults)
   --core-ai           Set CLAWDBOT_INSTALL_CORE_AI=1
   --vulcan / --no-vulcan
-  --prefer-edge       Use https://install.onchainai.fund (default)
+  --prefer-edge       Use https://cheshireterminal.ai/install (default)
   --prefer-raw        Use raw GitHub install.sh URL
   --dir <path>        CLAWDBOT_INSTALL_DIR
   --ref <ref>         CLAWDBOT_REF (default: main)

@@ -182,4 +182,6 @@ Birth/install seeds the official HTTP connector as ` + "`robinhood-trading`" + `
 - You remain responsible for every order the agent places; review agent prompts and account activity.
 
 Reconnect or re-auth via your AI platform's MCP connector settings if the handshake fails.
+
+**Skill:** ` + "`agent/skills/robinhood-agentic-trading/SKILL.md`" + ` — platform connect recipes, Agentic limits, and safe order procedure.
 `

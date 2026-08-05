@@ -3,11 +3,14 @@
  * No network, no filesystem side effects — safe for dry-run and unit tests.
  */
 
-export const DEFAULT_EDGE_INSTALL_URL = "https://install.onchainai.fund";
+/** Primary public one-shot surface (Cheshire Terminal). */
+export const DEFAULT_EDGE_INSTALL_URL = "https://cheshireterminal.ai/install";
+/** Legacy Cloudflare custom-domain alias (still served by the same Worker). */
+export const LEGACY_EDGE_INSTALL_URL = "https://install.onchainai.fund";
 export const DEFAULT_RAW_INSTALL_URL =
   "https://raw.githubusercontent.com/Solizardking/clawdbot-go/main/install.sh";
 export const DEFAULT_ZK_METADATA_URL =
-  "https://install.onchainai.fund/.well-known/clawdbot-zk.json";
+  "https://cheshireterminal.ai/install/.well-known/clawdbot-zk.json";
 export const DEFAULT_INSTALL_DIR_SUFFIX = ".clawdbot";
 
 /**
@@ -159,9 +162,11 @@ export function resolveInstallPlan(opts = {}) {
     installer: "install.sh",
     upstream: {
       edge: DEFAULT_EDGE_INSTALL_URL,
+      legacyEdge: LEGACY_EDGE_INSTALL_URL,
       rawGitHub: DEFAULT_RAW_INSTALL_URL,
       zkMetadata: DEFAULT_ZK_METADATA_URL,
       repo: "https://github.com/Solizardking/clawdbot-go",
+      terminal: "https://cheshireterminal.ai",
     },
     env,
     commands: {

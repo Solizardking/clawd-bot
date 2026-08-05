@@ -7,7 +7,9 @@ Public surfaces for the current ecosystem:
 - **Runtime repo** — `https://github.com/Solizardking/clawdbot-go`
 - **Ecosystem hub** — `https://github.com/solizardking/solana-clawd`
 - **x402 gateway** — `https://zk.x402.wtf`
-- **Installer metadata** — `https://install.onchainai.fund/.well-known/clawdbot-zk.json`
+- **Installer** — `https://cheshireterminal.ai/install`
+- **Installer metadata** — `https://cheshireterminal.ai/install/.well-known/clawdbot-zk.json`
+- **Legacy installer** — `https://install.onchainai.fund`
 
 - **Terminal** — `https://cheshireterminal.ai`
 
@@ -30,13 +32,15 @@ clawdbot catalog compress --dry-run
 Cloudflare edge install and ZK metadata surfaces (verified working):
 
 ```bash
+curl -fsSL https://cheshireterminal.ai/install | bash
+curl -fsSL https://cheshireterminal.ai/install/.well-known/clawdbot-zk.json
+# legacy:
 curl -fsSL https://install.onchainai.fund | bash
-curl -fsSL https://install.onchainai.fund/.well-known/clawdbot-zk.json
 ```
 
 > The `zk.x402.wtf/clawdbot` aliases require their DNS records and Worker routes
-> to be provisioned in Cloudflare first (see `cloudflare/README.md`). Use
-> `install.onchainai.fund` until then.
+> to be provisioned in Cloudflare first (see `cloudflare/README.md`). Prefer
+> `cheshireterminal.ai/install`.
 
 ### Robinhood Agentic Trading MCP (birth seed)
 
@@ -153,6 +157,7 @@ Skills extend Clawd agents with specialized capabilities. Key categories:
 - `bags-solana-ops` — Bags.fm token operations and fee claiming
 
 ### Trading & DeFi
+- `robinhood-agentic-trading` — Robinhood Agentic Trading MCP birth seed, desktop OAuth, Agentic-only order placement (`https://agent.robinhood.com/mcp/trading`)
 - `vulcan` — Perpetual futures trading on Phoenix DEX (entrypoint)
 - `vulcan-trade-execution` — Order execution with pre-trade checks
 - `vulcan-market-intel` — Ticker, orderbook, candles, market info
