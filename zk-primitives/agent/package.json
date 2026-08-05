@@ -36,10 +36,12 @@
     "SKILL.md"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "pnpm run build:deps && tsc -p tsconfig.json",
+    "build:deps": "pnpm --filter @clawd/zk-client run build",
+    "pretest": "pnpm run build:deps",
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "tsc --noEmit",
+    "lint": "tsc -p tsconfig.json --noEmit",
     "clean": "rm -rf dist .turbo",
     "start": "node ./dist/cli.js",
     "inspect": "node ./dist/cli.js inspect"

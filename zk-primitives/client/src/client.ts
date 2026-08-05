@@ -27,9 +27,17 @@ import {
 } from "./state.js";
 import { computeNullifier, deriveNullifierAddress } from "./nullifier.js";
 
-const PROGRAM_IDENTITY: PublicKey = new PublicKey(
+/**
+ * Default program identity used when callers omit `config.programId`.
+ * Must be a valid base58 32-byte pubkey so the module can load at import time
+ * (used by `@clawd/zk-shark-agent` workspace tests and dry-run tooling).
+ * Replace with the deployed Anchor program id before mainnet send.
+ */
+export const DEFAULT_PROGRAM_ID = new PublicKey(
   "4vJ9JU1bJJE96FWSVKmnrL3xFU5jSBSVdk9x4La2vzhn",
 );
+
+const PROGRAM_IDENTITY: PublicKey = DEFAULT_PROGRAM_ID;
 
 export class ClawdZkClient {
   readonly rpc: any;

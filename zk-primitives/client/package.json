@@ -8,21 +8,26 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "default": "./dist/index.js"
     },
     "./nullifier": {
+      "types": "./dist/nullifier.d.ts",
       "import": "./dist/nullifier.js",
-      "types": "./dist/nullifier.d.ts"
+      "default": "./dist/nullifier.js"
     },
     "./proof": {
+      "types": "./dist/proof.d.ts",
       "import": "./dist/proof.js",
-      "types": "./dist/proof.d.ts"
+      "default": "./dist/proof.js"
     },
     "./state": {
+      "types": "./dist/state.d.ts",
       "import": "./dist/state.js",
-      "types": "./dist/state.d.ts"
-    }
+      "default": "./dist/state.js"
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
@@ -30,10 +35,11 @@
     "README.md"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json",
+    "prepare": "pnpm run build",
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "tsc --noEmit",
+    "lint": "tsc -p tsconfig.json --noEmit",
     "clean": "rm -rf dist .turbo"
   },
   "keywords": [

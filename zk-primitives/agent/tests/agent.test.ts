@@ -11,11 +11,9 @@
 
 import { test, describe, expect, vi } from "vitest";
 
-// The zk-client has a pre-existing bug: it tries to
-// `new PublicKey("CLAWDzk11…111")` at module load, and that string
-// is too short to be a valid base58 pubkey. Importing it pulls
-// that line in, so we mock the module entirely for the off-chain
-// unit tests with a minimal surface area.
+// Mock the workspace client for pure off-chain unit tests (no RPC / signer).
+// Package resolution is covered by vitest alias + pretest build of
+// @clawd/zk-client (see vitest.config.ts and package.json pretest).
 vi.mock("@clawd/zk-client", () => {
   // Re-implement the small bits we exercise (nullifier computation,
   // public-input packing, proof serialization) in a way that
