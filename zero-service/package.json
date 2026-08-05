@@ -12,6 +12,7 @@
     "start": "node src/server.mjs",
     "mcp": "node src/mcp-soltrader.mjs",
     "smoke": "node src/smoke.mjs",
+    "test": "node --test src/mcp-seed.test.mjs",
     "oss-check": "node ../scripts/oss-readiness-check.mjs"
   },
   "dependencies": {

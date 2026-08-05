@@ -1,0 +1,5 @@
+# Project birth MCP seeds for Grok / Clawd harness (workspace-local).
+# Robinhood: trades only in the Agentic account after desktop OAuth onboarding.
+
+[mcp_servers.robinhood-trading]
+url = "https://agent.robinhood.com/mcp/trading"

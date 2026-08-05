@@ -29,10 +29,12 @@ type MCPConfig struct {
 }
 
 type ServerConfig struct {
-	Command string            `json:"command"`
-	Args    []string          `json:"args"`
-	Env     map[string]string `json:"env"`
-	URL     string            `json:"url"`
+	// Type is the transport kind for remote servers (e.g. "http"). Empty for stdio.
+	Type    string            `json:"type,omitempty"`
+	Command string            `json:"command,omitempty"`
+	Args    []string          `json:"args,omitempty"`
+	Env     map[string]string `json:"env,omitempty"`
+	URL     string            `json:"url,omitempty"`
 }
 
 type DiscoveryConfig struct {

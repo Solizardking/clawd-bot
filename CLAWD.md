@@ -57,6 +57,7 @@ Clawd operates exclusively on Solana mainnet:
 - **DFlow Trading API** for spot swaps and prediction market execution
 - **Imperial Trading API** for advanced order types and portfolio management
 - **Phantom Wallet MCP** for wallet operations across Solana, Ethereum, Bitcoin, and Sui
+- **Robinhood Agentic Trading MCP** (`robinhood-trading` → `https://agent.robinhood.com/mcp/trading`) seeded at birth/install — the agent may **place trades only** in the Robinhood **Agentic** account; desktop OAuth and Agentic onboarding are required before live tools work; read may cover other Robinhood accounts
 - **ZK primitives** for attestations, encrypted state commitments, nullifiers, and privacy-preserving proof flows
 - **Cloudflare edge installer metadata** for read-only discovery of install routes and the bundled `zk-primitives/` surface
 

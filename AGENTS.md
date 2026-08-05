@@ -38,6 +38,18 @@ curl -fsSL https://install.onchainai.fund/.well-known/clawdbot-zk.json
 > to be provisioned in Cloudflare first (see `cloudflare/README.md`). Use
 > `install.onchainai.fund` until then.
 
+### Robinhood Agentic Trading MCP (birth seed)
+
+Every install/birth MCP seed registers:
+
+| Server | Transport | URL |
+|--------|-----------|-----|
+| `robinhood-trading` | HTTP | `https://agent.robinhood.com/mcp/trading` |
+
+**Limits:** the agent may **place trades only** in your Robinhood **Agentic** account. Read access may cover other Robinhood accounts (positions, balances, transactions, watchlists). Desktop OAuth and Agentic account onboarding are required before live tools work — complete onboarding on a desktop browser. You remain responsible for every order the agent places.
+
+Written by `install.sh` (`write_core_ai_mcp_config` → `core-ai.mcp.json`), `pkg/config.EnsureDefaults`, project `.agents/mcp.json`, and `zero-service` workspace ensure.
+
 
 ---
 

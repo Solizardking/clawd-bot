@@ -165,6 +165,10 @@ write_core_ai_mcp_config() {
     "zkcompression": {
       "type": "http",
       "url": "https://www.zkcompression.com/mcp"
+    },
+    "robinhood-trading": {
+      "type": "http",
+      "url": "https://agent.robinhood.com/mcp/trading"
     }
   }
 }

@@ -10,6 +10,7 @@ import (
 	"time"
 
 	dnaPkg "github.com/8bitlabs/clawdbot/pkg/dna"
+	mcpPkg "github.com/8bitlabs/clawdbot/pkg/mcp"
 	skillsPkg "github.com/8bitlabs/clawdbot/pkg/skills"
 )
 
@@ -495,6 +496,22 @@ func EnsureDefaults() error {
 		return fmt.Errorf("write agent dna: %w", err)
 	}
 
+	// Birth MCP seed: core-ai.mcp.json with robinhood-trading + sidecars.
+	// Create full seed when missing; merge robinhood-trading into existing files
+	// without clobbering user-added servers or customized stdio paths.
+	mcpPath := mcpPkg.DefaultCoreAIMCPConfigPath(DefaultHome())
+	coreAIDir := os.Getenv("CLAWDBOT_CORE_AI_DIR")
+	if strings.TrimSpace(coreAIDir) == "" {
+		coreAIDir = filepath.Join(DefaultHome(), "core-ai")
+	}
+	if err := mcpPkg.EnsureCoreAIMCPConfig(mcpPath, coreAIDir); err != nil {
+		return fmt.Errorf("ensure core-ai MCP seed: %w", err)
+	}
+	agenticNotePath := filepath.Join(ws, "ROBINHOOD_AGENTIC.md")
+	if err := writeFileIfMissing(agenticNotePath, []byte(mcpPkg.AgenticTradingOperatorNote), 0o644); err != nil {
+		return fmt.Errorf("write Robinhood Agentic note: %w", err)
+	}
+
 	return nil
 }
 
@@ -800,4 +817,14 @@ Lightweight chat agent for interactive queries.
 - !lessons             — Surface learned patterns with confidence
 - !research <mint>     — Deep research a token
 - !checkpoint          — Save agent state
+
+## Robinhood Agentic Trading MCP
+
+Birth seeds ` + "`robinhood-trading`" + ` → ` + mcpPkg.RobinhoodTradingMCPURL + `.
+
+- The agent may **place trades only** in your Robinhood **Agentic** account.
+- Read access may cover other Robinhood accounts (positions, balances, history, watchlists).
+- Desktop OAuth and Agentic account onboarding are required before live tools work.
+- Open/authenticate on a **desktop** browser (copy mobile onboarding URLs to desktop).
+- You remain responsible for every order the agent places.
 `

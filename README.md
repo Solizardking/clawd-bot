@@ -282,6 +282,19 @@ local MCP packages when `npm` is available, and writes:
 ~/.clawdbot/core-ai.mcp.json
 ```
 
+The core-ai MCP seed includes local Helius/pump stdio servers, Light Protocol
+`zkcompression` over HTTP, and Robinhood Agentic Trading:
+
+```json
+"robinhood-trading": {
+  "type": "http",
+  "url": "https://agent.robinhood.com/mcp/trading"
+}
+```
+
+The agent may **place trades only** in a Robinhood **Agentic** account after
+desktop OAuth / Agentic onboarding. Read may cover other Robinhood accounts.
+
 Relevant knobs:
 
 ```bash

@@ -8,6 +8,10 @@ import { spawn } from "node:child_process";
 import { createInterface } from "node:readline";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import {
+  buildWorkspaceMCPConfig,
+  ROBINHOOD_AGENTIC_NOTE,
+} from "./mcp-seed.mjs";
 
 const ZERO_BIN = process.env.ZERO_BIN ?? "zero";
 const ZERO_MODEL = process.env.ZERO_MODEL ?? "gpt-4.1";
@@ -148,6 +152,8 @@ Collateral:
   assumption briefly and proceed; do not stall.
 - Keep replies concise. No code blocks unless showing a signature/link.
 - Never claim a trade succeeded unless the exchange confirmed it.
+
+${ROBINHOOD_AGENTIC_NOTE}
 `;
 
 /** Write the per-workspace config that registers the MCP servers the agent can call. */
@@ -158,36 +164,15 @@ export function ensureWorkspace() {
   const marketsPath = new URL("./mcp-markets.mjs", import.meta.url).pathname;
   const perpsPath = new URL("./mcp-perps.mjs", import.meta.url).pathname;
   const riskPath = new URL("./mcp-risk.mjs", import.meta.url).pathname;
-  const config = {
-    mcp: {
-      servers: {
-        soltrader: {
-          type: "stdio",
-          command: process.execPath,
-          args: [soltraderPath],
-          env: passthroughEnv(),
-        },
-        markets: {
-          type: "stdio",
-          command: process.execPath,
-          args: [marketsPath],
-          env: {},
-        },
-        perps: {
-          type: "stdio",
-          command: process.execPath,
-          args: [perpsPath],
-          env: passthroughPerpsEnv(),
-        },
-        risk: {
-          type: "stdio",
-          command: process.execPath,
-          args: [riskPath],
-          env: {},
-        },
-      },
-    },
-  };
+  const config = buildWorkspaceMCPConfig({
+    soltraderPath,
+    marketsPath,
+    perpsPath,
+    riskPath,
+    nodePath: process.execPath,
+    soltraderEnv: passthroughEnv(),
+    perpsEnv: passthroughPerpsEnv(),
+  });
   writeFileSync(join(WORKSPACE, ".zero", "config.json"), JSON.stringify(config, null, 2));
   writeFileSync(join(WORKSPACE, "AGENTS.md"), AGENTS_MD);
   return WORKSPACE;
