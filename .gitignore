@@ -9,7 +9,7 @@ zero
 /go-bot/clawdbot
 /go-bot/build/
 /go-bot/dist/
-
+.env.local
 # Node
 node_modules/
 
