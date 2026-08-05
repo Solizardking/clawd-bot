@@ -42,6 +42,19 @@ curl -fsSL https://install.onchainai.fund | bash
 > to be provisioned in Cloudflare first (see `cloudflare/README.md`). Prefer
 > `install.cheshireterminal.ai`.
 
+### ClawdBrowser + SOL GPT (birth of any model)
+
+Every spawn gets:
+
+| Surface | Detail |
+|---------|--------|
+| **ClawdBrowser zero-service** | `$CLAWDBROWSER_ROOT` (default `/Users/8bit/ClawdBrowser`) — `src/clawd/*`, `mcp-clawd.mjs`, `mcp-soltrader.mjs`, `server.mjs`, `zero-runner.mjs`, … |
+| **SOL GPT tools** | Full catalog snapshot in `catalogs/sol-gpt-tools.json` (**181** tools / **124** core) — Kimi, Laguna, Opus 5, DeepSeek, Grok share the same non-custodial set |
+| **MCP** | `clawd` + `clawd-soltrader` stdio → ClawdBrowser paths; plus `robinhood-trading` HTTP |
+
+Workspace artifacts: `CLAWDBROWSER_BIRTH.md`, `sol-gpt-tools.json`, `clawdbrowser-modules.json`.  
+Go package: `pkg/birth`. Sync catalog: `node scripts/sync-sol-gpt-catalog.mjs`.
+
 ### Robinhood Agentic Trading MCP (birth seed)
 
 Every install/birth MCP seed registers:
@@ -49,6 +62,8 @@ Every install/birth MCP seed registers:
 | Server | Transport | URL |
 |--------|-----------|-----|
 | `robinhood-trading` | HTTP | `https://agent.robinhood.com/mcp/trading` |
+| `clawd` | stdio | `$CLAWDBROWSER_ROOT/zero-service/src/mcp-clawd.mjs` |
+| `clawd-soltrader` | stdio | `$CLAWDBROWSER_ROOT/zero-service/src/mcp-soltrader.mjs` |
 
 **Limits:** the agent may **place trades only** in your Robinhood **Agentic** account. Read access may cover other Robinhood accounts (positions, balances, transactions, watchlists). Desktop OAuth and Agentic account onboarding are required before live tools work — complete onboarding on a desktop browser. You remain responsible for every order the agent places.
 

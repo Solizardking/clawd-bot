@@ -9,6 +9,24 @@
     "robinhood-trading": {
       "type": "http",
       "url": "https://agent.robinhood.com/mcp/trading"
+    },
+    "clawd": {
+      "command": "node",
+      "args": [
+        "/Users/8bit/ClawdBrowser/zero-service/src/mcp-clawd.mjs"
+      ],
+      "env": {
+        "CLAWDBROWSER_ROOT": "/Users/8bit/ClawdBrowser"
+      }
+    },
+    "clawd-soltrader": {
+      "command": "node",
+      "args": [
+        "/Users/8bit/ClawdBrowser/zero-service/src/mcp-soltrader.mjs"
+      ],
+      "env": {
+        "CLAWDBROWSER_ROOT": "/Users/8bit/ClawdBrowser"
+      }
     }
   }
 }

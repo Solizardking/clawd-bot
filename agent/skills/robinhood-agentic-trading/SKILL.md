@@ -43,9 +43,15 @@ New agents get the connector from:
 
 1. **`install.sh`** `write_core_ai_mcp_config` → `~/.clawdbot/core-ai.mcp.json`
 2. **`pkg/mcp`** pure builder (`WriteCoreAIMCPConfig` / `EnsureCoreAIMCPConfig`)
-3. **`pkg/config.EnsureDefaults`** — ensures seed + `workspace/ROBINHOOD_AGENTIC.md`
+3. **`pkg/config.EnsureDefaults`** — ensures seed + `workspace/ROBINHOOD_AGENTIC.md` + ClawdBrowser/SOL GPT artifacts
 4. **`.agents/mcp.json`** and **`.grok/config.toml`**
 5. **`zero-service`** `buildWorkspaceMCPConfig` / `ensureWorkspace`
+
+### Also at birth (any model)
+
+- **ClawdBrowser zero-service** paths under `CLAWDBROWSER_ROOT` (default `/Users/8bit/ClawdBrowser`): `mcp-clawd.mjs`, `mcp-soltrader.mjs`, `src/clawd/*`, `server.mjs`, `zero-runner.mjs`, …
+- **SOL GPT tool catalog** (181+ tools) in workspace `sol-gpt-tools.json` — shared non-custodial catalog for Kimi / Laguna / Opus / DeepSeek / Grok
+- MCP servers `clawd` + `clawd-soltrader` point at ClawdBrowser modules
 
 Constants in Go:
 

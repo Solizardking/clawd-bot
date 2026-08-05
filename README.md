@@ -296,6 +296,44 @@ Use `CLAWDBOT_SOURCE_MODE=archive` for small installs. Use
 `CLAWDBOT_SOURCE_MODE=git` only when the installed source must be a mutable git
 checkout.
 
+### ClawdBrowser zero-service + SOL GPT tools (every model at birth)
+
+Birth equips **every** model spawn with:
+
+1. **Path access** to ClawdBrowser zero-service modules (override root with `CLAWDBROWSER_ROOT`, default `/Users/8bit/ClawdBrowser`):
+
+| Module | Path |
+|--------|------|
+| Clawd package | `$CLAWDBROWSER_ROOT/zero-service/src/clawd/` |
+| `gateway.mjs` … `usage.mjs` | `$CLAWDBROWSER_ROOT/zero-service/src/clawd/*.mjs` |
+| `mcp-clawd.mjs` | Official Clawd MCP (providers, RH launch tools) |
+| `mcp-soltrader.mjs` | Solana spot soltrader MCP |
+| `server.mjs`, `zero-runner.mjs`, `dflow.mjs`, `openapi.mjs`, … | Full zero-service surface |
+
+2. **Full SOL GPT tool catalog** (currently **181** shipped tools, **124** core) from
+   `ClawdBrowser/src/lib/sol-gpt/tool-catalog.ts`, snapshotted in-repo:
+
+```text
+catalogs/sol-gpt-tools.json
+catalogs/sol-gpt-tool-names.json
+```
+
+Workspace birth writes `CLAWDBROWSER_BIRTH.md`, `sol-gpt-tools.json`, and
+`clawdbrowser-modules.json` under `~/.clawdbot/workspace/`. MCP seeds register
+`clawd` + `clawd-soltrader` stdio servers pointing at those modules.
+
+Regenerate the catalog snapshot after ClawdBrowser tool changes:
+
+```bash
+node scripts/sync-sol-gpt-catalog.mjs
+```
+
+Offline checks:
+
+```bash
+go test ./pkg/birth/ ./pkg/mcp/ ./pkg/config/ -count=1
+```
+
 ### Robinhood Agentic Trading MCP
 
 Birth and install seed the official Robinhood Trading MCP so a fresh agent can
