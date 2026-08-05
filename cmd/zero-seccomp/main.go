@@ -4,6 +4,9 @@
 // installs and scripts. The main sandbox path now applies the same optional
 // Unix-socket filter inside zero-linux-sandbox when sandbox.blockUnixSockets is
 // enabled.
+//
+// Monorepo note: filter implementation is pkg/zerolib/sandbox (vendored from
+// zero-main/internal/sandbox).
 package main
 
 import (
@@ -12,7 +15,7 @@ import (
 	"os/exec"
 	"syscall"
 
-	"github.com/Gitlawb/zero/internal/sandbox"
+	"github.com/8bitlabs/clawdbot/pkg/zerolib/sandbox"
 )
 
 func main() {

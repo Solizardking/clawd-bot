@@ -1,3 +1,8 @@
+// Command zero-perf-bench runs cold-start/RSS performance benchmarks and the
+// Terminal-Bench-style task harness (`zero-perf-bench tasks`).
+//
+// Monorepo note: harness logic is pkg/zerolib/perfbench (vendored from
+// zero-main/internal/perfbench) so this builds inside the clawdbot module.
 package main
 
 import (
@@ -11,7 +16,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Gitlawb/zero/internal/perfbench"
+	"github.com/8bitlabs/clawdbot/pkg/zerolib/perfbench"
 )
 
 const (

@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/Gitlawb/zero/internal/perfbench"
+	"github.com/8bitlabs/clawdbot/pkg/zerolib/perfbench"
 )
 
 // taskOptions configures the `zero-perf-bench tasks` subcommand: the reproducible

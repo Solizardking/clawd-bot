@@ -1,3 +1,9 @@
+// Command zero-release builds, packages, smokes, and verifies Zero release
+// artifacts. In the clawdbot monorepo, an empty --root resolves to zero-main/
+// when that subtree looks like the Gitlawb/zero module.
+//
+// Monorepo note: packaging logic is pkg/zerolib/release (vendored from
+// zero-main/internal/release).
 package main
 
 import (
@@ -8,7 +14,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/Gitlawb/zero/internal/release"
+	"github.com/8bitlabs/clawdbot/pkg/zerolib/release"
 )
 
 func main() {

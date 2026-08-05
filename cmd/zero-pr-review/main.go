@@ -1,3 +1,8 @@
+// Command zero-pr-review emits the deterministic PR review markdown used by
+// Zero's GitHub Actions workflows.
+//
+// Monorepo note: summary logic is pkg/zerolib/review (vendored from
+// zero-main/internal/review) so this builds inside the clawdbot module.
 package main
 
 import (
@@ -6,7 +11,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Gitlawb/zero/internal/review"
+	"github.com/8bitlabs/clawdbot/pkg/zerolib/review"
 )
 
 func main() {
