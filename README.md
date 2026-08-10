@@ -651,7 +651,7 @@ npx skills add https://github.com/samber/cc-skills-golang --all
 ```
 
 The installer and animated launcher run those seeds unless
-`CLAWDBOT_SKIP_SKILL_SEED=1` is set.
+`CLAWDBOT_INSTALL_SKILL_SEED=1` is set.
 
 ### Solana — Birdeye
 

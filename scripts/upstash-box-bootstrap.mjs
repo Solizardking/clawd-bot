@@ -47,7 +47,6 @@ if (installClawdBot) {
       "curl -fsSL https://raw.githubusercontent.com/Solizardking/clawdbot-go/main/install.sh",
       "|",
       "CLAWDBOT_INSTALL_API=http://127.0.0.1:3000/api/install",
-      "CLAWDBOT_SKIP_SKILL_SEED=1",
       "CLAWDBOT_INSTALL_VULCAN=0",
       "bash",
     ].join(" "),
