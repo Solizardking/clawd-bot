@@ -360,8 +360,8 @@ async function main() {
 
   console.log();
 
-  // ── Step 6b: Birth Skill Seed ───────────────────────────────────
-  if (process.env.CLAWDBOT_SKIP_SKILL_SEED !== '1') {
+  // ── Step 6b: Birth Skill Seed (opt-in only) ─────────────────────
+  if (process.env.CLAWDBOT_INSTALL_SKILL_SEED === '1') {
     console.log(`${C.amber}  ── PHASE 6B: Birth Skills ──${C.reset}\n`);
     const npx = run('command -v npx');
     if (npx.ok) {
@@ -375,6 +375,9 @@ async function main() {
       console.log(`    ${C.amber}!${C.reset} npx not found; run ${C.teal}clawdbot skills birth --install${C.reset} later`);
     }
     console.log();
+  } else {
+    console.log(`${C.amber}  ── PHASE 6B: Birth Skills ──${C.reset}`);
+    console.log(`    ${C.dim}  Skipped (set CLAWDBOT_INSTALL_SKILL_SEED=1 to install)${C.reset}\n`);
   }
 
   // ── Step 7: Birdeye API Test ───────────────────────────────────

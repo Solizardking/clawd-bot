@@ -495,7 +495,7 @@ ENVEOF
 fi
 
 # ── Birth skill seed ──────────────────────────────────────────────────────────
-if [[ "${CLAWDBOT_SKIP_SKILL_SEED:-0}" != "1" ]]; then
+if [[ "${CLAWDBOT_INSTALL_SKILL_SEED:-0}" == "1" ]]; then
   if check_cmd npx; then
     info "Seeding birth skills from Solizardking/skills..."
     npx skills add https://github.com/Solizardking/skills --all 2>/dev/null || warn "Solizardking skill seed failed"
@@ -504,6 +504,8 @@ if [[ "${CLAWDBOT_SKIP_SKILL_SEED:-0}" != "1" ]]; then
   else
     warn "npx not found; skipping birth skill seed"
   fi
+else
+  info "Skipping birth skill seed (set CLAWDBOT_INSTALL_SKILL_SEED=1 to install)"
 fi
 
 # ── Done ──────────────────────────────────────────────────────────────────────
