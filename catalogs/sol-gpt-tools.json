@@ -1,1 +1,1414 @@
-{"generatedAt":"2026-08-05T04:36:11.469Z","source":"ClawdBrowser/src/lib/sol-gpt/tool-catalog.ts","totals":{"tools":181,"core":124,"groups":12},"groups":[{"id":"phoenix","label":"Phoenix Eternal","blurb":"Perps research + user-signed trade prep (market/limit, deposit, withdraw, register)","count":23},{"id":"imperial","label":"Imperial router","blurb":"Multi-venue perps intel (Jupiter / Flash / Phoenix / GMTrade): funding, marks, route, stats, positions","count":32},{"id":"market","label":"Market data","blurb":"Prices, search, trending, memes, fees, security","count":18},{"id":"ohlcv","label":"OHLCV & live tape","blurb":"Candles, live price, base/quote streams, trades","count":10},{"id":"wallet","label":"Wallet & portfolio","blurb":"Net worth, PnL, assets, balances","count":4},{"id":"helius","label":"Helius Wallet API","blurb":"Identity, history, transfers, funding, activity stream","count":19},{"id":"solanatracker","label":"Solana Tracker","blurb":"Wallet portfolio, PnL, trending, graduating, bundlers, search + DAS API (10 credits/call)","count":60},{"id":"trading","label":"Swaps & sends","blurb":"Quotes + user-signed swap/transfer prep (your wallet signs)","count":5},{"id":"prediction","label":"Prediction markets","blurb":"DFlow / Kalshi read-only market data","count":3},{"id":"browser","label":"Cloud browser","blurb":"Browse external sites via Browser Use","count":4},{"id":"agents","label":"Agents & DAS","blurb":"Metaplex / Solana agent discovery and assets","count":1},{"id":"platform","label":"Platform","blurb":"Sponge status and catalog search","count":2}],"tools":[{"name":"analyze_phoenix_account_health","description":"Estimate Phoenix effective collateral, account-health gap, risk score/tier, and liquidation thresholds. Call get_phoenix_market first for risk-factor percentages. Read-only estimate.","group":"phoenix","core":true,"readOnly":true},{"name":"batch_wallet_identity","description":"Batch identity lookup (up to 100 addresses).","group":"helius","core":true,"readOnly":true},{"name":"browse_web","description":"Open a real cloud browser (Browser Use) and complete a research or navigation task on external sites — e.g. DexScreener, Birdeye web, TradingView, news, pump.fun listings, CEX public pages. Returns extracted text output, status, sessionId, and optional live view URL. Use for live web data that APIs do not cover. Does NOT spend user funds on Solana — for on-platform buys use get_quote + prepare_user_swap. Never send passwords or private keys in the task string.","group":"browser","core":true,"readOnly":true},{"name":"browser_followup","description":"Dispatch a follow-up task on an existing keepAlive Browser Use session (same cookies/tabs). Use after browse_web with keepAlive=true.","group":"browser","core":false,"readOnly":true},{"name":"browser_session_status","description":"Poll Browser Use session status, output, and live URL by session id.","group":"browser","core":false,"readOnly":true},{"name":"browser_session_stop","description":"Stop a Browser Use session (task or full session). Call when research is done or user cancels.","group":"browser","core":false,"readOnly":true},{"name":"calculate_phoenix_position_margin","description":"Estimate Phoenix position margin + resting limit-order margin. Call get_phoenix_market + get_phoenix_mark_price first. Read-only.","group":"phoenix","core":true,"readOnly":true},{"name":"get_asset","description":"Helius DAS getAsset for mint/NFT metadata.","group":"helius","core":true,"readOnly":true},{"name":"get_asset_batch","description":"Helius DAS: get asset batch (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).","group":"helius","core":false,"readOnly":true},{"name":"get_asset_proof","description":"Helius DAS: get asset proof (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).","group":"helius","core":false,"readOnly":true},{"name":"get_asset_proof_batch","description":"Helius DAS: get asset proof batch (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).","group":"helius","core":false,"readOnly":true},{"name":"get_assets_by_authority","description":"Helius DAS: get assets by authority (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).","group":"helius","core":false,"readOnly":true},{"name":"get_assets_by_creator","description":"Helius DAS: get assets by creator (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).","group":"helius","core":false,"readOnly":true},{"name":"get_assets_by_group","description":"Helius DAS: get assets by group (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).","group":"helius","core":false,"readOnly":true},{"name":"get_base_quote_chart","description":"Historical base/quote OHLCV (two mints, no pair address).","group":"ohlcv","core":false,"readOnly":true},{"name":"get_base_quote_live_price","description":"Live SUBSCRIBE_BASE_QUOTE_PRICE OHLCV for two mints without a pair address.","group":"ohlcv","core":false,"readOnly":true},{"name":"get_birdeye_security","description":"Birdeye-native token security/risk fields.","group":"market","core":false,"readOnly":true},{"name":"get_chart","description":"Historical OHLCV candlesticks for a token mint (Birdeye). UI renders an interactive chart.","group":"ohlcv","core":false,"readOnly":true},{"name":"get_creation_info","description":"Token creation info.","group":"market","core":false,"readOnly":true},{"name":"get_dflow_priority_fees","description":"DFlow priority fee hints.","group":"trading","core":false,"readOnly":true},{"name":"get_history_price","description":"Historical price line (unixTime, value).","group":"ohlcv","core":false,"readOnly":true},{"name":"get_holder_distribution","description":"Token holder distribution.","group":"market","core":false,"readOnly":true},{"name":"get_imperial_builder_summary","description":"Imperial Trading API: builder summary.","group":"imperial","core":false,"readOnly":true},{"name":"get_imperial_deposit_history","description":"Imperial Trading API: deposit history.","group":"imperial","core":false,"readOnly":true},{"name":"get_imperial_flash_markets","description":"Imperial Trading API: flash markets.","group":"imperial","core":true,"readOnly":true},{"name":"get_imperial_funding_history","description":"Imperial Trading API: funding history.","group":"imperial","core":false,"readOnly":true},{"name":"get_imperial_funding_rates","description":"Imperial Trading API: funding rates.","group":"imperial","core":true,"readOnly":true},{"name":"get_imperial_gmtrade_funding_rates","description":"Imperial Trading API: gmtrade funding rates.","group":"imperial","core":true,"readOnly":true},{"name":"get_imperial_gmtrade_liquidity","description":"Imperial Trading API: gmtrade liquidity.","group":"imperial","core":true,"readOnly":true},{"name":"get_imperial_gmtrade_markets","description":"Imperial Trading API: gmtrade markets.","group":"imperial","core":true,"readOnly":true},{"name":"get_imperial_jupiter_pool_info","description":"Imperial Trading API: jupiter pool info.","group":"imperial","core":false,"readOnly":true},{"name":"get_imperial_mark_prices","description":"Imperial Trading API: mark prices.","group":"imperial","core":true,"readOnly":true},{"name":"get_imperial_order_history","description":"Imperial Trading API: order history.","group":"imperial","core":false,"readOnly":true},{"name":"get_imperial_order_history_detail","description":"Imperial Trading API: order history detail.","group":"imperial","core":false,"readOnly":true},{"name":"get_imperial_orders","description":"Imperial Trading API: orders.","group":"imperial","core":true,"readOnly":true},{"name":"get_imperial_passthrough_orders","description":"Imperial Trading API: passthrough orders.","group":"imperial","core":false,"readOnly":true},{"name":"get_imperial_phoenix_depth","description":"Imperial Trading API: phoenix depth.","group":"imperial","core":true,"readOnly":true},{"name":"get_imperial_phoenix_direct_positions","description":"Imperial Trading API: phoenix direct positions.","group":"imperial","core":false,"readOnly":true},{"name":"get_imperial_phoenix_mark_prices","description":"Imperial Trading API: phoenix mark prices.","group":"imperial","core":true,"readOnly":true},{"name":"get_imperial_phoenix_markets","description":"Imperial Trading API: phoenix markets.","group":"imperial","core":true,"readOnly":true},{"name":"get_imperial_pnl_history","description":"Imperial Trading API: pnl history.","group":"imperial","core":false,"readOnly":true},{"name":"get_imperial_positions","description":"Imperial Trading API: positions.","group":"imperial","core":true,"readOnly":true},{"name":"get_imperial_priority_fee","description":"Imperial Trading API: priority fee.","group":"imperial","core":true,"readOnly":true},{"name":"get_imperial_route","description":"Imperial Trading API: route.","group":"imperial","core":true,"readOnly":true},{"name":"get_imperial_stats_markets","description":"Imperial Trading API: stats markets.","group":"imperial","core":true,"readOnly":true},{"name":"get_imperial_stats_open_interest","description":"Imperial Trading API: stats open interest.","group":"imperial","core":true,"readOnly":true},{"name":"get_imperial_stats_open_interest_history","description":"Imperial Trading API: stats open interest history.","group":"imperial","core":false,"readOnly":true},{"name":"get_imperial_stats_summary","description":"Imperial Trading API: stats summary.","group":"imperial","core":true,"readOnly":true},{"name":"get_imperial_stats_volume","description":"Imperial Trading API: stats volume.","group":"imperial","core":true,"readOnly":true},{"name":"get_imperial_status","description":"Imperial Trading API: status.","group":"imperial","core":true,"readOnly":true},{"name":"get_imperial_touch_deals","description":"Imperial Trading API: touch deals.","group":"imperial","core":false,"readOnly":true},{"name":"get_imperial_touch_markets","description":"Imperial Trading API: touch markets.","group":"imperial","core":false,"readOnly":true},{"name":"get_imperial_touch_positions","description":"Imperial Trading API: touch positions.","group":"imperial","core":false,"readOnly":true},{"name":"get_imperial_trades","description":"Imperial Trading API: trades.","group":"imperial","core":false,"readOnly":true},{"name":"get_live_price","description":"Live SUBSCRIBE_PRICE OHLCV ticks (token usd or pair; mode raw|scaled|both).","group":"ohlcv","core":false,"readOnly":true},{"name":"get_live_txs","description":"Live Birdeye transaction tape (SUBSCRIBE_TXS snapshot).","group":"ohlcv","core":false,"readOnly":true},{"name":"get_meme_list","description":"Meme token list / discovery.","group":"market","core":false,"readOnly":true},{"name":"get_meme_listings","description":"New meme token listings.","group":"market","core":false,"readOnly":true},{"name":"get_multi_price","description":"Spot USD prices for up to 50 Solana mints from authenticated Jupiter Price V3 (Birdeye fallback).","group":"market","core":false,"readOnly":true},{"name":"get_net_worth","description":"Wallet net worth — SOL + top holdings by USD (holders/paid get DAS enrichment).","group":"wallet","core":true,"readOnly":true},{"name":"get_net_worth_chart","description":"Net-worth history chart points for a wallet.","group":"ohlcv","core":false,"readOnly":true},{"name":"get_nft_editions","description":"Helius DAS: get nft editions (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).","group":"helius","core":false,"readOnly":true},{"name":"get_pair_chart","description":"Historical OHLCV for a pair/market address.","group":"ohlcv","core":false,"readOnly":true},{"name":"get_pair_trades","description":"Recent trades for a pair/market address.","group":"ohlcv","core":false,"readOnly":true},{"name":"get_phoenix_candles","description":"OHLCV candles for a Phoenix perpetual (TradingView-style). Requires timeframe (1m, 5m, 1h, 1d, …). Read-only.","group":"phoenix","core":true,"readOnly":true},{"name":"get_phoenix_exchange_snapshot","description":"Phoenix exchange snapshot (aggregate market state). Read-only.","group":"phoenix","core":true,"readOnly":true},{"name":"get_phoenix_exchange_status","description":"Phoenix Eternal operational status: active, gated, withdrawals. Read-only.","group":"phoenix","core":true,"readOnly":true},{"name":"get_phoenix_funding_overview","description":"Exchange-wide Phoenix funding overview across markets. Read-only.","group":"phoenix","core":true,"readOnly":true},{"name":"get_phoenix_funding_rates","description":"Recent Phoenix Eternal funding-rate history for a market. Read-only.","group":"phoenix","core":true,"readOnly":true},{"name":"get_phoenix_mark_price","description":"Current Phoenix Eternal mark price (USD) used for PnL and liquidation. Read-only.","group":"phoenix","core":true,"readOnly":true},{"name":"get_phoenix_market","description":"Get static configuration for one Phoenix Eternal perpetual market (leverage tiers, fees, risk). Symbols like SOL-PERP. Read-only.","group":"phoenix","core":true,"readOnly":true},{"name":"get_phoenix_market_calendar","description":"Market calendar / session schedule for a Phoenix market (useful for RWA/commodity perps). Read-only.","group":"phoenix","core":true,"readOnly":true},{"name":"get_phoenix_market_fills","description":"Recent unaggregated fills for a Phoenix market (tape). Read-only.","group":"phoenix","core":true,"readOnly":true},{"name":"get_phoenix_market_stats","description":"Historical / rolling market stats for a Phoenix perpetual. Read-only.","group":"phoenix","core":true,"readOnly":true},{"name":"get_phoenix_my_trader_state","description":"Read the connected wallet's Phoenix trader state (cross + isolated subaccounts, collateral, positions when available). Use before deposit/orders. Read-only — does not place orders.","group":"phoenix","core":true,"readOnly":true},{"name":"get_phoenix_orderbook","description":"Current Phoenix Eternal L2 orderbook snapshot for a perpetual market. Read-only.","group":"phoenix","core":true,"readOnly":true},{"name":"get_phoenix_rpc_context","description":"Solana RPC / Helius cluster health for perps readiness: slot, block height, optional connected-wallet SOL for fees. Uses server HELIUS_API_KEY / SOLANA_RPC_URL (never client keys). Pair with Phoenix market tools before discussing live execution.","group":"phoenix","core":true,"readOnly":true},{"name":"get_phoenix_trader","description":"Read Phoenix trader view by trader pubkey (positions/margins when available). Read-only research — not a live order.","group":"phoenix","core":true,"readOnly":true},{"name":"get_pnl","description":"Wallet PnL estimates.","group":"wallet","core":true,"readOnly":true},{"name":"get_prediction_market","description":"Prediction market snapshot by ticker.","group":"prediction","core":false,"readOnly":true},{"name":"get_prediction_orderbook","description":"Prediction market orderbook depth.","group":"prediction","core":false,"readOnly":true},{"name":"get_price","description":"Spot USD price from authenticated Jupiter Price V3 (Birdeye fallback), including 24h change and liquidity.","group":"market","core":true,"readOnly":true},{"name":"get_quote","description":"Spot swap quote (DFlow / Jupiter).","group":"trading","core":true,"readOnly":true},{"name":"get_signatures_for_asset","description":"Helius DAS: get signatures for asset (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).","group":"helius","core":false,"readOnly":true},{"name":"get_smart_money","description":"Smart-money / top trader signals.","group":"market","core":false,"readOnly":true},{"name":"get_sol_balance","description":"Native SOL balance for a wallet.","group":"wallet","core":false,"readOnly":true},{"name":"get_token_accounts_das","description":"Helius DAS: get token accounts das (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).","group":"helius","core":false,"readOnly":true},{"name":"get_token_fees","description":"Global fees paid for Solana tokens (Birdeye fee API).","group":"market","core":false,"readOnly":true},{"name":"get_token_markets","description":"DEX markets / pools for a token.","group":"market","core":false,"readOnly":true},{"name":"get_token_overview","description":"Rich token overview: price, market cap, FDV, volume, holders, social links.","group":"market","core":true,"readOnly":true},{"name":"get_token_security","description":"Solana Tracker / security checks for a mint.","group":"market","core":false,"readOnly":true},{"name":"get_token_trades","description":"Recent trades for a token mint.","group":"ohlcv","core":false,"readOnly":true},{"name":"get_top_traders","description":"Top traders for a token.","group":"market","core":false,"readOnly":true},{"name":"get_trending","description":"Trending tokens list sorted by rank, volume, or liquidity.","group":"market","core":true,"readOnly":true},{"name":"get_wallet_assets","description":"Wallet assets / holdings overview.","group":"wallet","core":true,"readOnly":true},{"name":"get_wallet_balance_at","description":"Historical balance at a timestamp.","group":"helius","core":true,"readOnly":true},{"name":"get_wallet_balances_helius","description":"Live token balances via Helius Wallet API.","group":"helius","core":true,"readOnly":true},{"name":"get_wallet_funded_by","description":"Who funded this wallet.","group":"helius","core":true,"readOnly":true},{"name":"get_wallet_history","description":"Transaction history for a wallet.","group":"helius","core":true,"readOnly":true},{"name":"get_wallet_identity","description":"Resolve identity labels for a wallet or domain.","group":"helius","core":true,"readOnly":true},{"name":"get_wallet_transfers","description":"Transfer history for a wallet.","group":"helius","core":true,"readOnly":true},{"name":"list_dflow_tokens","description":"DFlow tradeable token list.","group":"trading","core":false,"readOnly":true},{"name":"list_phoenix_markets","description":"List Phoenix Eternal perpetual markets with status, fees, leverage tiers, and risk parameters. Read-only. Prefer for 'what perps can I trade'.","group":"phoenix","core":true,"readOnly":true},{"name":"list_tokens","description":"DEX token list with fee/liquidity filters.","group":"market","core":false,"readOnly":true},{"name":"prepare_phoenix_cancel_all","description":"Build an unsigned cancel-all for resting Phoenix orders on one market (UI signs).","group":"phoenix","core":true,"readOnly":false},{"name":"prepare_phoenix_deposit","description":"Build an unsigned Phoenix USDC deposit for the connected wallet (UI signs). Use when the user wants to fund their Phoenix perps account with USDC.","group":"phoenix","core":true,"readOnly":false},{"name":"prepare_phoenix_limit_order","description":"Build an unsigned Phoenix limit order for the connected wallet (UI signs). Requires symbol, side, baseUnits, and priceUsd.","group":"phoenix","core":true,"readOnly":false},{"name":"prepare_phoenix_market_order","description":"Build an unsigned Phoenix market order (IOC) for the connected wallet (UI signs). Use for live long/short/open/close when the user wants to trade perps now. Prefer get_phoenix_mark_price + get_phoenix_my_trader_state first. baseUnits is position size in base (e.g. 0.25 SOL).","group":"phoenix","core":true,"readOnly":false},{"name":"prepare_phoenix_register_trader","description":"Build an unsigned Phoenix register-trader transaction for the connected wallet (UI prompts wallet to sign). Required once before deposits/orders. Cross margin uses subaccount 0; isolated uses subaccount > 0.","group":"phoenix","core":true,"readOnly":false},{"name":"prepare_phoenix_withdraw","description":"Build an unsigned Phoenix USDC withdraw for the connected wallet (UI signs). Withdraws free collateral back to the user's USDC token account.","group":"phoenix","core":true,"readOnly":false},{"name":"prepare_user_swap","description":"Build unsigned Jupiter swap for the connected wallet (UI signs).","group":"trading","core":true,"readOnly":false},{"name":"prepare_user_transfer","description":"Build unsigned SOL/SPL transfer for the connected wallet (UI signs).","group":"trading","core":true,"readOnly":false},{"name":"resolve_token","description":"Resolve a ticker symbol to a Solana mint address.","group":"market","core":true,"readOnly":true},{"name":"search_assets","description":"Helius DAS: search assets (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).","group":"helius","core":false,"readOnly":true},{"name":"search_market_data","description":"Search tokens and markets (Birdeye search).","group":"market","core":false,"readOnly":true},{"name":"search_prediction_markets","description":"Search DFlow/Kalshi prediction markets.","group":"prediction","core":false,"readOnly":true},{"name":"search_solana_agents","description":"Search Solana agent / Metaplex identities.","group":"agents","core":true,"readOnly":true},{"name":"search_tokens","description":"Search tokens by symbol or name (e.g. 'BONK', 'JUP'). Returns mint addresses and metadata.","group":"market","core":true,"readOnly":true},{"name":"search_tools","description":"Search the SOL GPT tool catalog by keyword (loads extra tools mid-chat).","group":"platform","core":true,"readOnly":true},{"name":"sponge_status","description":"PaySponge bridge / agent wallet status.","group":"platform","core":false,"readOnly":true},{"name":"st_das_get_asset","description":"Solana Tracker Data API: das get asset.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_das_get_asset_proof","description":"Solana Tracker Data API: das get asset proof.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_das_get_assets_by_authority","description":"Solana Tracker Data API: das get assets by authority.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_das_get_assets_by_creator","description":"Solana Tracker Data API: das get assets by creator.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_das_get_assets_by_group","description":"Solana Tracker Data API: das get assets by group.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_das_get_assets_by_owner","description":"Solana Tracker Data API: das get assets by owner.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_das_get_nft_editions","description":"Solana Tracker Data API: das get nft editions.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_das_get_signatures_for_asset","description":"Solana Tracker Data API: das get signatures for asset.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_das_get_token_accounts","description":"Solana Tracker Data API: das get token accounts.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_das_search_assets","description":"Solana Tracker Data API: das search assets.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_chart","description":"Solana Tracker Data API: get chart.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_first_buyers","description":"Solana Tracker Data API: get first buyers.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_graduated_tokens","description":"Solana Tracker Data API: get graduated tokens.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_graduating_tokens","description":"Solana Tracker Data API: get graduating tokens.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_latest_tokens","description":"Solana Tracker Data API: get latest tokens.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_multi_tokens","description":"Solana Tracker Data API: get multi tokens.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_multiple_prices","description":"Solana Tracker Data API: get multiple prices.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_price","description":"Solana Tracker Data API: get price.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_price_history","description":"Solana Tracker Data API: get price history.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_token","description":"Solana Tracker Data API: get token.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_token_bundlers","description":"Solana Tracker Data API: get token bundlers.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_token_events","description":"Solana Tracker Data API: get token events.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_token_holders","description":"Solana Tracker Data API: get token holders.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_token_stats","description":"Solana Tracker Data API: get token stats.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_token_top_holders","description":"Solana Tracker Data API: get token top holders.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_token_top_traders","description":"Solana Tracker Data API: get token top traders.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_token_trades","description":"Solana Tracker Data API: get token trades.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_tokens_by_deployer","description":"Solana Tracker Data API: get tokens by deployer.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_tokens_by_volume","description":"Solana Tracker Data API: get tokens by volume.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_top_performers","description":"Solana Tracker Data API: get top performers.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_top_traders","description":"Solana Tracker Data API: get top traders.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_trending_tokens","description":"Solana Tracker Data API: get trending tokens.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_wallet","description":"Solana Tracker Data API: get wallet.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_wallet_basic","description":"Solana Tracker Data API: get wallet basic.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_wallet_chart","description":"Solana Tracker Data API: get wallet chart.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_wallet_page","description":"Solana Tracker Data API: get wallet page.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_wallet_pnl","description":"Solana Tracker Data API: get wallet pnl.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_wallet_token_pnl","description":"Solana Tracker Data API: get wallet token pnl.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_get_wallet_trades","description":"Solana Tracker Data API: get wallet trades.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_get_account_info","description":"Solana Tracker Data API: rpc get account info.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_get_balance","description":"Solana Tracker Data API: rpc get balance.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_get_block","description":"Solana Tracker Data API: rpc get block.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_get_block_height","description":"Solana Tracker Data API: rpc get block height.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_get_block_production","description":"Solana Tracker Data API: rpc get block production.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_get_blocks","description":"Solana Tracker Data API: rpc get blocks.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_get_fee_for_message","description":"Solana Tracker Data API: rpc get fee for message.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_get_multiple_accounts","description":"Solana Tracker Data API: rpc get multiple accounts.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_get_program_accounts","description":"Solana Tracker Data API: rpc get program accounts.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_get_signature_statuses","description":"Solana Tracker Data API: rpc get signature statuses.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_get_signatures_for_address","description":"Solana Tracker Data API: rpc get signatures for address.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_get_token_account_balance","description":"Solana Tracker Data API: rpc get token account balance.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_get_token_accounts_by_delegate","description":"Solana Tracker Data API: rpc get token accounts by delegate.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_get_token_accounts_by_owner","description":"Solana Tracker Data API: rpc get token accounts by owner.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_get_token_largest_accounts","description":"Solana Tracker Data API: rpc get token largest accounts.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_get_token_supply","description":"Solana Tracker Data API: rpc get token supply.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_get_transaction","description":"Solana Tracker Data API: rpc get transaction.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_get_transaction_count","description":"Solana Tracker Data API: rpc get transaction count.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_send_transaction","description":"Solana Tracker Data API: rpc send transaction.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_rpc_simulate_transaction","description":"Solana Tracker Data API: rpc simulate transaction.","group":"solanatracker","core":true,"readOnly":true},{"name":"st_search_tokens","description":"Solana Tracker Data API: search tokens.","group":"solanatracker","core":true,"readOnly":true},{"name":"stream_wallet_activity","description":"Composite activity stream (history + transfers).","group":"helius","core":true,"readOnly":true}]}
+{
+  "generatedAt": "2026-08-10T16:39:09.937Z",
+  "source": "ClawdBrowser/src/lib/sol-gpt/tool-catalog.ts",
+  "totals": {
+    "tools": 189,
+    "core": 124,
+    "groups": 13
+  },
+  "groups": [
+    {
+      "id": "phoenix",
+      "label": "Phoenix Eternal",
+      "blurb": "Perps research + user-signed trade prep (market/limit, deposit, withdraw, register)",
+      "count": 23
+    },
+    {
+      "id": "imperial",
+      "label": "Imperial router",
+      "blurb": "Multi-venue perps intel (Jupiter / Flash / Phoenix / GMTrade): funding, marks, route, stats, positions",
+      "count": 32
+    },
+    {
+      "id": "market",
+      "label": "Market data",
+      "blurb": "Prices, search, trending, memes, fees, security",
+      "count": 22
+    },
+    {
+      "id": "ohlcv",
+      "label": "OHLCV & live tape",
+      "blurb": "Candles, live price, base/quote streams, trades",
+      "count": 10
+    },
+    {
+      "id": "wallet",
+      "label": "Wallet & portfolio",
+      "blurb": "Net worth, PnL, assets, balances",
+      "count": 4
+    },
+    {
+      "id": "helius",
+      "label": "Helius Wallet API",
+      "blurb": "Identity, history, transfers, funding, activity stream",
+      "count": 19
+    },
+    {
+      "id": "solanatracker",
+      "label": "Solana Tracker",
+      "blurb": "Wallet portfolio, PnL, trending, graduating, bundlers, search + DAS API (10 credits/call)",
+      "count": 60
+    },
+    {
+      "id": "trading",
+      "label": "Swaps & sends",
+      "blurb": "Quotes + user-signed swap/transfer prep (your wallet signs)",
+      "count": 5
+    },
+    {
+      "id": "prediction",
+      "label": "Prediction markets",
+      "blurb": "DFlow / Kalshi read-only market data",
+      "count": 3
+    },
+    {
+      "id": "browser",
+      "label": "Cloud browser",
+      "blurb": "Browse external sites via Browser Use",
+      "count": 4
+    },
+    {
+      "id": "agents",
+      "label": "Agents & DAS",
+      "blurb": "Metaplex / Solana agent discovery and assets",
+      "count": 1
+    },
+    {
+      "id": "platform",
+      "label": "Platform",
+      "blurb": "Sponge status and catalog search",
+      "count": 2
+    },
+    {
+      "id": "other",
+      "label": "Other",
+      "blurb": "Additional capabilities",
+      "count": 4
+    }
+  ],
+  "tools": [
+    {
+      "name": "analyze_phoenix_account_health",
+      "description": "Estimate Phoenix effective collateral, account-health gap, risk score/tier, and liquidation thresholds. Call get_phoenix_market first for risk-factor percentages. Read-only estimate.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "batch_wallet_identity",
+      "description": "Batch identity lookup (up to 100 addresses).",
+      "group": "helius",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "browse_web",
+      "description": "Open a real cloud browser (Browser Use) and complete a research or navigation task on external sites — e.g. DexScreener, Birdeye web, TradingView, news, pump.fun listings, CEX public pages. Returns extracted text output, status, sessionId, and optional live view URL. Use for live web data that APIs do not cover. Does NOT spend user funds on Solana — for on-platform buys use get_quote + prepare_user_swap. Never send passwords or private keys in the task string.",
+      "group": "browser",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "browser_followup",
+      "description": "Dispatch a follow-up task on an existing keepAlive Browser Use session (same cookies/tabs). Use after browse_web with keepAlive=true.",
+      "group": "browser",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "browser_session_status",
+      "description": "Poll Browser Use session status, output, and live URL by session id.",
+      "group": "browser",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "browser_session_stop",
+      "description": "Stop a Browser Use session (task or full session). Call when research is done or user cancels.",
+      "group": "browser",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "calculate_phoenix_position_margin",
+      "description": "Estimate Phoenix position margin + resting limit-order margin. Call get_phoenix_market + get_phoenix_mark_price first. Read-only.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_asset",
+      "description": "Helius DAS getAsset for mint/NFT metadata.",
+      "group": "helius",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_asset_batch",
+      "description": "Helius DAS: get asset batch (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).",
+      "group": "helius",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_asset_proof",
+      "description": "Helius DAS: get asset proof (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).",
+      "group": "helius",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_asset_proof_batch",
+      "description": "Helius DAS: get asset proof batch (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).",
+      "group": "helius",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_assets_by_authority",
+      "description": "Helius DAS: get assets by authority (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).",
+      "group": "helius",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_assets_by_creator",
+      "description": "Helius DAS: get assets by creator (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).",
+      "group": "helius",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_assets_by_group",
+      "description": "Helius DAS: get assets by group (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).",
+      "group": "helius",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_base_quote_chart",
+      "description": "Historical base/quote OHLCV (two mints, no pair address).",
+      "group": "ohlcv",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_base_quote_live_price",
+      "description": "Live SUBSCRIBE_BASE_QUOTE_PRICE OHLCV for two mints without a pair address.",
+      "group": "ohlcv",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_birdeye_security",
+      "description": "Birdeye-native token security/risk fields.",
+      "group": "market",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_chart",
+      "description": "Historical OHLCV candlesticks for a token mint (Birdeye). UI renders an interactive chart.",
+      "group": "ohlcv",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_creation_info",
+      "description": "Token creation info.",
+      "group": "market",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_dflow_priority_fees",
+      "description": "DFlow priority fee hints.",
+      "group": "trading",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_exit_liquidity",
+      "description": "Birdeye exit/tradeable liquidity estimate.",
+      "group": "other",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_gainers_losers",
+      "description": "Birdeye trader gainers/losers board.",
+      "group": "other",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_history_price",
+      "description": "Birdeye historical price line series (token|pair, type 1m–1M, time window).",
+      "group": "ohlcv",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_holder_distribution",
+      "description": "Token holder distribution.",
+      "group": "market",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_builder_summary",
+      "description": "Imperial Trading API: builder summary.",
+      "group": "imperial",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_deposit_history",
+      "description": "Imperial Trading API: deposit history.",
+      "group": "imperial",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_flash_markets",
+      "description": "Imperial Trading API: flash markets.",
+      "group": "imperial",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_funding_history",
+      "description": "Imperial Trading API: funding history.",
+      "group": "imperial",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_funding_rates",
+      "description": "Imperial Trading API: funding rates.",
+      "group": "imperial",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_gmtrade_funding_rates",
+      "description": "Imperial Trading API: gmtrade funding rates.",
+      "group": "imperial",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_gmtrade_liquidity",
+      "description": "Imperial Trading API: gmtrade liquidity.",
+      "group": "imperial",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_gmtrade_markets",
+      "description": "Imperial Trading API: gmtrade markets.",
+      "group": "imperial",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_jupiter_pool_info",
+      "description": "Imperial Trading API: jupiter pool info.",
+      "group": "imperial",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_mark_prices",
+      "description": "Imperial Trading API: mark prices.",
+      "group": "imperial",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_order_history",
+      "description": "Imperial Trading API: order history.",
+      "group": "imperial",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_order_history_detail",
+      "description": "Imperial Trading API: order history detail.",
+      "group": "imperial",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_orders",
+      "description": "Imperial Trading API: orders.",
+      "group": "imperial",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_passthrough_orders",
+      "description": "Imperial Trading API: passthrough orders.",
+      "group": "imperial",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_phoenix_depth",
+      "description": "Imperial Trading API: phoenix depth.",
+      "group": "imperial",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_phoenix_direct_positions",
+      "description": "Imperial Trading API: phoenix direct positions.",
+      "group": "imperial",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_phoenix_mark_prices",
+      "description": "Imperial Trading API: phoenix mark prices.",
+      "group": "imperial",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_phoenix_markets",
+      "description": "Imperial Trading API: phoenix markets.",
+      "group": "imperial",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_pnl_history",
+      "description": "Imperial Trading API: pnl history.",
+      "group": "imperial",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_positions",
+      "description": "Imperial Trading API: positions.",
+      "group": "imperial",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_priority_fee",
+      "description": "Imperial Trading API: priority fee.",
+      "group": "imperial",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_route",
+      "description": "Imperial Trading API: route.",
+      "group": "imperial",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_stats_markets",
+      "description": "Imperial Trading API: stats markets.",
+      "group": "imperial",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_stats_open_interest",
+      "description": "Imperial Trading API: stats open interest.",
+      "group": "imperial",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_stats_open_interest_history",
+      "description": "Imperial Trading API: stats open interest history.",
+      "group": "imperial",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_stats_summary",
+      "description": "Imperial Trading API: stats summary.",
+      "group": "imperial",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_stats_volume",
+      "description": "Imperial Trading API: stats volume.",
+      "group": "imperial",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_status",
+      "description": "Imperial Trading API: status.",
+      "group": "imperial",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_touch_deals",
+      "description": "Imperial Trading API: touch deals.",
+      "group": "imperial",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_touch_markets",
+      "description": "Imperial Trading API: touch markets.",
+      "group": "imperial",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_touch_positions",
+      "description": "Imperial Trading API: touch positions.",
+      "group": "imperial",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_imperial_trades",
+      "description": "Imperial Trading API: trades.",
+      "group": "imperial",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_live_price",
+      "description": "Live SUBSCRIBE_PRICE OHLCV ticks (token usd or pair; mode raw|scaled|both).",
+      "group": "ohlcv",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_live_txs",
+      "description": "Live Birdeye transaction tape (SUBSCRIBE_TXS snapshot).",
+      "group": "ohlcv",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_meme_list",
+      "description": "Meme token list / discovery.",
+      "group": "market",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_meme_listings",
+      "description": "New meme token listings.",
+      "group": "market",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_mint_burn_txs",
+      "description": "Solana mint/burn txs for a mint.",
+      "group": "other",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_multi_price",
+      "description": "Spot USD prices for up to 50 Solana mints from authenticated Jupiter Price V3 (Birdeye fallback).",
+      "group": "market",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_net_worth",
+      "description": "Wallet net worth — SOL + top holdings by USD (holders/paid get DAS enrichment).",
+      "group": "wallet",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_net_worth_chart",
+      "description": "Net-worth history chart points for a wallet.",
+      "group": "ohlcv",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_new_listings",
+      "description": "Birdeye newly listed tokens.",
+      "group": "other",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_nft_editions",
+      "description": "Helius DAS: get nft editions (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).",
+      "group": "helius",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_pair_chart",
+      "description": "Historical OHLCV for a pair/market address.",
+      "group": "ohlcv",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_pair_trades",
+      "description": "Recent trades for a pair/market address.",
+      "group": "ohlcv",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_phoenix_candles",
+      "description": "OHLCV candles for a Phoenix perpetual (TradingView-style). Requires timeframe (1m, 5m, 1h, 1d, …). Read-only.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_phoenix_exchange_snapshot",
+      "description": "Phoenix exchange snapshot (aggregate market state). Read-only.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_phoenix_exchange_status",
+      "description": "Phoenix Eternal operational status: active, gated, withdrawals. Read-only.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_phoenix_funding_overview",
+      "description": "Exchange-wide Phoenix funding overview across markets. Read-only.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_phoenix_funding_rates",
+      "description": "Recent Phoenix Eternal funding-rate history for a market. Read-only.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_phoenix_mark_price",
+      "description": "Current Phoenix Eternal mark price (USD) used for PnL and liquidation. Read-only.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_phoenix_market",
+      "description": "Get static configuration for one Phoenix Eternal perpetual market (leverage tiers, fees, risk). Symbols like SOL-PERP. Read-only.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_phoenix_market_calendar",
+      "description": "Market calendar / session schedule for a Phoenix market (useful for RWA/commodity perps). Read-only.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_phoenix_market_fills",
+      "description": "Recent unaggregated fills for a Phoenix market (tape). Read-only.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_phoenix_market_stats",
+      "description": "Historical / rolling market stats for a Phoenix perpetual. Read-only.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_phoenix_my_trader_state",
+      "description": "Read the connected wallet's Phoenix trader state (cross + isolated subaccounts, collateral, positions when available). Use before deposit/orders. Read-only — does not place orders.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_phoenix_orderbook",
+      "description": "Current Phoenix Eternal L2 orderbook snapshot for a perpetual market. Read-only.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_phoenix_rpc_context",
+      "description": "Solana RPC / Helius cluster health for perps readiness: slot, block height, optional connected-wallet SOL for fees. Uses server HELIUS_API_KEY / SOLANA_RPC_URL (never client keys). Pair with Phoenix market tools before discussing live execution.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_phoenix_trader",
+      "description": "Read Phoenix trader view by trader pubkey (positions/margins when available). Read-only research — not a live order.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_pnl",
+      "description": "Wallet PnL estimates.",
+      "group": "wallet",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_prediction_market",
+      "description": "Prediction market snapshot by ticker.",
+      "group": "prediction",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_prediction_orderbook",
+      "description": "Prediction market orderbook depth.",
+      "group": "prediction",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_price",
+      "description": "Spot USD price from authenticated Jupiter Price V3 (Birdeye fallback), including 24h change and liquidity.",
+      "group": "market",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_price_volume",
+      "description": "Birdeye price + volume for one token.",
+      "group": "market",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_quote",
+      "description": "Spot swap quote (DFlow / Jupiter).",
+      "group": "trading",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_signatures_for_asset",
+      "description": "Helius DAS: get signatures for asset (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).",
+      "group": "helius",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_smart_money",
+      "description": "Birdeye smart-money token list (interval, trader_style, sort_by).",
+      "group": "market",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_sol_balance",
+      "description": "Native SOL balance for a wallet.",
+      "group": "wallet",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_token_accounts_das",
+      "description": "Helius DAS: get token accounts das (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).",
+      "group": "helius",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_token_fees",
+      "description": "Global fees paid for Solana tokens (Birdeye fee API).",
+      "group": "market",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_token_liquidity_ohlc",
+      "description": "Historical token liquidity OHLC candles.",
+      "group": "market",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_token_market_data",
+      "description": "Birdeye V3 token market data.",
+      "group": "market",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_token_markets",
+      "description": "DEX markets / pools for a token.",
+      "group": "market",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_token_overview",
+      "description": "Rich token overview: price, market cap, FDV, volume, holders, social links.",
+      "group": "market",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_token_security",
+      "description": "Solana Tracker / security checks for a mint.",
+      "group": "market",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_token_trade_data",
+      "description": "Birdeye V3 buy/sell trade-window stats.",
+      "group": "market",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_token_trades",
+      "description": "Recent trades for a token mint.",
+      "group": "ohlcv",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_top_traders",
+      "description": "Top traders for a token.",
+      "group": "market",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "get_trending",
+      "description": "Trending tokens list sorted by rank, volume, or liquidity.",
+      "group": "market",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_wallet_assets",
+      "description": "Wallet assets / holdings overview.",
+      "group": "wallet",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_wallet_balance_at",
+      "description": "Historical balance at a timestamp.",
+      "group": "helius",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_wallet_balances_helius",
+      "description": "Live token balances via Helius Wallet API.",
+      "group": "helius",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_wallet_funded_by",
+      "description": "Who funded this wallet.",
+      "group": "helius",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_wallet_history",
+      "description": "Transaction history for a wallet.",
+      "group": "helius",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_wallet_identity",
+      "description": "Resolve identity labels for a wallet or domain.",
+      "group": "helius",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "get_wallet_transfers",
+      "description": "Transfer history for a wallet.",
+      "group": "helius",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "list_dflow_tokens",
+      "description": "DFlow tradeable token list.",
+      "group": "trading",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "list_phoenix_markets",
+      "description": "List Phoenix Eternal perpetual markets with status, fees, leverage tiers, and risk parameters. Read-only. Prefer for 'what perps can I trade'.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "list_tokens",
+      "description": "DEX token list with fee/liquidity filters.",
+      "group": "market",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "prepare_phoenix_cancel_all",
+      "description": "Build an unsigned cancel-all for resting Phoenix orders on one market (UI signs).",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": false
+    },
+    {
+      "name": "prepare_phoenix_deposit",
+      "description": "Build an unsigned Phoenix USDC deposit for the connected wallet (UI signs). Use when the user wants to fund their Phoenix perps account with USDC.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": false
+    },
+    {
+      "name": "prepare_phoenix_limit_order",
+      "description": "Build an unsigned Phoenix limit order for the connected wallet (UI signs). Requires symbol, side, baseUnits, and priceUsd.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": false
+    },
+    {
+      "name": "prepare_phoenix_market_order",
+      "description": "Build an unsigned Phoenix market order (IOC) for the connected wallet (UI signs). Use for live long/short/open/close when the user wants to trade perps now. Prefer get_phoenix_mark_price + get_phoenix_my_trader_state first. baseUnits is position size in base (e.g. 0.25 SOL).",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": false
+    },
+    {
+      "name": "prepare_phoenix_register_trader",
+      "description": "Build an unsigned Phoenix register-trader transaction for the connected wallet (UI prompts wallet to sign). Required once before deposits/orders. Cross margin uses subaccount 0; isolated uses subaccount > 0.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": false
+    },
+    {
+      "name": "prepare_phoenix_withdraw",
+      "description": "Build an unsigned Phoenix USDC withdraw for the connected wallet (UI signs). Withdraws free collateral back to the user's USDC token account.",
+      "group": "phoenix",
+      "core": true,
+      "readOnly": false
+    },
+    {
+      "name": "prepare_user_swap",
+      "description": "Build unsigned Jupiter swap for the connected wallet (UI signs).",
+      "group": "trading",
+      "core": true,
+      "readOnly": false
+    },
+    {
+      "name": "prepare_user_transfer",
+      "description": "Build unsigned SOL/SPL transfer for the connected wallet (UI signs).",
+      "group": "trading",
+      "core": true,
+      "readOnly": false
+    },
+    {
+      "name": "resolve_token",
+      "description": "Resolve a ticker symbol to a Solana mint address.",
+      "group": "market",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "search_assets",
+      "description": "Helius DAS: search assets (holders/paid; HELIUS_RPC_URL / HELIUS_API_KEY).",
+      "group": "helius",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "search_market_data",
+      "description": "Search tokens and markets (Birdeye search).",
+      "group": "market",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "search_prediction_markets",
+      "description": "Search DFlow/Kalshi prediction markets.",
+      "group": "prediction",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "search_solana_agents",
+      "description": "Search Solana agent / Metaplex identities.",
+      "group": "agents",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "search_tokens",
+      "description": "Search tokens by symbol or name (e.g. 'BONK', 'JUP'). Returns mint addresses and metadata.",
+      "group": "market",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "search_tools",
+      "description": "Search the SOL GPT tool catalog by keyword (loads extra tools mid-chat).",
+      "group": "platform",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "sponge_status",
+      "description": "PaySponge bridge / agent wallet status.",
+      "group": "platform",
+      "core": false,
+      "readOnly": true
+    },
+    {
+      "name": "st_das_get_asset",
+      "description": "Solana Tracker Data API: das get asset.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_das_get_asset_proof",
+      "description": "Solana Tracker Data API: das get asset proof.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_das_get_assets_by_authority",
+      "description": "Solana Tracker Data API: das get assets by authority.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_das_get_assets_by_creator",
+      "description": "Solana Tracker Data API: das get assets by creator.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_das_get_assets_by_group",
+      "description": "Solana Tracker Data API: das get assets by group.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_das_get_assets_by_owner",
+      "description": "Solana Tracker Data API: das get assets by owner.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_das_get_nft_editions",
+      "description": "Solana Tracker Data API: das get nft editions.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_das_get_signatures_for_asset",
+      "description": "Solana Tracker Data API: das get signatures for asset.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_das_get_token_accounts",
+      "description": "Solana Tracker Data API: das get token accounts.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_das_search_assets",
+      "description": "Solana Tracker Data API: das search assets.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_chart",
+      "description": "Solana Tracker Data API: get chart.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_first_buyers",
+      "description": "Solana Tracker Data API: get first buyers.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_graduated_tokens",
+      "description": "Solana Tracker Data API: get graduated tokens.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_graduating_tokens",
+      "description": "Solana Tracker Data API: get graduating tokens.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_latest_tokens",
+      "description": "Solana Tracker Data API: get latest tokens.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_multi_tokens",
+      "description": "Solana Tracker Data API: get multi tokens.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_multiple_prices",
+      "description": "Solana Tracker Data API: get multiple prices.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_price",
+      "description": "Solana Tracker Data API: get price.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_price_history",
+      "description": "Solana Tracker Data API: get price history.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_token",
+      "description": "Solana Tracker Data API: get token.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_token_bundlers",
+      "description": "Solana Tracker Data API: get token bundlers.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_token_events",
+      "description": "Solana Tracker Data API: get token events.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_token_holders",
+      "description": "Solana Tracker Data API: get token holders.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_token_stats",
+      "description": "Solana Tracker Data API: get token stats.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_token_top_holders",
+      "description": "Solana Tracker Data API: get token top holders.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_token_top_traders",
+      "description": "Solana Tracker Data API: get token top traders.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_token_trades",
+      "description": "Solana Tracker Data API: get token trades.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_tokens_by_deployer",
+      "description": "Solana Tracker Data API: get tokens by deployer.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_tokens_by_volume",
+      "description": "Solana Tracker Data API: get tokens by volume.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_top_performers",
+      "description": "Solana Tracker Data API: get top performers.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_top_traders",
+      "description": "Solana Tracker Data API: get top traders.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_trending_tokens",
+      "description": "Solana Tracker Data API: get trending tokens.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_wallet",
+      "description": "Solana Tracker Data API: get wallet.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_wallet_basic",
+      "description": "Solana Tracker Data API: get wallet basic.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_wallet_chart",
+      "description": "Solana Tracker Data API: get wallet chart.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_wallet_page",
+      "description": "Solana Tracker Data API: get wallet page.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_wallet_pnl",
+      "description": "Solana Tracker Data API: get wallet pnl.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_wallet_token_pnl",
+      "description": "Solana Tracker Data API: get wallet token pnl.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_get_wallet_trades",
+      "description": "Solana Tracker Data API: get wallet trades.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_get_account_info",
+      "description": "Solana Tracker Data API: rpc get account info.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_get_balance",
+      "description": "Solana Tracker Data API: rpc get balance.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_get_block",
+      "description": "Solana Tracker Data API: rpc get block.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_get_block_height",
+      "description": "Solana Tracker Data API: rpc get block height.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_get_block_production",
+      "description": "Solana Tracker Data API: rpc get block production.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_get_blocks",
+      "description": "Solana Tracker Data API: rpc get blocks.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_get_fee_for_message",
+      "description": "Solana Tracker Data API: rpc get fee for message.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_get_multiple_accounts",
+      "description": "Solana Tracker Data API: rpc get multiple accounts.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_get_program_accounts",
+      "description": "Solana Tracker Data API: rpc get program accounts.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_get_signature_statuses",
+      "description": "Solana Tracker Data API: rpc get signature statuses.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_get_signatures_for_address",
+      "description": "Solana Tracker Data API: rpc get signatures for address.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_get_token_account_balance",
+      "description": "Solana Tracker Data API: rpc get token account balance.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_get_token_accounts_by_delegate",
+      "description": "Solana Tracker Data API: rpc get token accounts by delegate.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_get_token_accounts_by_owner",
+      "description": "Solana Tracker Data API: rpc get token accounts by owner.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_get_token_largest_accounts",
+      "description": "Solana Tracker Data API: rpc get token largest accounts.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_get_token_supply",
+      "description": "Solana Tracker Data API: rpc get token supply.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_get_transaction",
+      "description": "Solana Tracker Data API: rpc get transaction.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_get_transaction_count",
+      "description": "Solana Tracker Data API: rpc get transaction count.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_send_transaction",
+      "description": "Solana Tracker Data API: rpc send transaction.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_rpc_simulate_transaction",
+      "description": "Solana Tracker Data API: rpc simulate transaction.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "st_search_tokens",
+      "description": "Solana Tracker Data API: search tokens.",
+      "group": "solanatracker",
+      "core": true,
+      "readOnly": true
+    },
+    {
+      "name": "stream_wallet_activity",
+      "description": "Composite activity stream (history + transfers).",
+      "group": "helius",
+      "core": true,
+      "readOnly": true
+    }
+  ]
+}
