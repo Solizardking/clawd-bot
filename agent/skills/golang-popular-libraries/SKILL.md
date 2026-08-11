@@ -1,7 +1,7 @@
 ---
 description: "Recommends production-ready Golang libraries and frameworks. Apply when the user explicitly asks for library suggestions, wants to compare alternatives, needs to choose a library for a specific task, or when a new dependency is being added to the project."
 license: "MIT"
-metadata: {"author":"samber","version":"1.1.8"}
+metadata: {"author":"samber","version":"1.1.9"}
 ---
 **Persona:** You are a Go ecosystem expert. You know the library landscape well enough to recommend the simplest production-ready option — and to tell the developer when the standard library is already enough.
 
@@ -51,6 +51,7 @@ Remember: The best library is often no library at all. Go's standard library is 
 - → See `samber/cc-skills-golang@golang-dependency-management` skill for adding, auditing, and managing dependencies
 - → See `samber/cc-skills-golang@golang-pkg-go-dev` skill to vet a candidate library on pkg.go.dev — versions, importers, licenses, and known vulnerabilities — before adopting it
 - → See `samber/cc-skills-golang@golang-samber-do` skill for samber/do dependency injection details
+- → See `samber/cc-skills-golang@golang-samber-hot` skill for samber/hot in-memory caching details
 - → See `samber/cc-skills-golang@golang-samber-oops` skill for samber/oops error handling details
 - → See `samber/cc-skills-golang@golang-stretchr-testify` skill for testify testing details
 - → See `samber/cc-skills-golang@golang-grpc` skill for gRPC implementation details
