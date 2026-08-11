@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clawdbot · 夜航志</title>
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --purple:#9945FF; --purple-light:#B67FFF; --purple-dark:#7B35CC;
+    --green:#14F195; --green-light:#4FF5B3; --green-dark:#0FC77A;
+    --bg:#0A0B0D; --bg2:#12141A; --bg3:#1A1D24;
+    --card:rgba(26,29,36,.7);
+    --border:rgba(153,69,255,.2); --border-active:rgba(153,69,255,.5); --border-glow:rgba(20,241,149,.3);
+    --t1:#FFFFFF; --t2:#A0A3B1; --t3:#6B7084;
+    --grad:linear-gradient(135deg,#9945FF 0%,#14F195 100%);
+    --mono:'JetBrains Mono',monospace;
+    --sans:'Inter',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--t1);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.5}
+
+  /* backdrop: night flight deck */
+  .stars{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:
+    radial-gradient(1px 1px at 12% 18%,rgba(255,255,255,.35),transparent 100%),
+    radial-gradient(1px 1px at 28% 62%,rgba(255,255,255,.22),transparent 100%),
+    radial-gradient(1.5px 1.5px at 41% 34%,rgba(182,127,255,.5),transparent 100%),
+    radial-gradient(1px 1px at 57% 72%,rgba(255,255,255,.3),transparent 100%),
+    radial-gradient(1px 1px at 66% 22%,rgba(20,241,149,.4),transparent 100%),
+    radial-gradient(1.5px 1.5px at 79% 55%,rgba(255,255,255,.28),transparent 100%),
+    radial-gradient(1px 1px at 88% 14%,rgba(182,127,255,.45),transparent 100%),
+    radial-gradient(1px 1px at 94% 80%,rgba(255,255,255,.22),transparent 100%)}
+  .orb-a{position:fixed;width:540px;height:540px;top:-18%;left:-10%;border-radius:50%;background:rgba(153,69,255,.14);filter:blur(120px);z-index:0;pointer-events:none}
+  .orb-b{position:fixed;width:460px;height:460px;bottom:-16%;right:-10%;border-radius:50%;background:rgba(20,241,149,.1);filter:blur(120px);z-index:0;pointer-events:none}
+  .horizon{position:fixed;left:0;right:0;bottom:0;height:220px;z-index:0;pointer-events:none;
+    background:linear-gradient(180deg,transparent,rgba(153,69,255,.06) 55%,rgba(20,241,149,.05) 100%);
+    mask-image:radial-gradient(ellipse at 50% 100%,black 20%,transparent 75%)}
+  .wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 40px}
+
+  /* ── masthead: editorial nav, no sidebar ── */
+  .mast{display:flex;align-items:center;justify-content:space-between;padding:34px 0 26px;border-bottom:1px solid var(--border)}
+  .brand-lockup{display:flex;align-items:center;gap:12px}
+  .brand-lockup .mark{width:34px;height:34px;border-radius:9px;background:var(--grad);position:relative;box-shadow:0 0 22px rgba(153,69,255,.35);flex-shrink:0}
+  .brand-lockup .mark::after{content:'';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:15px;color:rgba(255,255,255,.9)}
+  .brand-lockup .nm{font-weight:800;letter-spacing:-.03em;font-size:19px;line-height:1.1}
+  .brand-lockup .sb{font-family:var(--mono);font-size:10px;color:var(--t3);letter-spacing:.14em;text-transform:uppercase}
+  .mast-nav{display:flex;align-items:center;gap:26px;font-size:13px;font-weight:500;color:var(--t2)}
+  .mast-nav a{text-decoration:none;color:var(--t2);transition:color .15s;cursor:pointer}
+  .mast-nav a:hover{color:var(--t1)}
+  .mast-nav a.on{color:var(--purple-light)}
+  .mast-utl{display:flex;align-items:center;gap:16px;font-family:var(--mono);font-size:11px;color:var(--t3)}
+  .live-dot{display:flex;align-items:center;gap:7px;color:var(--green-light);font-family:var(--mono);font-size:11px}
+  .live-dot::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+  /* ── hero: the night flight headline ── */
+  .hero{padding:86px 0 60px;position:relative}
+  .hero-kicker{font-family:var(--mono);font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--purple-light);margin-bottom:20px;display:flex;align-items:center;gap:14px}
+  .hero-kicker::before{content:'';width:34px;height:1px;background:var(--grad)}
+  .hero-title{font-size:clamp(40px,5.4vw,72px);font-weight:800;letter-spacing:-.045em;line-height:1.02;max-width:900px}
+  .hero-title .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero-sub{max-width:560px;font-size:16px;line-height:1.7;color:var(--t2);margin-top:26px;font-weight:300}
+  .hero-meta{display:flex;align-items:center;gap:26px;margin-top:34px;font-family:var(--mono);font-size:12px;color:var(--t3)}
+  .hero-meta .strong{color:var(--green-light)}
+  .hero-meta span{display:flex;align-items:center;gap:8px}
+  .hero-meta i{font-style:normal}
+
+  /* dashboard band — asymmetric editorial grid */
+  .deck{display:grid;grid-template-columns:1.5fr 1fr;gap:18px;margin:10px 0 24px}
+  .col{display:flex;flex-direction:column;gap:18px}
+  .card{border:1px solid var(--border);border-radius:18px;background:var(--card);backdrop-filter:blur(14px);position:relative;overflow:hidden;transition:border-color .2s,transform .2s}
+  .card:hover{border-color:var(--border-active);transform:translateY(-2px)}
+  .card .topline{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(153,69,255,.7),transparent)}
+  .card .pad{padding:22px 24px}
+  .card .k{font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--t3);display:flex;align-items:center;justify-content:space-between}
+  .card .k .live{display:flex;align-items:center;gap:6px;color:var(--green-light);font-family:var(--mono);letter-spacing:.04em}
+  .card .k .live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+  .card .big{font-size:44px;font-weight:800;letter-spacing:-.03em;margin-top:16px;font-family:var(--mono);line-height:1}
+  .card .big .unit{font-size:14px;color:var(--t3);font-weight:500;margin-left:5px;font-family:var(--sans)}
+  .card .big.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .card .note{margin-top:10px;font-size:13px;color:var(--t2);line-height:1.6}
+
+  /* stat strip: row of mono data */
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:26px 0 30px}
+  .strip .cell{border-left:1px solid var(--border);padding-left:18px}
+  .strip .cell:first-child{border-left:1px solid transparent;padding-left:0}
+  .strip .num{font-family:var(--mono);font-size:28px;font-weight:600;letter-spacing:-.02em}
+  .strip .num em{font-style:normal;color:var(--purple-light)}
+  .strip .lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--t3);margin-top:5px}
+
+  /* ledger table */
+  .ledger{display:flex;flex-direction:column}
+  .led-row{display:grid;grid-template-columns:70px 1fr auto auto;gap:14px;align-items:center;padding:14px 4px;border-bottom:1px solid rgba(153,69,255,.08)}
+  .led-row:last-child{border-bottom:none}
+  .led-row .log{font-family:var(--mono);font-size:11px;color:var(--t3)}
+  .led-row .txt{font-size:13.5px;color:var(--t2)}
+  .led-row .txt b{color:var(--t1);font-weight:600}
+  .led-row .sev{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.1em;padding:3px 8px;border-radius:6px}
+  .led-row .sev.info{background:rgba(153,69,255,.1);color:var(--purple-light);border:1px solid rgba(153,69,255,.3)}
+  .led-row .sev.ok{background:rgba(20,241,149,.1);color:var(--green-light);border:1px solid rgba(20,241,149,.3)}
+  .led-row .sev.warn{background:rgba(255,199,0,.08);color:#ffc75e;border:1px solid rgba(255,199,0,.3)}
+  .led-row .ev{font-family:var(--mono);font-size:11px;color:var(--t3)}
+
+  /* channels: silent list, dotted leaders */
+  .chan{display:flex;align-items:baseline;gap:12px;padding:12px 2px}
+  .chan .nm{font-size:15px;font-weight:500;flex-shrink:0}
+  .chan .dots{flex:1;border-bottom:1px dotted rgba(153,69,255,.28);transform:translateY(-4px)}
+  .chan .st{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px}
+  .chan .st.on{color:var(--green-light)}
+  .chan .st.off{color:var(--t3)}
+  .chan .st::before{content:'';width:6px;height:6px;border-radius:50%;display:inline-block}
+  .chan .st.on::before{background:var(--green);box-shadow:0 0 8px var(--green)}
+  .chan .st.off::before{background:transparent;border:1px solid var(--t3)}
+  .chan .det{font-family:var(--mono);font-size:10.5px;color:var(--t3);flex-shrink:0}
+
+  /* sessions ticker */
+  .tick{display:flex;flex-direction:column;gap:12px}
+  .tick-item{display:flex;align-items:center;gap:12px;padding:11px 13px;border:1px solid rgba(153,69,255,.13);border-radius:12px;background:rgba(10,11,13,.45)}
+  .tick-item .av{width:28px;height:28px;border-radius:8px;background:rgba(153,69,255,.13);color:var(--purple-light);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;flex-shrink:0}
+  .tick-item .info{min-width:0}
+  .tick-item .pk{font-family:var(--mono);font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tick-item .md{font-size:10.5px;color:var(--t3);margin-top:1px;font-family:var(--mono)}
+  .tick-item .ar{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--t3);flex-shrink:0}
+
+  /* security: elegant number rows */
+  .sec-row{display:grid;grid-template-columns:1fr auto;gap:12px;padding:13px 18px;border-bottom:1px solid rgba(153,69,255,.08);align-items:center}
+  .sec-row:last-child{border-bottom:none}
+  .sec-row .sl{display:flex;align-items:center;gap:11px;font-size:13px;color:var(--t2)}
+  .sec-row .sl b{color:var(--t1);font-weight:600}
+  .sec-row .badge{font-family:var(--mono);font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:999px}
+  .badge.ok{background:rgba(20,241,149,.1);color:var(--green-light);border:1px solid rgba(20,241,149,.3)}
+  .badge.warn{background:rgba(255,199,0,.08);color:#ffc75e;border:1px solid rgba(255,199,0,.3)}
+  .badge.mut{background:rgba(255,255,255,.04);color:var(--t3);border:1px solid var(--border)}
+
+  /* footer colophon */
+  .colophon{border-top:1px solid var(--border);margin-top:64px;padding:34px 0 46px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .colophon .lob{font-size:22px;opacity:.9}
+  .colophon .ver{font-family:var(--mono);font-size:11px;color:var(--t3)}
+  .colophon .pipe{display:flex;align-items:center;gap:18px;font-family:var(--mono);font-size:11px;color:var(--t3)}
+
+  /* small */
+  .mt8{margin-top:8px}
+  .mono{font-family:var(--mono)}
+  .muted{color:var(--t3)}
+  .scrollable{max-height:400px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--bg3) transparent}
+  .scrollable::-webkit-scrollbar{width:6px}
+  .scrollable::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px}
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<div class="orb-a"></div>
+<div class="orb-b"></div>
+<div class="horizon"></div>
+
+<div class="wrap">
+  <!-- ═══ Masthead ═══ -->
+  <header class="mast">
+    <div class="brand-lockup">
+      <div class="mark"></div>
+      <div>
+        <div class="nm">Clawdbot</div>
+        <div class="sb">Night Deck · Vol.24</div>
+      </div>
+    </div>
+    <nav class="mast-nav">
+      <a class="on">Overview</a>
+      <a>Channels</a>
+      <a>Agents</a>
+      <a>Sessions</a>
+      <a>Skills</a>
+      <a>Logs</a>
+    </nav>
+    <div class="mast-utl">
+      <div class="live-dot">gateway live</div>
+      <span>44ms</span>
+    </div>
+  </header>
+
+  <!-- ═══ Hero ═══ -->
+  <section class="hero">
+    <div class="hero-kicker">Night Operations Report</div>
+    <h1 class="hero-title">All systems are<br><span class="grad">awake.</span> 🦞</h1>
+    <p class="hero-sub">凌晨的操作面板。Gateway 在本地回路里跳动，两个 agent 值班，Telegram 收着信号。一切按计划运行 —— 或正准备脱离计划。</p>
+    <div class="hero-meta">
+      <span>gateway <i class="strong">ws://127.0.0.1:18789</i></span>
+      <span>latency <i class="strong">44ms</i></span>
+      <span>model <i class="strong">kimi-k2-0905-preview</i></span>
+      <span>build <i>2026.1.24-3</i></span>
+    </div>
+  </section>
+
+  <!-- ═══ Dashboard band ═══ -->
+  <section class="deck">
+    <div class="col">
+      <div class="card">
+        <div class="topline"></div>
+        <div class="pad">
+          <div class="k">Signal · Live Log</div>
+          <div class="ledger scrollable" style="margin-top:14px">
+            <div class="led-row"><span class="log">11:24:07</span><span class="txt"><b>gateway</b> listening on ws://127.0.0.1:18789</span><span class="sev ok">OK</span><span class="ev">—</span></div>
+            <div class="led-row"><span class="log">11:24:07</span><span class="txt"><b>heartbeat</b> sent · main · 30m</span><span class="sev ok">OK</span><span class="ev">30m</span></div>
+            <div class="led-row"><span class="log">11:23:41</span><span class="txt"><b>auth</b> token verified · main session</span><span class="sev info">AUTH</span><span class="ev">main</span></div>
+            <div class="led-row"><span class="log">11:20:02</span><span class="txt"><b>warn</b> reverse proxy headers not trusted</span><span class="sev warn">WARN</span><span class="ev">net</span></div>
+            <div class="led-row"><span class="log">11:18:55</span><span class="txt"><b>skill store</b> synced · 95 eligible</span><span class="sev ok">OK</span><span class="ev">95</span></div>
+            <div class="led-row"><span class="log">11:18:40</span><span class="txt"><b>telegram</b> ready · accounts 1/1</span><span class="sev ok">OK</span><span class="ev">tg</span></div>
+            <div class="led-row"><span class="log">11:17:12</span><span class="txt"><b>session</b> agent:main:main opened</span><span class="sev info">INFO</span><span class="ev">256k</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="topline"></div>
+        <div class="pad">
+          <div class="k">Channels <span class="live">1 transmitting</span></div>
+          <div style="margin-top:10px">
+            <div class="chan"><span class="nm">Telegram</span><span class="dots"></span><span class="st on">ON</span><span class="det">token · 1/1</span></div>
+            <div class="chan"><span class="nm">Discord</span><span class="dots"></span><span class="st off">off</span><span class="det">plugin disabled</span></div>
+            <div class="chan"><span class="nm">WhatsApp</span><span class="dots"></span><span class="st off">—</span><span class="det">not configured</span></div>
+            <div class="chan"><span class="nm">Slack</span><span class="dots"></span><span class="st off">—</span><span class="det">not configured</span></div>
+            <div class="chan"><span class="nm">iMessage</span><span class="dots"></span><span class="st off">Δ</span><span class="det">work in progress</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card">
+        <div class="topline"></div>
+        <div class="pad">
+          <div class="k">Gateway Latency</div>
+          <div class="big grad">44<span class="unit">ms</span></div>
+          <div class="note">Loopback · reachable · auth token verified。信号干净，回路闭合。</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="topline"></div>
+        <div class="pad">
+          <div class="k">Active Sessions</div>
+          <div class="tick" style="margin-top:14px">
+            <div class="tick-item"><div class="av">M1</div><div class="info"><div class="pk">agent:main:main</div><div class="md">direct · kimi-k2 · active now</div></div><div class="ar">1m ago</div></div>
+            <div class="tick-item"><div class="av">S1</div><div class="info"><div class="pk">agent:solana:telegram</div><div class="md">group · kimi-k2</div></div><div class="ar">38d</div></div>
+            <div class="tick-item"><div class="av">S2</div><div class="info"><div class="pk">agent:solana:main</div><div class="md">direct · kimi-k2</div></div><div class="ar">191d</div></div>
+            <div class="tick-item"><div class="av">S3</div><div class="info"><div class="pk">agent:solana:telegram</div><div class="md">group · MiniMax-M2.1</div></div><div class="ar">193d</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="topline"></div>
+        <div class="pad">
+          <div class="k">Security Posture</div>
+          <div style="margin-top:12px">
+            <div class="sec-row"><span class="sl"><b>0</b> critical findings</span><span class="badge ok">CLEAR</span></div>
+            <div class="sec-row"><span class="sl"><b>1</b> warning — proxy headers untrusted</span><span class="badge warn">WARN</span></div>
+            <div class="sec-row"><span class="sl"><b>1</b> informational note</span><span class="badge mut">INFO</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Stat strip ═══ -->
+  <section class="strip">
+    <div class="cell"><div class="num"><em>2</em></div><div class="lbl">Agents on watch</div></div>
+    <div class="cell"><div class="num"><em>95</em><span style="font-size:15px;color:var(--t3)">/106</span></div><div class="lbl">Skills eligible</div></div>
+    <div class="cell"><div class="num"><em>30m</em></div><div class="lbl">Heartbeat · main</div></div>
+  </section>
+
+  <!-- ═══ Colophon ═══ -->
+  <footer class="colophon">
+    <div>
+      <div class="lob">🦞</div>
+      <div class="ver" style="margin-top:6px">Clawdbot 2026.1.24-3 · node 24.15.0 · macos arm64</div>
+    </div>
+    <div class="pipe">
+      <span>tailscale off</span>
+      <span>·</span>
+      <span>loopback only</span>
+      <span>·</span>
+      <span>0 critical</span>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
