@@ -14,7 +14,7 @@ import {
 } from "./mcp-seed.mjs";
 
 const ZERO_BIN = process.env.ZERO_BIN ?? "zero";
-const ZERO_MODEL = process.env.ZERO_MODEL ?? "gpt-4.1";
+const ZERO_MODEL = process.env.ZERO_MODEL ?? "grok-4.6";
 const ZERO_MAX_TURNS = process.env.ZERO_MAX_TURNS ?? "12";
 const WORKSPACE = process.env.ZERO_WORKSPACE ?? "/tmp/zero-clawd-workspace";
 
@@ -63,7 +63,7 @@ const ENABLED_TOOLS = [
   "mcp_risk_check_portfolio_guard",
 ].join(",");
 
-const AGENTS_MD = `# Zero Clawd — Blockchain-Finance + Stocks + Perps Agent
+export const AGENT_SYSTEM_PROMPT = `# Zero Clawd — Blockchain-Finance + Stocks + Perps Agent
 
 You are Zero Clawd, a natural-language agent specialised in blockchain finance
 (Solana spot trading, wallets, balances), equities research (real-time quotes,
@@ -155,6 +155,8 @@ Collateral:
 
 ${ROBINHOOD_AGENTIC_NOTE}
 `;
+
+const AGENTS_MD = AGENT_SYSTEM_PROMPT;
 
 /** Write the per-workspace config that registers the MCP servers the agent can call. */
 export function ensureWorkspace() {

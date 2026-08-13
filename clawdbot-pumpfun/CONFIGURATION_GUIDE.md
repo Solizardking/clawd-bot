@@ -34,6 +34,12 @@ TRANSACTION_LANDING_SERVICE=zeroslot
 TELEGRAM_BOT_TOKEN=your_telegram_bot_token
 TELEGRAM_CHAT_ID=your_chat_id
 
+# Grok / xAI cards via zero-service (optional). Requires zero-service on :8787.
+ZERO_SERVICE_URL=http://127.0.0.1:8787
+ZERO_SERVICE_TOKEN=
+GROK_TRADE_CARDS=false
+GROK_TRADE_INTEL=false
+
 # Token Tracking
 IS_CHECK_TARGET_WALLET_TOKEN_ACCOUNT=false
 COPY_SELLING_LIMIT=1.5

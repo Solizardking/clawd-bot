@@ -39,6 +39,34 @@ impl TelegramNotifier {
 
         Ok(())
     }
+
+    /// Send a photo by URL. No-op if Telegram env is missing.
+    pub async fn send_photo(photo_url: impl Into<String>, caption: impl Into<String>) -> Result<(), String> {
+        let token = std::env::var("TELEGRAM_BOT_TOKEN").unwrap_or_default();
+        let chat_id = std::env::var("TELEGRAM_CHAT_ID").unwrap_or_default();
+        if token.is_empty() || chat_id.is_empty() {
+            return Ok(());
+        }
+        let url = format!("https://api.telegram.org/bot{}/sendPhoto", token);
+        let client = Client::new();
+        let resp = client
+            .post(&url)
+            .json(&serde_json::json!({
+                "chat_id": chat_id,
+                "photo": photo_url.into(),
+                "caption": caption.into()
+            }))
+            .send()
+            .await
+            .map_err(|e| format!("Telegram photo error: {}", e))?;
+        if !resp.status().is_success() {
+            let status = resp.status();
+            let body = resp.text().await.unwrap_or_default();
+            eprintln!("[TELEGRAM] Photo failed: status={} body={}", status, body);
+            return Err(format!("Telegram photo failed with status {}", status));
+        }
+        Ok(())
+    }
 }
 
 

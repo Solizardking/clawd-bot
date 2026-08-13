@@ -76,8 +76,8 @@ Written by `install.sh` (`write_core_ai_mcp_config` → `core-ai.mcp.json`), `pk
 
 | Agent | Slug | Category | Description | Status |
 |-------|------|----------|-------------|--------|
+| **eliZERO** | `elizero` | Orchestration | **Premiere** elizaOS Zero agent powered by $CLAWD (flat-loop Zero engine, birth funding, x402) | ✅ Production |
 | **Clawd Core** | `clawd` | Orchestration | The sovereign agent runtime and constitution enforcer | ✅ Production |
-| **eliZERO** | `elizero` | Orchestration | First elizaOS Zero agent powered by $CLAWD (flat-loop Zero engine, birth funding, x402) | ✅ Production |
 | **Clawdex** | `clawdex` | Coding | Dual-engine coding agent: Clawd Code + OpenAI Codex + Browser Use | ✅ Production |
 | **Solana Arbitrage Scanner** | `solana-arbitrage-scanner` | DeFi | Cross-DEX arbitrage opportunity detection | ✅ Production |
 | **Solana Autonomous Trader** | `solana-autonomous-trader` | Trading | Autonomous trade execution with risk management | ✅ Production |

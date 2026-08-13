@@ -226,22 +226,22 @@ type GodModeConfig struct {
 // ── ClawdBot: OODA Loop ──────────────────────────────────────────────
 
 type OODAConfig struct {
-	Enabled          bool     `json:"enabled"`
-	IntervalSeconds  int      `json:"interval_seconds"`
-	Mode             string   `json:"mode"` // "live", "simulated", "backtest"
-	Watchlist        []string `json:"watchlist"`
-	MinSignalStr     float64  `json:"min_signal_strength"`
-	MinConfidence    float64  `json:"min_confidence"`
-	MaxPositions     int      `json:"max_positions"`
-	StopLossPct      float64  `json:"stop_loss_pct"`
-	TakeProfitPct    float64  `json:"take_profit_pct"`
-	PositionSizePct  float64  `json:"position_size_pct"`
+	Enabled         bool     `json:"enabled"`
+	IntervalSeconds int      `json:"interval_seconds"`
+	Mode            string   `json:"mode"` // "live", "simulated", "backtest"
+	Watchlist       []string `json:"watchlist"`
+	MinSignalStr    float64  `json:"min_signal_strength"`
+	MinConfidence   float64  `json:"min_confidence"`
+	MaxPositions    int      `json:"max_positions"`
+	StopLossPct     float64  `json:"stop_loss_pct"`
+	TakeProfitPct   float64  `json:"take_profit_pct"`
+	PositionSizePct float64  `json:"position_size_pct"`
 	// RiskPerTradePct is the fraction of equity risked if a trade's stop is hit.
 	// When > 0 the OODA loop sizes positions by risk (size scales inversely with
 	// stop distance); when 0 it falls back to fixed-fraction sizing.
-	RiskPerTradePct  float64  `json:"risk_per_trade_pct"`
-	LearnIntervalMin int      `json:"learn_interval_min"`
-	AutoOptimize     bool     `json:"auto_optimize"`
+	RiskPerTradePct  float64 `json:"risk_per_trade_pct"`
+	LearnIntervalMin int     `json:"learn_interval_min"`
+	AutoOptimize     bool    `json:"auto_optimize"`
 }
 
 // ── ClawdBot: Supabase ────────────────────────────────────────────────
@@ -708,6 +708,28 @@ func applyEnvOverrides(cfg *Config) {
 		// stored for use by Solana RPC client as X-ClawdBot-Id header
 		_ = v
 	}
+	if v := os.Getenv("TELEGRAM_BOT_TOKEN"); v != "" {
+		cfg.Channels.Telegram.Token = v
+		cfg.Channels.Telegram.Enabled = true
+	}
+	if v := os.Getenv("TELEGRAM_TOKEN"); v != "" && cfg.Channels.Telegram.Token == "" {
+		cfg.Channels.Telegram.Token = v
+		cfg.Channels.Telegram.Enabled = true
+	}
+	if v := os.Getenv("TELEGRAM_ALLOW_FROM"); v != "" {
+		cfg.Channels.Telegram.AllowFrom = splitEnvCSV(v)
+	}
+}
+
+func splitEnvCSV(value string) []string {
+	var out []string
+	for _, p := range strings.Split(value, ",") {
+		p = strings.TrimSpace(p)
+		if p != "" {
+			out = append(out, p)
+		}
+	}
+	return out
 }
 
 func parseEnvBool(value string) (bool, bool) {

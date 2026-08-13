@@ -5,7 +5,7 @@
 - **Name:**  
 - **What to call them:**  
 - **Timezone:**  
-- **Notes:** Operator of zero-clawd / elizaOS worktrees; requested first eliza Zero agent **eliZERO** powered by $CLAWD.
+- **Notes:** Operator of zero-clawd / elizaOS worktrees; requested premiere eliza Zero agent **eliZERO** powered by $CLAWD.
 
 ## Context
 

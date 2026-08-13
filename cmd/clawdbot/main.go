@@ -11,6 +11,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"os"
 	"os/exec"
 	"os/signal"
@@ -38,6 +39,7 @@ import (
 	"github.com/8bitlabs/clawdbot/pkg/providers"
 	skillsPkg "github.com/8bitlabs/clawdbot/pkg/skills"
 	"github.com/8bitlabs/clawdbot/pkg/solana"
+	"github.com/8bitlabs/clawdbot/pkg/tgtrade"
 	"github.com/8bitlabs/clawdbot/pkg/trading"
 	"github.com/8bitlabs/clawdbot/pkg/vulcan"
 	walletPkg "github.com/8bitlabs/clawdbot/pkg/wallet"
@@ -123,6 +125,7 @@ Public surfaces:
 		NewOnboardCommand(),
 		NewDNACommand(),
 		NewStatusCommand(),
+		NewDesktopCommand(),
 		NewCatalogCommand(),
 		NewSkillsCommand(),
 		NewLawsCommand(),
@@ -429,6 +432,20 @@ func runGatewayRuntime(cfg *config.Config) error {
 	defer messageBus.Close()
 
 	manager := channels.NewManager(messageBus)
+	if cfg.Channels.Telegram.Enabled || cfg.Channels.Telegram.Token != "" {
+		tcfg := tgtrade.ConfigFromEnv()
+		if tcfg.TelegramToken == "" {
+			tcfg.TelegramToken = cfg.Channels.Telegram.Token
+		}
+		tcfg.AllowFrom = append(tcfg.AllowFrom, cfg.Channels.Telegram.AllowFrom...)
+		_, tg, err := tgtrade.Build(tcfg, slog.Default())
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "[gateway] telegram: %v\n", err)
+		} else {
+			manager.Register(tg)
+			fmt.Printf("  %s✓%s Telegram long-poll attached\n", colorGreen, colorReset)
+		}
+	}
 	registered := manager.List()
 	if len(registered) == 0 {
 		fmt.Printf("%sNo concrete channel adapters registered; gateway will run OODA only.%s\n", colorAmber, colorReset)
@@ -728,6 +745,20 @@ trading endpoints.`,
 			fmt.Printf("  Skills: %s\n", r.Roots.SkillsDir)
 			fmt.Printf("  Agents: %s\n", r.Roots.AgentsDir)
 			fmt.Printf("  ZK:     %s\n", r.Roots.ZKPrimitivesDir)
+			fmt.Printf("  Core AI: %s\n", r.Roots.CoreAIDir)
+			fmt.Printf("  Repo:   %s\n", r.Roots.RepoRoot)
+			if len(r.CoreAI) > 0 {
+				present := 0
+				for _, pkg := range r.CoreAI {
+					if pkg.Present {
+						present++
+					}
+				}
+				fmt.Printf("Core AI:      %d packages (%d present)\n", len(r.CoreAI), present)
+			}
+			if len(r.ZeroServices) > 0 {
+				fmt.Printf("Zero svcs:    %d\n", len(r.ZeroServices))
+			}
 			printCatalogWarnings(r.Warnings)
 			return nil
 		},
@@ -736,6 +767,8 @@ trading endpoints.`,
 	cmd.PersistentFlags().StringVar(&roots.SkillsDir, "skills-dir", roots.SkillsDir, "Skill catalog root")
 	cmd.PersistentFlags().StringVar(&roots.AgentsDir, "agents-dir", roots.AgentsDir, "Agent catalog JSON root")
 	cmd.PersistentFlags().StringVar(&roots.ZKPrimitivesDir, "zk-dir", roots.ZKPrimitivesDir, "ZK primitives root")
+	cmd.PersistentFlags().StringVar(&roots.CoreAIDir, "core-ai-dir", roots.CoreAIDir, "Clawd Core AI root (helius-mcp, v3, skills, …)")
+	cmd.PersistentFlags().StringVar(&roots.RepoRoot, "repo-root", roots.RepoRoot, "Repo root for zero-service discovery")
 	cmd.PersistentFlags().BoolVar(&jsonOut, "json", false, "Print JSON")
 
 	cmd.AddCommand(&cobra.Command{

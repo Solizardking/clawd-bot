@@ -6,7 +6,7 @@ elizaOS agent characters that run on the ClawdBot / zero-clawd stack.
 
 | Agent | Path | Power | Status |
 | --- | --- | --- | --- |
-| **eliZERO** | [`eliZERO/`](./eliZERO/) | $CLAWD | First eliza Zero agent |
+| **eliZERO** | [`eliZERO/`](./eliZERO/) | $CLAWD | **Premiere** eliza Zero agent |
 
 ## eliZERO
 

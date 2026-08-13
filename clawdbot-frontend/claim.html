@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Claim Solana wallet — Clawd</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0b0d12; --fg:#e8ecf4; --muted:#8b93a7; --accent:#14f195; --purple:#9945ff; }
+    body { margin:0; font-family: Inter, ui-sans-serif, system-ui, sans-serif; background:var(--bg); color:var(--fg); }
+    main { max-width: 720px; margin: 0 auto; padding: 48px 24px; }
+    h1 { font-size: 1.6rem; }
+    a { color: var(--accent); }
+    code, pre { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12px; }
+    pre { background: #141821; padding: 16px; overflow: auto; border-radius: 8px; border: 1px solid #22283a; }
+    .card { border: 1px solid #22283a; border-radius: 12px; padding: 20px; margin: 16px 0; }
+    .muted { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="muted"><a href="/">← Grok deck</a></p>
+    <h1>Claim your Telegram Solana wallet</h1>
+    <p>Bot-first: talk to the Telegram bot (<code>/start</code>) to create a Privy embedded Solana wallet. The bot is an additional signer under a Solana policy — it cannot export your private key.</p>
+    <p>App-first: log in here with Telegram (or link Telegram), then grant the bot signer. Use Phantom / Solflare / Backpack on Solana only.</p>
+
+    <div class="card">
+      <strong>PrivyProvider (Solana-only)</strong>
+      <p class="muted">Drop this into a Next.js app with <code>NEXT_PUBLIC_PRIVY_APP_ID</code>. WalletConnect QR is desktop-only.</p>
+      <pre>import {PrivyProvider} from '@privy-io/react-auth';
+import {toSolanaWalletConnectors} from '@privy-io/react-auth/solana';
+
+const solanaConnectors = toSolanaWalletConnectors({ shouldAutoConnect: true });
+
+&lt;PrivyProvider
+  appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
+  config={{
+    appearance: {
+      walletList: ['phantom', 'solflare', 'backpack', 'detected_solana_wallets', 'wallet_connect_qr_solana'],
+      walletChainType: 'solana-only'
+    },
+    embeddedWallets: { solana: { createOnLogin: 'users-without-wallets' } },
+    externalWallets: { solana: { connectors: solanaConnectors } }
+  }}
+&gt;
+  {children}
+&lt;/PrivyProvider&gt;</pre>
+    </div>
+
+    <div class="card">
+      <strong>Signer policy (do not invert these)</strong>
+      <ul>
+        <li>Allow Compute Budget, Token, ATA, Jupiter v6 — not a blanket System Program allowlist</li>
+        <li>SOL Transfer.lamports ≤ 0.5 SOL (matches <code>MAX_SWAP_INPUT_AMOUNT</code>)</li>
+        <li>USDC TransferChecked capped separately</li>
+        <li><code>exportPrivateKey</code> DENY for the bot signer</li>
+        <li>Never add <code>instructionName: Transfer</code> ALLOW after the lamports cap — that override is a Privy anti-pattern</li>
+        <li>Address-based conditions fail if the address lives only in an Address Lookup Table</li>
+      </ul>
+    </div>
+  </main>
+</body>
+</html>

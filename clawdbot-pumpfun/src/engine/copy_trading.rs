@@ -386,9 +386,16 @@ async fn handle_parsed_data(
         },
         parsed_data.is_buy
     ).green().to_string());
+
+    // Grok analysis is async and fail-open: it must not stall Yellowstone.
+    let grok_mint = mint.clone();
+    let grok_is_buy = parsed_data.is_buy;
+    tokio::spawn(async move {
+        let _ = crate::services::grok::analyze_detected_trade(&grok_mint, grok_is_buy, None).await;
+    });
     
     // Determine protocol to use
-    let protocol = match instruction_type {
+    let _protocol = match instruction_type {
         transaction_parser::DexType::PumpSwap => SwapProtocol::PumpSwap,
         transaction_parser::DexType::PumpFun => SwapProtocol::PumpFun,
         transaction_parser::DexType::RaydiumLaunchpad => SwapProtocol::RaydiumLaunchpad,
@@ -416,9 +423,7 @@ async fn handle_parsed_data(
         let notify_mint = mint.clone();
         let notify_amount = parsed_data.token_change;
         tokio::spawn(async move {
-            let _ = crate::services::telegram::TelegramNotifier::send_message(
-                format!("✅ Detected BUY\nToken: `{}`\nAmount: `{:.6}`", notify_mint, notify_amount)
-            ).await;
+            crate::services::grok::GrokClient::notify_buy(notify_mint, notify_amount).await;
         });
 
         let pp = parallel_processor.clone();

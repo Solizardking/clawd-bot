@@ -21,14 +21,18 @@ type Roots struct {
 	SkillsDir       string `json:"skillsDir"`
 	AgentsDir       string `json:"agentsDir"`
 	ZKPrimitivesDir string `json:"zkPrimitivesDir"`
+	CoreAIDir       string `json:"coreAiDir,omitempty"`
+	RepoRoot        string `json:"repoRoot,omitempty"`
 }
 
 type Report struct {
-	Roots    Roots        `json:"roots"`
-	Skills   []SkillEntry `json:"skills"`
-	Agents   []AgentEntry `json:"agents"`
-	ZK       *ZKSurface   `json:"zk,omitempty"`
-	Warnings []string     `json:"warnings,omitempty"`
+	Roots        Roots          `json:"roots"`
+	Skills       []SkillEntry   `json:"skills"`
+	Agents       []AgentEntry   `json:"agents"`
+	CoreAI       []PackageEntry `json:"coreAi,omitempty"`
+	ZeroServices []PackageEntry `json:"zeroServices,omitempty"`
+	ZK           *ZKSurface     `json:"zk,omitempty"`
+	Warnings     []string       `json:"warnings,omitempty"`
 }
 
 type SkillEntry struct {
@@ -93,6 +97,8 @@ func DefaultRoots() Roots {
 		SkillsDir:       envOrDefault(EnvSkillsDir, filepath.Join(home, "skills", "skills")),
 		AgentsDir:       envOrDefault(EnvAgentsDir, filepath.Join(home, "agents", "agents", "src")),
 		ZKPrimitivesDir: envOrDefault(EnvZKPrimitivesDir, defaultZKPrimitivesDir()),
+		CoreAIDir:       envOrDefault(EnvCoreAIDir, defaultCoreAIDir()),
+		RepoRoot:        envOrDefault(EnvZeroServiceDir, defaultZeroServiceDir()),
 	}
 }
 
@@ -126,6 +132,17 @@ func BuildReport(roots Roots) Report {
 		report.Warnings = append(report.Warnings, fmt.Sprintf("zk-primitives: %v", err))
 	} else {
 		report.ZK = &zk
+	}
+
+	if roots.CoreAIDir != "" {
+		report.CoreAI = LoadCoreAIPackages(roots.CoreAIDir)
+		report.Skills = append(report.Skills, CoreAISkills(roots.CoreAIDir)...)
+		if !fileExists(roots.CoreAIDir) {
+			report.Warnings = append(report.Warnings, fmt.Sprintf("core-ai: missing %s", roots.CoreAIDir))
+		}
+	}
+	if roots.RepoRoot != "" {
+		report.ZeroServices = LoadZeroServices(roots.RepoRoot)
 	}
 
 	sortSkills(report.Skills)

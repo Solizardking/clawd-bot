@@ -127,21 +127,11 @@ impl ParallelTransactionProcessor {
                     if let (true, TransactionOperation::Sell(trade_info)) = (processing_result.success, processing_result.operation.clone()) {
                         let sig = processing_result.signature.clone().unwrap_or_default();
                         tokio::spawn(async move {
-                            if !sig.is_empty() {
-                                let _ = crate::services::telegram::TelegramNotifier::send_message(
-                                    format!(
-                                        "🟢 SELL Completed\nToken: `{}`\nTx: https://solscan.io/tx/{}",
-                                        trade_info.mint, sig
-                                    )
-                                ).await;
-                            } else {
-                                let _ = crate::services::telegram::TelegramNotifier::send_message(
-                                    format!(
-                                        "🟢 SELL Completed\nToken: `{}`\nTx: (signature unavailable)",
-                                        trade_info.mint
-                                    )
-                                ).await;
-                            }
+                            crate::services::grok::GrokClient::notify_sell(
+                                trade_info.mint.clone(),
+                                sig,
+                            )
+                            .await;
                         });
                     }
                     

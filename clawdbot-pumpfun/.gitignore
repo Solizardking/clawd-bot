@@ -24,6 +24,7 @@ backend
 # Environment files
 .env
 .env.*
+!.env.example
 
 # Transaction records
 /record/

@@ -1,7 +1,7 @@
 {
   "name": "@openclawd/elizero",
   "version": "1.0.0",
-  "description": "eliZERO — first elizaOS Zero agent powered by $CLAWD",
+  "description": "eliZERO — premiere elizaOS Zero agent powered by $CLAWD",
   "private": true,
   "type": "module",
   "scripts": {

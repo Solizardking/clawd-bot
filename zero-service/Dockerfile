@@ -24,6 +24,7 @@ COPY --from=zerobuild /out/zero /usr/local/bin/zero
 
 ENV ZERO_BIN=/usr/local/bin/zero \
     ZERO_WORKSPACE=/tmp/zero-clawd-workspace \
+    ZERO_MODEL=grok-4.6 \
     PORT=8787
 EXPOSE 8787
 CMD ["node", "src/server.mjs"]

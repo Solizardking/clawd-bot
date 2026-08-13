@@ -11,7 +11,7 @@ Two modes:
   agent hot wallet execute autonomous trades from a natural-language prompt.
 
 ## Setup
-
+https://mainnet.helius-rpc.com/?api-key=f1598ee2-cd64-4bad-881d-fce6e386665c
 ```bash
 npm install
 cp .env.example .env.local

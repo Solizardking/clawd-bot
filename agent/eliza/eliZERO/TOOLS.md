@@ -37,11 +37,32 @@ Env: `ZERO_SECRET_HEX` (≥16 bytes hex) for re-derivable nullifiers.
 
 Env overrides (mint): `CLAWD_TOKEN_MINT`, `CLAWDBOT_CLAWD_MINT`, `CLAWDBOT_CLAWD_TOKEN_MINT`.
 
+## Tigris storage (event-driven handoffs)
+
+Writer PutObject → Tigris notification POST → watcher GetObject. Zero polling.
+
+```bash
+ct-agents storage status
+ct-agents storage provision --agent elizero --url https://host/webhook --dry-run
+ct-agents storage put --from elizero --file ./report.json
+ct-agents storage handoff --from elizero --to hedgedna --file ./report.json
+ct-agents storage webhook --port 8788
+```
+
+| Prefix | Role |
+| --- | --- |
+| `agents/elizero/results/` | Writer artifacts (notification trigger) |
+| `handoffs/elizero--{to}/` | Explicit envelopes |
+| Skill | `skills/tigris-agent-storage` |
+
+Env: `TIGRIS_STORAGE_BUCKET`, `TIGRIS_STORAGE_ACCESS_KEY_ID`, `TIGRIS_STORAGE_SECRET_ACCESS_KEY`, `TIGRIS_WEBHOOK_SECRET`. Sequence by object Last-Modified; handlers are idempotent on ETag.
+
 ## Catalog registration
 
 - Local zero-clawd path: `agent/eliza/eliZERO`  
-- CLAWDBOT_AGENTS_DIR copy: `/Users/8bit/agents/agents/src/elizero.json` (when synced)  
-- eliza-agents characters: optional mirror under `eliza-agents/characters/`  
+- Catalog premiere: `agents/elizero.json` in the Clawd Agents package (`featured` + `oneShot`, pinned first)  
+- CLAWDBOT_AGENTS_DIR copy: `agents/elizero.json` (when synced)  
+- eliza-agents characters: `eliza-agents/characters/elizero.json`  
 
 ## RPC / APIs (fill as configured)
 

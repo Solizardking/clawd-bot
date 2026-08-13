@@ -49,6 +49,17 @@
   .nav-item .ic{width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:13px;opacity:.85}
   .nav-item .bdg{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--t3);background:rgba(255,255,255,.05);border:1px solid var(--border);padding:1px 6px;border-radius:5px}
   .nav-item.active .bdg{color:var(--purple-light);border-color:rgba(153,69,255,.4)}
+  .view{display:none}
+  .view.on{display:block}
+  .chat-wrap{display:none;flex-direction:column;height:calc(100vh - 60px)}
+  .chat-wrap.on{display:flex}
+  .chat-log{flex:1;overflow-y:auto;padding:22px 28px;display:flex;flex-direction:column;gap:12px}
+  .bubble{max-width:72%;padding:10px 13px;border-radius:12px;border:1px solid var(--border);background:var(--card);white-space:pre-wrap;word-break:break-word}
+  .bubble.user{align-self:flex-end;background:rgba(153,69,255,.12)}
+  .bubble img{max-width:100%;border-radius:8px;margin-top:8px;display:block}
+  .chat-form{display:flex;gap:10px;padding:14px 28px 20px;border-top:1px solid var(--border)}
+  .chat-form textarea{flex:1;height:48px;resize:none;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;color:var(--t1);padding:10px 12px;font:inherit}
+  .chip{font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:999px;border:1px solid var(--border);color:var(--purple-light);margin:6px 6px 0 0;display:inline-block}
 
   .side-foot{padding:14px;border-top:1px solid var(--border)}
   .node-card{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--card)}
@@ -183,11 +194,11 @@
     <nav class="side-nav">
       <div class="nav-sec">
         <div class="nav-sec-title">Chat</div>
-        <a class="nav-item active" href="#"><span class="ic">✳</span>Chat</a>
+        <a class="nav-item active" href="#chat" data-view="chat"><span class="ic">✳</span>Chat</a>
       </div>
       <div class="nav-sec">
         <div class="nav-sec-title">Control</div>
-        <a class="nav-item" href="#"><span class="ic">◫</span>Overview</a>
+        <a class="nav-item" href="#overview" data-view="overview"><span class="ic">◫</span>Overview</a>
         <a class="nav-item" href="#"><span class="ic">◎</span>Channels <span class="bdg">1 on</span></a>
         <a class="nav-item" href="#"><span class="ic">◉</span>Agents <span class="bdg">2</span></a>
         <a class="nav-item" href="#"><span class="ic">◔</span>Sessions <span class="bdg">4</span></a>
@@ -221,13 +232,13 @@
   <!-- ═══ Main ═══ -->
   <main class="main">
     <div class="topbar">
-      <div class="crumbs">clawdbot <span>›</span> <span class="cur">Overview</span></div>
+      <div class="crumbs">clawdbot <span>›</span> <span class="cur" id="crumb">Chat</span></div>
       <div class="spacer"></div>
       <div class="search">⌕ Quick… <kbd>⌘K</kbd></div>
       <div class="avatar">🐚</div>
     </div>
 
-    <div class="content">
+    <div class="content" id="view-overview" style="display:none">
       <div class="page-head">
         <div>
           <h1>Overview</h1>
@@ -244,7 +255,7 @@
           <div class="glow"></div>
           <div class="row"><div class="k">Gateway</div><div class="icon g">◎</div></div>
           <div class="v">44<span class="u">ms</span></div>
-          <div class="s">ws://127.0.0.1:18789 · reachable</div>
+          <div class="s">http://127.0.0.1:8787 · grok SSE</div>
         </div>
         <div class="stat">
           <div class="glow"></div>
@@ -256,7 +267,7 @@
           <div class="glow"></div>
           <div class="row"><div class="k">Sessions</div><div class="icon p">◔</div></div>
           <div class="v">4</div>
-          <div class="s">kimi-k2 · 256k ctx</div>
+          <div class="s">grok-4.6 · priority</div>
         </div>
         <div class="stat">
           <div class="glow"></div>
@@ -281,10 +292,10 @@
         <div class="panel">
           <div class="phead"><div class="pt">Active Sessions</div><div class="pact">view all →</div></div>
           <div class="pbody">
-            <div class="sess"><div class="dotp">M</div><div><div class="pk">agent:main:main <small>· direct</small></div><div style="font-size:11px;color:var(--t3)">kimi-k2 · active now</div></div><div class="age">1m ago</div></div>
-            <div class="sess"><div class="dotp">S</div><div><div class="pk">agent:solana:telegram <small>· group</small></div><div style="font-size:11px;color:var(--t3)">kimi-k2 · 0.0k/256k</div></div><div class="age">38d</div></div>
-            <div class="sess"><div class="dotp">S</div><div><div class="pk">agent:solana:main <small>· direct</small></div><div style="font-size:11px;color:var(--t3)">kimi-k2 · 0.0k/256k</div></div><div class="age">191d</div></div>
-            <div class="sess"><div class="dotp">S</div><div><div class="pk">agent:solana:telegram <small>· group</small></div><div style="font-size:11px;color:var(--t3)">MiniMax-M2.1 · 0.0k/200k</div></div><div class="age">193d</div></div>
+            <div class="sess"><div class="dotp">M</div><div><div class="pk">agent:main:main <small>· direct</small></div><div style="font-size:11px;color:var(--t3)">grok-4.6 · active now</div></div><div class="age">1m ago</div></div>
+            <div class="sess"><div class="dotp">S</div><div><div class="pk">agent:solana:telegram <small>· group</small></div><div style="font-size:11px;color:var(--t3)">grok-4.6 · x search + web</div></div><div class="age">live</div></div>
+            <div class="sess"><div class="dotp">S</div><div><div class="pk">agent:solana:main <small>· direct</small></div><div style="font-size:11px;color:var(--t3)">grok-4.6 · imagine</div></div><div class="age">live</div></div>
+            <div class="sess"><div class="dotp">S</div><div><div class="pk">agent:solana:telegram <small>· group</small></div><div style="font-size:11px;color:var(--t3)">grok-4.6 · code + imagine</div></div><div class="age">live</div></div>
           </div>
         </div>
       </div>
@@ -294,7 +305,7 @@
           <div class="phead"><div class="pt">Activity</div><div class="pact">live</div></div>
           <div class="pbody">
             <div class="feed">
-              <div class="feed-item"><div class="t g"></div><div class="msg"><b>gateway</b> listening on ws://127.0.0.1:18789</div><div class="tm">11:24:07</div></div>
+              <div class="feed-item"><div class="t g"></div><div class="msg"><b>zero-service</b> listening on http://127.0.0.1:8787</div><div class="tm">live</div></div>
               <div class="feed-item"><div class="t g"></div><div class="msg"><b>heartbeat</b> sent · main · 30m</div><div class="tm">11:24:07</div></div>
               <div class="feed-item"><div class="t p"></div><div class="msg"><b>auth</b> token verified · main session</div><div class="tm">11:23:41</div></div>
               <div class="feed-item"><div class="t y"></div><div class="msg"><b>⚠ warn</b> reverse proxy headers not trusted</div><div class="tm">11:20:02</div></div>
@@ -345,8 +356,8 @@
           <div class="pbody">
             <div class="stat" style="border:none;background:transparent;padding:0;backdrop-filter:none">
               <div class="k">Default model</div>
-              <div class="v" style="font-size:17px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent">kimi-k2-0905-preview</div>
-              <div class="s" style="margin-top:6px">context 256k · gateway hosted</div>
+              <div class="v" style="font-size:17px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent">grok-4.6</div>
+              <div class="s" style="margin-top:6px">priority · web / X / code / imagine</div>
             </div>
             <div class="chan" style="margin-top:10px"><div class="nm">Stores</div><div class="det">2</div></div>
             <div class="chan"><div class="nm">Heartbeat</div><div class="det">30m</div></div>
@@ -354,7 +365,93 @@
         </div>
       </div>
     </div>
+    <div class="chat-wrap on" id="view-chat">
+      <div class="chat-log" id="chat-log"></div>
+      <form class="chat-form" id="chat-form">
+        <textarea id="chat-prompt" placeholder="Ask grok-4.6 — web, X, code, image, video…"></textarea>
+        <button class="btn primary" type="submit">Send</button>
+      </form>
+    </div>
   </main>
 </div>
+<script>
+const BASE = "http://127.0.0.1:8787";
+const overview = document.getElementById("view-overview");
+const chat = document.getElementById("view-chat");
+const crumb = document.getElementById("crumb");
+document.querySelectorAll("[data-view]").forEach((el) => {
+  el.addEventListener("click", (e) => {
+    e.preventDefault();
+    document.querySelectorAll(".nav-item").forEach((n) => n.classList.remove("active"));
+    el.classList.add("active");
+    const view = el.dataset.view;
+    const showChat = view === "chat";
+    chat.classList.toggle("on", showChat);
+    overview.style.display = showChat ? "none" : "block";
+    crumb.textContent = showChat ? "Chat" : "Overview";
+  });
+});
+let prevId = null;
+let busy = false;
+const log = document.getElementById("chat-log");
+document.getElementById("chat-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (busy) return;
+  const ta = document.getElementById("chat-prompt");
+  const prompt = ta.value.trim();
+  if (!prompt) return;
+  ta.value = "";
+  const user = document.createElement("div");
+  user.className = "bubble user";
+  user.textContent = prompt;
+  log.appendChild(user);
+  const bot = document.createElement("div");
+  bot.className = "bubble";
+  const text = document.createTextNode("");
+  bot.appendChild(text);
+  log.appendChild(bot);
+  log.scrollTop = log.scrollHeight;
+  busy = true;
+  try {
+    const res = await fetch(BASE + "/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt, previous_response_id: prevId }),
+    });
+    const reader = res.body.getReader();
+    const dec = new TextDecoder();
+    let buf = "";
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      const parts = buf.split("\n\n");
+      buf = parts.pop() || "";
+      for (const part of parts) {
+        const line = part.split("\n").find((l) => l.startsWith("data: "));
+        if (!line) continue;
+        let evt; try { evt = JSON.parse(line.slice(6)); } catch { continue; }
+        if (evt.type === "text" && evt.delta) text.textContent += evt.delta;
+        else if (evt.type === "tool" || evt.type === "server_tool") {
+          const chip = document.createElement("span");
+          chip.className = "chip";
+          chip.textContent = evt.name || evt.type;
+          bot.appendChild(chip);
+        } else if (evt.type === "image" && evt.b64) {
+          const img = document.createElement("img");
+          img.src = "data:image/jpeg;base64," + evt.b64;
+          bot.appendChild(img);
+        } else if (evt.type === "final") prevId = evt.responseId || prevId;
+        else if (evt.type === "error") text.textContent += "\n" + (evt.message || "error");
+        log.scrollTop = log.scrollHeight;
+      }
+    }
+  } catch (err) {
+    text.textContent += err.message || String(err);
+  } finally {
+    busy = false;
+  }
+});
+</script>
 </body>
 </html>

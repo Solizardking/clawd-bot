@@ -1,0 +1,55 @@
+{
+  "name": "clawd-bot",
+  "version": "1.0.0",
+  "description": "Clawd Bot — sovereign Solana agent desktop, CLI, Core AI skills, and zero services",
+  "type": "module",
+  "license": "MIT",
+  "author": "Clawd / Solizardking",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Solizardking/clawdbot-go.git",
+    "directory": "packages/clawd-bot"
+  },
+  "homepage": "https://github.com/Solizardking/clawdbot-go#readme",
+  "bugs": {
+    "url": "https://github.com/Solizardking/clawdbot-go/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "clawdbot",
+    "clawd-bot",
+    "clawd",
+    "solana",
+    "desktop",
+    "dmg",
+    "x402",
+    "core-ai",
+    "grok"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "clawd-bot": "bin/clawd-bot.js",
+    "clawdbot-desktop": "bin/clawd-bot.js"
+  },
+  "exports": {
+    ".": "./lib/launch.mjs",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "node bin/clawd-bot.js",
+    "desktop": "node bin/clawd-bot.js desktop",
+    "test": "node --test test/*.test.mjs",
+    "pack:check": "npm pack --dry-run"
+  },
+  "preferGlobal": true
+}

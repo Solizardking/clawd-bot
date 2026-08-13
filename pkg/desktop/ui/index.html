@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clawd Bot</title>
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --purple:#9945FF; --purple-light:#B67FFF; --purple-dark:#7B35CC;
+    --green:#14F195; --green-light:#4FF5B3; --green-dark:#0FC77A;
+    --bg:#0A0B0D; --bg2:#12141A; --bg3:#1A1D24;
+    --card:rgba(26,29,36,.7);
+    --border:rgba(153,69,255,.2); --border-active:rgba(153,69,255,.5);
+    --t1:#FFFFFF; --t2:#A0A3B1; --t3:#6B7084;
+    --grad:linear-gradient(135deg,#9945FF 0%,#14F195 100%);
+    --mono:'JetBrains Mono',monospace; --sans:'Inter',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--t1);font-family:var(--sans);font-size:14px;line-height:1.5;overflow:hidden;-webkit-font-smoothing:antialiased}
+  .orb{position:fixed;border-radius:9999px;filter:blur(110px);pointer-events:none;z-index:0}
+  .orb-a{width:460px;height:460px;top:-12%;left:-6%;background:rgba(153,69,255,.13)}
+  .orb-b{width:420px;height:420px;bottom:-14%;right:-8%;background:rgba(20,241,149,.08)}
+  .app{position:relative;z-index:1;display:flex;height:100vh}
+  .side{width:268px;flex-shrink:0;display:flex;flex-direction:column;background:rgba(18,20,26,.82);backdrop-filter:blur(16px);border-right:1px solid var(--border)}
+  .brand{display:flex;align-items:center;gap:12px;padding:22px}
+  .brand .mark{width:36px;height:36px;border-radius:10px;background:var(--grad);box-shadow:0 0 24px rgba(153,69,255,.3);flex-shrink:0}
+  .brand .name{font-weight:700;font-size:18px;letter-spacing:-.02em}
+  .brand .sub{font-family:var(--mono);font-size:10px;color:var(--t3)}
+  .side-nav{flex:1;padding:6px 14px}
+  .nav-sec-title{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);padding:0 10px 8px}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:9px;color:var(--t2);font-size:13.5px;font-weight:500;cursor:pointer;border:0;background:transparent;width:100%;text-align:left}
+  .nav-item:hover{background:rgba(255,255,255,.045);color:var(--t1)}
+  .nav-item.active{background:rgba(153,69,255,.12);color:var(--purple-light);position:relative}
+  .nav-item.active::before{content:'';position:absolute;left:-14px;top:7px;bottom:7px;width:3px;border-radius:0 4px 4px 0;background:var(--grad)}
+  .side-foot{padding:14px;border-top:1px solid var(--border)}
+  .node-card{padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--card);font-family:var(--mono);font-size:10px;color:var(--t3)}
+  .node-card b{color:var(--green-light);font-weight:500}
+  .main{flex:1;display:flex;flex-direction:column;min-width:0}
+  .topbar{display:flex;align-items:center;gap:14px;padding:0 28px;height:60px;border-bottom:1px solid var(--border);background:rgba(10,11,13,.55);backdrop-filter:blur(12px)}
+  .crumbs{font-size:13px;color:var(--t3)} .crumbs .cur{color:var(--t1);font-weight:600}
+  .topbar .spacer{flex:1}
+  .pill{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(20,241,149,.3);color:var(--green-light);padding:3px 9px;border-radius:999px;background:rgba(20,241,149,.06)}
+  .content{flex:1;overflow:auto;padding:26px 28px;display:none;flex-direction:column;min-height:0}
+  .content.show{display:flex}
+  .chat{flex:1;overflow-y:auto;padding:24px 28px;display:none;flex-direction:column;gap:14px}
+  .chat.show{display:flex}
+  .msg{max-width:780px;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--card);white-space:pre-wrap;font-size:13.5px}
+  .msg.sys{color:var(--t3);font-family:var(--mono);font-size:11.5px;background:transparent;border-style:dashed}
+  .composer{padding:16px 28px 22px;border-top:1px solid var(--border);display:none;flex-direction:column;gap:10px}
+  .composer.show{display:flex}
+  .row{display:flex;gap:10px}
+  textarea{flex:1;resize:none;height:64px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;color:var(--t1);padding:10px 12px;font-family:var(--sans);font-size:13.5px}
+  textarea:focus{outline:none;border-color:var(--border-active)}
+  .btn{padding:10px 16px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border);color:#0A0B0D;background:var(--grad)}
+  .btn.ghost{background:transparent;color:var(--t2)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+  .card{padding:14px;border:1px solid var(--border);border-radius:12px;background:var(--card)}
+  .card h3{font-size:12px;color:var(--t3);font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+  .card p{font-size:15px;font-weight:600}
+  .card .meta{font-family:var(--mono);font-size:11px;color:var(--t2);margin-top:8px;font-weight:400}
+  .toggle{margin-top:12px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--t2)}
+  .toggle input{accent-color:var(--purple)}
+  .missing{opacity:.45}
+  pre.doc{white-space:pre-wrap;font-family:var(--mono);font-size:12px;color:var(--t2);line-height:1.55}
+  .page-head h1{font-size:22px;letter-spacing:-.02em}
+  .page-head p{color:var(--t2);font-size:13px;margin:6px 0 18px}
+</style>
+</head>
+<body>
+<div class="orb orb-a"></div><div class="orb orb-b"></div>
+<div class="app">
+  <aside class="side">
+    <div class="brand">
+      <div class="mark"></div>
+      <div>
+        <div class="name">Clawd Bot</div>
+        <div class="sub">solana-native · six-law harness</div>
+      </div>
+    </div>
+    <nav class="side-nav">
+      <div class="nav-sec-title">Control</div>
+      <button class="nav-item active" data-view="chat">Chat</button>
+      <button class="nav-item" data-view="skills">Skills</button>
+      <button class="nav-item" data-view="services">Zero services</button>
+      <button class="nav-item" data-view="identity">Identity</button>
+    </nav>
+    <div class="side-foot">
+      <div class="node-card" id="healthCard">loading…</div>
+    </div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div class="crumbs">Clawd Bot / <span class="cur" id="crumb">Chat</span></div>
+      <div class="spacer"></div>
+      <span class="pill" id="selPill">0 selected</span>
+    </div>
+    <section class="chat show" id="view-chat"></section>
+    <div class="composer show" id="composer">
+      <div class="row">
+        <textarea id="prompt" placeholder="Ask Clawd Bot — skills, Solana, Core AI, the trench…"></textarea>
+        <button class="btn" id="send">Send</button>
+      </div>
+    </div>
+    <section class="content" id="view-skills">
+      <div class="page-head">
+        <h1>Skills</h1>
+        <p>Choose which Core AI and catalog skills this spawn may use. The shell molts. The laws do not.</p>
+      </div>
+      <div class="grid" id="skillGrid"></div>
+    </section>
+    <section class="content" id="view-services">
+      <div class="page-head">
+        <h1>Zero services</h1>
+        <p>Clawd Core AI on Solana, the control deck, PumpFun sidecar, and the Go runtime.</p>
+      </div>
+      <div class="grid" id="svcGrid"></div>
+    </section>
+    <section class="content" id="view-identity">
+      <div class="page-head">
+        <h1>Identity</h1>
+        <p id="axiom">Clawd is Clawd.</p>
+      </div>
+      <div class="grid" id="identGrid"></div>
+      <div class="card" style="margin-top:16px"><pre class="doc" id="identDoc">loading constitution…</pre></div>
+    </section>
+  </main>
+</div>
+<script>
+const chatEl = document.getElementById("view-chat");
+const promptEl = document.getElementById("prompt");
+let selected = new Set();
+let catalogData = null;
+
+function addMsg(role, text) {
+  const d = document.createElement("div");
+  d.className = "msg " + role;
+  d.textContent = text;
+  chatEl.appendChild(d);
+  chatEl.scrollTop = chatEl.scrollHeight;
+}
+
+function show(view) {
+  document.querySelectorAll(".nav-item").forEach((b) => b.classList.toggle("active", b.dataset.view === view));
+  document.getElementById("crumb").textContent = ({chat:"Chat",skills:"Skills",services:"Zero services",identity:"Identity"})[view];
+  document.getElementById("view-chat").classList.toggle("show", view === "chat");
+  document.getElementById("composer").classList.toggle("show", view === "chat");
+  document.getElementById("view-skills").classList.toggle("show", view === "skills");
+  document.getElementById("view-services").classList.toggle("show", view === "services");
+  document.getElementById("view-identity").classList.toggle("show", view === "identity");
+}
+
+document.querySelectorAll(".nav-item").forEach((btn) => {
+  btn.onclick = () => show(btn.dataset.view);
+});
+
+function card(item, checked) {
+  const missing = item.present === false;
+  return `<div class="card ${missing ? "missing" : ""}">
+    <h3>${item.kind || item.category || "skill"}</h3>
+    <p>${item.name || item.slug}</p>
+    <div class="meta">${item.description || ""}</div>
+    <label class="toggle"><input type="checkbox" data-slug="${item.slug}" ${checked ? "checked" : ""} ${missing ? "disabled" : ""}> ${missing ? "not bundled" : "enable"}</label>
+  </div>`;
+}
+
+async function saveSelection() {
+  const slugs = [...selected];
+  await fetch("/api/selection", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({selected: slugs}),
+  });
+  document.getElementById("selPill").textContent = slugs.length + " selected";
+}
+
+function bindToggles(root) {
+  root.querySelectorAll("input[data-slug]").forEach((el) => {
+    el.onchange = () => {
+      if (el.checked) selected.add(el.dataset.slug);
+      else selected.delete(el.dataset.slug);
+      saveSelection();
+    };
+  });
+}
+
+async function loadCatalog() {
+  const res = await fetch("/api/catalog");
+  catalogData = await res.json();
+  (catalogData.selected || []).forEach((s) => selected.add(s));
+  document.getElementById("selPill").textContent = selected.size + " selected";
+  const report = catalogData.report || {};
+  const skills = [...(report.coreAi || []), ...(report.skills || [])];
+  const seen = new Set();
+  const unique = skills.filter((s) => {
+    if (seen.has(s.slug)) return false;
+    seen.add(s.slug);
+    return true;
+  });
+  document.getElementById("skillGrid").innerHTML = unique.map((s) => card(s, selected.has(s.slug))).join("") || "<div class='card'><p>No skills found</p></div>";
+  bindToggles(document.getElementById("skillGrid"));
+  document.getElementById("svcGrid").innerHTML = (report.zeroServices || []).map((s) => card(s, selected.has(s.slug))).join("");
+  bindToggles(document.getElementById("svcGrid"));
+}
+
+async function loadIdentity() {
+  const m = await (await fetch("/api/identity")).json();
+  document.getElementById("axiom").textContent = m.axiom || "";
+  document.getElementById("identGrid").innerHTML = (m.files || []).map((f) => `<div class="card ${f.present ? "" : "missing"}">
+    <h3>${f.kind}</h3><p>${f.name}</p><div class="meta">${f.description}${f.present ? " · " + f.bytes + " bytes" : " · missing"}</div>
+  </div>`).join("");
+  try {
+    document.getElementById("identDoc").textContent = await (await fetch("/api/identity/CONSTITUTION.md")).text();
+  } catch {
+    document.getElementById("identDoc").textContent = "constitution unavailable";
+  }
+}
+
+async function loadHealth() {
+  try {
+    const h = await (await fetch("/health")).json();
+    document.getElementById("healthCard").innerHTML = `<b>${h.product}</b><br>${h.engine}<br>${h.slug}`;
+  } catch {
+    document.getElementById("healthCard").textContent = "desktop host unreachable";
+  }
+}
+
+document.getElementById("send").onclick = async () => {
+  const prompt = promptEl.value.trim();
+  if (!prompt) return;
+  promptEl.value = "";
+  addMsg("", prompt);
+  const enabled = [...selected].slice(0, 12).join(", ") || "none yet";
+  addMsg("sys", "Enabled skills: " + enabled + "\nPoint ZERO_SERVICE_URL at the Core AI service for live Grok chat.");
+};
+
+promptEl.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); document.getElementById("send").click(); }
+});
+
+addMsg("sys", "Clawd Bot · constitution-bound · pick skills, then talk.");
+loadHealth();
+loadCatalog().catch((e) => addMsg("sys", String(e)));
+loadIdentity().catch(() => {});
+</script>
+</body>
+</html>

@@ -43,7 +43,11 @@ async function main() {
   assert.ok(Array.isArray(character.bio) && character.bio.length > 0, "character.bio required");
   assert.ok(Array.isArray(character.lore) && character.lore.length > 0, "character.lore required");
   assert.equal(typeof character.system, "string", "character.system required");
-  assert.ok(character.system.includes("eliZERO"), "system prompt must name eliZERO");
+  assert.equal(character.eliza?.premiere, true, "character.eliza.premiere");
+  assert.ok(
+    character.system.includes("premiere"),
+    "system prompt must name premiere rank",
+  );
   assert.equal(
     character.settings?.clawd?.mint,
     DEFAULT_CLAWD_MINT,
@@ -71,6 +75,12 @@ async function main() {
     catalog.solana?.token?.mint,
     DEFAULT_CLAWD_MINT,
     "catalog solana.token.mint",
+  );
+  assert.equal(catalog.oneShot, true, "premiere oneShot");
+  assert.equal(catalog.featured, true, "premiere featured");
+  assert.ok(
+    Array.isArray(catalog.meta?.tags) && catalog.meta.tags.includes("premiere"),
+    "meta.tags must include premiere",
   );
   assert.ok(
     typeof catalog.config?.systemRole === "string" && catalog.config.systemRole.includes("eliZERO"),
@@ -136,6 +146,7 @@ async function main() {
         ok: true,
         agent: "eliZERO",
         identifier: "elizero",
+        premiere: true,
         path: "agent/eliza/eliZERO",
         mint: DEFAULT_CLAWD_MINT,
         birth: { sol: DEFAULT_SOL_AMOUNT, clawd: DEFAULT_CLAWD_AMOUNT },

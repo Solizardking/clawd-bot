@@ -6,6 +6,7 @@ The bot specifically tracks `buy` and `create` transactions on PumpFun, as well 
 # Features:
 
 - **Real-time Transaction Monitoring** - Uses Yellowstone gRPC to monitor transactions with minimal latency and high reliability
+- **Grok-4.6 intelligence** - Optional xAI Responses API layer (`service_tier: priority`) for X-search social heat, code-interpreter sizing, and fail-open sell gates. The Rust hot path never waits on Grok unless `GROK_GATE_SELLS=true`.
 - **Multi-Protocol Support** - Compatible with both PumpFun and PumpSwap DEX platforms for maximum trading opportunities
 - **Automated Copy Trading** - Instantly replicates buy and sell transactions from monitored wallets
 - **Smart Transaction Parsing** - Advanced transaction analysis to accurately identify and process trading activities
@@ -163,6 +164,27 @@ Once started, the bot will:
 - Implemented concurrent transaction processing using tokio tasks
 - Enhanced error handling and reporting
 - Improved selling strategy implementation
+
+## Grok / xAI (grok-4.6)
+
+Copy trading stays on the Rust hot path. Grok is an optional intelligence layer:
+
+| Path | When | `service_tier` |
+|------|------|----------------|
+| Async analyze | every detected PumpFun/PumpSwap fill | `priority` (user-facing latency) |
+| Sell gate | only if `GROK_GATE_SELLS=true` | `priority`, fail-open on timeout |
+| Background research | sidecar `/chat`, compaction | default / compact |
+
+Start the sidecar (Responses API + X search + code interpreter + image generation + optional remote MCP):
+
+```bash
+export XAI_API_KEY=...
+go run ./cmd/pump-grok -addr 127.0.0.1:8788
+```
+
+Point the Rust bot at it with `PUMP_GROK_URL=http://127.0.0.1:8788`. Without the sidecar, `src/services/grok.rs` calls `https://api.x.ai/v1/responses` directly.
+
+See `.env.example` for the full variable list. Compaction (`POST /compact`) shrinks long agent loops; deferred completions are available on the Go client in `pkg/xai` for bulk research.
 
 ## Contact
 

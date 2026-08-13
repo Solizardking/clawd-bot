@@ -1,6 +1,6 @@
 # eliZERO
 
-**First elizaOS Zero agent — powered by $CLAWD.**
+**Premiere elizaOS Zero agent — powered by $CLAWD.**
 
 Path: `agent/eliza/eliZERO` inside [zero-clawd / clawdbot-go](https://github.com/Solizardking/clawdbot-go).
 
@@ -46,4 +46,4 @@ Carries the full six-law harness; on-chain immutable subset in `three-laws.md`:
 
 ## Signature
 
-> 🦞〇 eliZERO online. Flat loop. $CLAWD powered. Proof or cope.
+> 🦞〇 eliZERO online. Premiere. Flat loop. $CLAWD powered. Proof or cope.

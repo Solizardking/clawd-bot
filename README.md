@@ -17,7 +17,7 @@
 
 <sub><strong>0.57 MB</strong> source archive · <strong>2.06 MiB</strong> exportable source · <strong>9.97 MB</strong> stripped CLI · Grok-first runtime · GLM-5.2 model surface</sub>
 
-[Quick Start](#-quick-start) · [Architecture](#-architecture) · [The Six Laws](#-the-six-law-harness) · [CLI Reference](#-cli-reference) · [Robinhood Agentic](#robinhood-agentic-trading-mcp) · [Security](SECURITY.md) · [Release](docs/OPEN_SOURCE_RELEASE.md)
+[Quick Start](#-quick-start) · [Migrate](MIGRATE.md) · [Architecture](#-architecture) · [The Six Laws](#-the-six-law-harness) · [CLI Reference](#-cli-reference) · [Robinhood Agentic](#robinhood-agentic-trading-mcp) · [Security](SECURITY.md) · [Release](docs/OPEN_SOURCE_RELEASE.md)
 
 ```bash
 curl -fsSL https://install.onchainai.fund | bash   # same Worker, no challenge
@@ -193,6 +193,8 @@ npx clawdbot-install --dry-run
 # complete stack (core-ai sidecar + Vulcan)
 npx clawdbot-install --complete
 ```
+
+Coming from **OpenClaw**, **Hermes**, **Grok bot**, or a legacy moltbot/clawdbot home? One-shot import of persona, memory, skills, and keys: **[MIGRATE.md](MIGRATE.md)**.
 
 ZK metadata (read-only, no install):
 

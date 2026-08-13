@@ -16,9 +16,19 @@ services:
       # Optional shared secret guarding POST /chat.
       - key: ZERO_SERVICE_TOKEN
         sync: false
-      # Model + provider key (provider auto-selected from whichever *_API_KEY is set).
+      # grok-4.6 via xAI Responses API (OpenAI SDK, https://api.x.ai/v1).
       - key: ZERO_MODEL
-        value: gpt-4.1
+        value: grok-4.6
+      - key: XAI_MODEL
+        value: grok-4.6
+      - key: XAI_BASE_URL
+        value: https://api.x.ai/v1
+      - key: XAI_REASONING_EFFORT
+        value: low
+      - key: XAI_STORE_RESPONSES
+        value: "false"
+      - key: XAI_API_KEY
+        sync: false
       - key: OPENAI_API_KEY
         sync: false
       - key: ZERO_MAX_TURNS

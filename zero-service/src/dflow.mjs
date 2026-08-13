@@ -103,15 +103,10 @@ async function fetchOrder(qp) {
  * Get a spot quote. Returns human-readable in/out amounts plus raw order data.
  */
 export async function quote({ inputMint = SOL_MINT, outputMint = DFLOW_SETTLEMENT_MINT, amount, slippageBps = 50 } = {}) {
-  if (amount === undefined || amount === null || amount === "")
-    throw new Error("amount is required");
+  const data = await order({ inputMint, outputMint, amount, slippageBps });
   const inDecimals = guessDecimals(inputMint);
-  const rawAmount = toRawAmount(amount, inDecimals);
-  const data = await fetchOrder(
-    buildQueryParams({ inputMint, outputMint, rawAmount, slippageBps }),
-  );
   const outDecimals = guessDecimals(outputMint);
-  const inAmountRaw = String(data.inAmount ?? rawAmount);
+  const inAmountRaw = String(data.inAmount ?? "0");
   const outAmountRaw = String(data.outAmount ?? "0");
   return {
     inputMint,
@@ -127,6 +122,25 @@ export async function quote({ inputMint = SOL_MINT, outputMint = DFLOW_SETTLEMEN
       Number(fromRaw(outAmountRaw, outDecimals)) /
         Number(fromRaw(inAmountRaw, inDecimals)) || 0,
   };
+}
+
+/**
+ * GET /order — quote plus optional unsigned transaction when userPublicKey is set.
+ */
+export async function order({
+  inputMint = SOL_MINT,
+  outputMint = DFLOW_SETTLEMENT_MINT,
+  amount,
+  slippageBps = 50,
+  userPublicKey,
+} = {}) {
+  if (amount === undefined || amount === null || amount === "")
+    throw new Error("amount is required");
+  const inDecimals = guessDecimals(inputMint);
+  const rawAmount = toRawAmount(amount, inDecimals);
+  return fetchOrder(
+    buildQueryParams({ inputMint, outputMint, rawAmount, slippageBps, userPublicKey }),
+  );
 }
 
 /**
