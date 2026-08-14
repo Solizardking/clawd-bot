@@ -1,0 +1,131 @@
+{
+  "product": "Clawd Bot",
+  "generatedAt": "2026-08-14T02:52:17.050Z",
+  "coreAiDir": "/Users/8bit/solana-clawd-agent-kit-2/core-ai",
+  "skills": [
+    {
+      "slug": "helius-cli",
+      "name": "Helius CLI",
+      "kind": "cli",
+      "category": "Infrastructure",
+      "source": "core-ai",
+      "present": false,
+      "selectable": true
+    },
+    {
+      "slug": "helius-cursor",
+      "name": "Helius Cursor",
+      "kind": "plugin",
+      "category": "Dev Tools",
+      "source": "core-ai",
+      "present": false,
+      "selectable": true
+    },
+    {
+      "slug": "helius-mcp",
+      "name": "Helius MCP",
+      "kind": "mcp",
+      "category": "Infrastructure",
+      "source": "core-ai",
+      "present": false,
+      "selectable": true
+    },
+    {
+      "slug": "helius-plugin",
+      "name": "Helius Plugin",
+      "kind": "plugin",
+      "category": "Infrastructure",
+      "source": "core-ai",
+      "present": false,
+      "selectable": true
+    },
+    {
+      "slug": "helius-skills",
+      "name": "Helius Skills",
+      "kind": "skills",
+      "category": "Infrastructure",
+      "source": "core-ai",
+      "present": false,
+      "selectable": true
+    },
+    {
+      "slug": "knowledge",
+      "name": "Core AI Knowledge",
+      "kind": "knowledge",
+      "category": "Research",
+      "source": "core-ai",
+      "present": true,
+      "selectable": true
+    },
+    {
+      "slug": "mcp-server",
+      "name": "Pump MCP Server",
+      "kind": "mcp",
+      "category": "Launch",
+      "source": "core-ai",
+      "present": true,
+      "selectable": true
+    },
+    {
+      "slug": "solana-mcp",
+      "name": "Solana MCP",
+      "kind": "mcp",
+      "category": "Infrastructure",
+      "source": "core-ai",
+      "present": true,
+      "selectable": true
+    },
+    {
+      "slug": "v3",
+      "name": "Core AI v3",
+      "kind": "runtime",
+      "category": "Orchestration",
+      "source": "core-ai",
+      "present": true,
+      "selectable": true
+    },
+    {
+      "slug": "scripts",
+      "name": "Core AI Scripts",
+      "kind": "scripts",
+      "category": "Dev Tools",
+      "source": "core-ai",
+      "present": true,
+      "selectable": true
+    }
+  ],
+  "services": [
+    {
+      "slug": "zero-service",
+      "name": "Clawd Core AI service",
+      "kind": "service",
+      "source": "zero-service",
+      "present": true,
+      "selectable": true
+    },
+    {
+      "slug": "clawdbot-frontend",
+      "name": "Clawd Bot control deck",
+      "kind": "service",
+      "source": "zero-service",
+      "present": true,
+      "selectable": true
+    },
+    {
+      "slug": "clawdbot-pumpfun",
+      "name": "PumpFun sidecar",
+      "kind": "service",
+      "source": "zero-service",
+      "present": true,
+      "selectable": true
+    },
+    {
+      "slug": "cmd-clawdbot",
+      "name": "Clawd Bot CLI",
+      "kind": "service",
+      "source": "zero-service",
+      "present": true,
+      "selectable": true
+    }
+  ]
+}

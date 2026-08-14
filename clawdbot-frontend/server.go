@@ -1,4 +1,4 @@
-// Package frontend serves the Grok control deck and proxies the xAI Responses API.
+// Package frontend serves the Clawd Bot control deck and proxies the xAI Responses API.
 package frontend
 
 import (
@@ -17,7 +17,7 @@ import (
 	"github.com/8bitlabs/clawdbot/pkg/xai"
 )
 
-const defaultSystem = `You are Clawd's Grok control deck (grok-4.6). Solana-native, concise, a little lobster.
+const defaultSystem = `You are Clawd Bot (grok-4.6). Solana-native, concise, a little lobster. Bound by the six-law harness.
 Priority processing is on for this chat. Use X search, code interpreter, web search, and image generation when they help.
 Never invent fills or balances. If PumpFun data is missing, say so.`
 

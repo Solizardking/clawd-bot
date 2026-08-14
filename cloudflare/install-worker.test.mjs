@@ -59,6 +59,7 @@ test("complete wrapper exports installer and ZK defaults", async () => {
 
   const body = await response.text();
   assert.match(body, /export CLAWDBOT_INSTALL_COMPLETE/);
+  assert.match(body, /export GOBOT_INSTALL_COMPLETE/);
   assert.match(body, /export CLAWDBOT_ZK_PRIMITIVES_DIR/);
   assert.match(body, /curl -fsSL 'https:\/\/example\.test\/install\.sh' \| bash/);
 });

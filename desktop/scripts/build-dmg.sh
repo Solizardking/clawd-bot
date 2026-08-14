@@ -16,8 +16,10 @@ mkdir -p "$MACOS" "$RES/identity" "$RES/ui" "$RES/skills"
 
 echo "🦞 Building Clawd Bot desktop binaries…"
 mkdir -p "$ROOT/build"
-( cd "$ROOT" && go build -trimpath -ldflags "-s -w" -o "$MACOS/clawdbot" ./cmd/clawdbot )
 ( cd "$ROOT" && go build -trimpath -ldflags "-s -w" -o "$MACOS/clawdbot-desktop" ./cmd/clawdbot-desktop )
+if ! ( cd "$ROOT" && go build -trimpath -ldflags "-s -w" -o "$MACOS/clawdbot" ./cmd/clawdbot ); then
+  echo "⚠ clawdbot CLI build skipped (see go errors); desktop host is enough for the DMG"
+fi
 
 cat > "$MACOS/Clawd Bot" << 'LAUNCH'
 #!/bin/bash

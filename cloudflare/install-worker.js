@@ -265,6 +265,11 @@ function wrapperScript(env, options = {}) {
     zkDir
       ? `: "\${CLAWDBOT_ZK_PRIMITIVES_DIR:=${zkDir}}"\nexport CLAWDBOT_ZK_PRIMITIVES_DIR`
       : "",
+    // GitHub main briefly shipped a GoBot-branded installer that reads GOBOT_*.
+    // Mirror complete-mode so a stale upstream still installs the sidecar stack.
+    complete
+      ? `: "\${GOBOT_INSTALL_COMPLETE:=${complete}}"\nexport GOBOT_INSTALL_COMPLETE`
+      : "",
   ]
     .filter(Boolean)
     .join("\n");

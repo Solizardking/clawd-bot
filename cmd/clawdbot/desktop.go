@@ -18,11 +18,11 @@ func NewDesktopCommand() *cobra.Command {
 	var open bool
 
 	cmd := &cobra.Command{
-		Use:          "desktop",
-		Aliases:      []string{"app", "dmg"},
-		Short:        "Start the Clawd Bot desktop (skills picker + identity + zero services)",
-		SilenceUsage: true,
-		SilenceErrors: true,
+		Use:           "desktop",
+		Aliases:       []string{"app", "dmg"},
+		Short:         "Start the Clawd Bot desktop (skills picker + identity + zero services)",
+		SilenceUsage:  true,
+		SilenceErrors: false,
 		Long: `Clawd Bot desktop host.
 
 Serves the Grok-inspired control deck locally so users can choose which

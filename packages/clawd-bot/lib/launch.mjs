@@ -21,7 +21,7 @@ export function readPackageVersion() {
 function findBinary() {
   const fromEnv = process.env.CLAWDBOT_BIN;
   if (fromEnv && existsSync(fromEnv)) return fromEnv;
-  const which = spawnSync("command", ["-v", "clawdbot"], { encoding: "utf8", shell: true });
+  const which = spawnSync("which", ["clawdbot"], { encoding: "utf8" });
   const path = String(which.stdout || "").trim();
   if (path && existsSync(path)) return path;
   const home = process.env.HOME || "";

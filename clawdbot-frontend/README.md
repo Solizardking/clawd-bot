@@ -1,4 +1,4 @@
-# Clawdbot Frontend — Grok control deck
+# Clawd Bot Frontend — control deck
 
 Live command deck for **grok-4.6** on the xAI Responses API. Brand tokens match the approved command-deck direction (Solana purple/green, glass sidebar, Inter + JetBrains Mono).
 

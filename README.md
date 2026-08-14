@@ -4,9 +4,11 @@
   <img src="docs/assets/clawdbot-hero.svg" alt="ClawdBot Go animated Solana runtime hero" width="100%">
 </picture>
 
-### 🦞 Sovereign Solana Trading Intelligence
+### 🦞 ClawdBot — Sovereign Solana Trading Intelligence
 
-**Autonomous OODA Agent · Agent DNA · ZK Primitives · Privacy by Default · Helius DAS · Vulcan/Phoenix Perpetuals · Jupiter Swaps · Hardware I2C · Web Console**
+**$CLAWD** · Autonomous OODA Agent · Agent DNA · ZK Primitives · Privacy by Default · Helius DAS · Vulcan/Phoenix Perpetuals · Jupiter Swaps · Hardware I2C · Web Console
+
+This is **ClawdBot**. The token is **$CLAWD**. The home is **`~/.clawdbot`**. The binary is **`clawdbot`**. It is not GoBot, not `$GOBOT`, not `~/.gobot`.
 
 [![Go](https://img.shields.io/badge/Go-1.26.4+-00ADD8?style=for-the-badge&logo=go&logoColor=white)](https://go.dev)
 [![Solana](https://img.shields.io/badge/Solana-Mainnet-14F195?style=for-the-badge&logo=solana&logoColor=white)](https://solana.com)
@@ -17,14 +19,88 @@
 
 <sub><strong>0.57 MB</strong> source archive · <strong>2.06 MiB</strong> exportable source · <strong>9.97 MB</strong> stripped CLI · Grok-first runtime · GLM-5.2 model surface</sub>
 
-[Quick Start](#-quick-start) · [Migrate](MIGRATE.md) · [Architecture](#-architecture) · [The Six Laws](#-the-six-law-harness) · [CLI Reference](#-cli-reference) · [Robinhood Agentic](#robinhood-agentic-trading-mcp) · [Security](SECURITY.md) · [Release](docs/OPEN_SOURCE_RELEASE.md)
+[$CLAWD mint](#-clawd) · [Install](#-one-shot-install--migrate) · [Migrate](MIGRATE.md) · [Architecture](#-architecture) · [The Six Laws](#-the-six-law-harness) · [CLI Reference](#-cli-reference) · [Robinhood Agentic](#robinhood-agentic-trading-mcp) · [Security](SECURITY.md) · [Release](docs/OPEN_SOURCE_RELEASE.md)
 
 ```bash
-curl -fsSL https://install.onchainai.fund | bash   # same Worker, no challenge
-npx clawdbot-install
+# Clawd / $CLAWD — run from this checkout (source of truth)
+CLAWDBOT_INSTALL_COMPLETE=1 bash install.sh
+bash scripts/migrate-into-clawd.sh --dry-run
+bash scripts/migrate-into-clawd.sh --apply --overwrite-persona
 ```
 
 </div>
+
+---
+
+## 🦞 $CLAWD
+
+| | |
+|---|---|
+| Product | **ClawdBot** (lobster). Not GoBot. |
+| Token | **$CLAWD** `8cHzQHUS2s2h8TzCmfqPKYiM4dSt4roa3n7MyRLApump` |
+| Tagline | `$CLAWD :: Droids Lead The Way` |
+| Home | `~/.clawdbot` (`CLAWDBOT_HOME`) |
+| Binary | `clawdbot` → `~/.local/bin/clawdbot` |
+| Workspace | `~/.clawdbot/workspace/` (SOUL, IDENTITY, DNA, vault) |
+| Installer | [`install.sh`](install.sh) in **this** repo |
+
+GitHub `main` on `clawdbot-go` and `curl https://install.onchainai.fund` currently proxy a **GoBot** (`$GOBOT`, `~/.gobot`, `gobot`) rebrand. That is the wrong product. Until that upstream is Clawd again, install from this checkout so you get `$CLAWD` and `clawdbot`.
+
+If a GoBot install already ran, it is sitting in `~/.gobot` and may be stuck on Vulcan’s `Install Vulcan Agent Skills now? [y/N]` prompt — type **`n`**, then install Clawd from here. Do not copy `~/.gobot` over `~/.clawdbot`.
+
+---
+
+## 🚀 One-shot install + migrate
+
+Coming from **OpenClaw**, **Hermes Agent**, **Grok bot / xAI CLI**, legacy moltbot/clawdbot, or a fresh machine: one shot.
+
+```bash
+# 1. Stop the old gateway (if any)
+openclaw gateway stop 2>/dev/null || true
+hermes gateway stop 2>/dev/null || true
+
+# 2. Snapshot the source (this tree has secrets — keep the tarball private)
+mkdir -p ~/Backups/clawd-migrate
+tar -czf ~/Backups/clawd-migrate/source-$(date -u +%Y%m%dT%H%M%SZ).tar.gz \
+  -C "$HOME" .openclaw .hermes .grok .moltbot .clawdbot .agents 2>/dev/null || true
+
+# 3. Install Clawd / $CLAWD from THIS checkout
+cd /path/to/zero-clawd   # or: git clone https://github.com/Solizardking/clawdbot-go.git
+CLAWDBOT_INSTALL_COMPLETE=1 bash install.sh
+
+# 4. Import persona / memory / skills (preview, then apply)
+bash scripts/migrate-into-clawd.sh --dry-run
+bash scripts/migrate-into-clawd.sh --apply --overwrite-persona
+# add --migrate-secrets to append allowlisted API keys (not wallets)
+
+# 5. Verify
+source ~/.clawdbot/.env
+clawdbot version
+clawdbot doctor
+clawdbot catalog
+clawdbot dna show
+clawdbot agent -m "who are you and what laws bind you"
+clawdbot ooda --sim
+```
+
+Full maps, secret allowlist, and pitfalls: **[MIGRATE.md](MIGRATE.md)**. Importer: [`scripts/migrate-into-clawd.sh`](scripts/migrate-into-clawd.sh).
+
+| You are coming from | Default home | Lands in Clawd |
+|---|---|---|
+| **OpenClaw** | `~/.openclaw` | `workspace/{SOUL,IDENTITY,USER,TOOLS}.md`, memory, skills |
+| **Hermes Agent** | `~/.hermes` | `SOUL.md`, `memories/`, skills (preferred if both exist) |
+| **Grok / xAI CLI** | `~/.grok` | `XAI_API_KEY` + `config.toml` → grok-4.6 deck |
+| **Legacy moltbot / clawdbot** | rename to `~/.clawdbot-pre-migrate` first | same as OpenClaw |
+| **Claude Code / Codex / Cursor / elizaOS** | skills + MCP | see [MIGRATE.md](MIGRATE.md#beyond) |
+
+Wallets, OAuth stores, and SQLite sessions are **not** copied. Trading stays paper (`clawdbot ooda --sim`) until you arm live gates. Spawn still inherits `CONSTITUTION.md` / `six-laws.md` / `three-laws.md` — imported `SOUL.md` sits under those laws.
+
+```bash
+bash scripts/migrate-into-clawd.sh --source ~/.openclaw --apply --overwrite-persona
+bash scripts/migrate-into-clawd.sh --apply --overwrite-persona --migrate-secrets
+```
+
+---
 
 ---
 
@@ -65,13 +141,11 @@ binaries (`zero`, sandbox helpers, `zero-pr-review`, `zero-release`,
 `zero-perf-bench`) next to `clawdbot`. Natural-language intent routing, secure
 sandboxes, and release tooling are one build away — no separate monorepo clone.
 
-**One-shot install surface.** Curl the edge installer or run the npm package —
-both resolve to the same `install.sh` truth (archive clone, binary path,
-zkrouter + public RPC defaults, optional core-ai sidecar).
+**One-shot install surface.** This checkout’s [`install.sh`](install.sh) is the Clawd / `$CLAWD` truth (`~/.clawdbot`, `clawdbot`). The public edge URL currently still proxies GitHub `main`, which is GoBot — skip it until that is Clawd again.
 
 ```bash
-curl -fsSL https://install.onchainai.fund | bash   # same Worker, no challenge
-npx clawdbot-install
+CLAWDBOT_INSTALL_COMPLETE=1 bash install.sh
+bash scripts/migrate-into-clawd.sh --dry-run   # OpenClaw / Hermes / Grok
 ```
 
 ---
@@ -171,30 +245,15 @@ The codebase carries the intellectual DNA of academic pioneers in compression, e
 
 ### One-Shot Install (recommended)
 
-Pick **one** line. Curl and npm both drive the same `install.sh` surface.
+From **this checkout**. That is Clawd / `$CLAWD` (`~/.clawdbot`, binary `clawdbot`).
 
 ```bash
-curl -fsSL https://install.onchainai.fund | bash   # same Worker, no challenge
-npx clawdbot-install
+CLAWDBOT_INSTALL_COMPLETE=1 bash install.sh
 ```
 
-Aliases and variants:
+Do **not** curl `install.onchainai.fund` / GitHub `main/install.sh` right now — those install **GoBot** (`$GOBOT`, `~/.gobot`, `gobot`). `npx clawdbot-install` hits the same edge Worker.
 
-```bash
-# brand host (may hit Cloudflare Bot Fight — prefer onchainai.fund above)
-curl -fsSL https://install.cheshireterminal.ai | bash
-
-# raw GitHub install script (same script, no edge Worker)
-curl -fsSL https://raw.githubusercontent.com/Solizardking/clawdbot-go/main/install.sh | bash
-
-# dry-run (prints plan, no $HOME mutation)
-npx clawdbot-install --dry-run
-
-# complete stack (core-ai sidecar + Vulcan)
-npx clawdbot-install --complete
-```
-
-Coming from **OpenClaw**, **Hermes**, **Grok bot**, or a legacy moltbot/clawdbot home? One-shot import of persona, memory, skills, and keys: **[MIGRATE.md](MIGRATE.md)**.
+Coming from **OpenClaw**, **Hermes**, **Grok bot**, or a legacy moltbot/clawdbot home: [one-shot migrate](#-one-shot-install--migrate) · **[MIGRATE.md](MIGRATE.md)**.
 
 ZK metadata (read-only, no install):
 
@@ -202,8 +261,7 @@ ZK metadata (read-only, no install):
 curl -fsSL https://install.onchainai.fund/.well-known/clawdbot-zk.json
 ```
 
-> Edge install Worker: `install.onchainai.fund` (recommended) and
-> `install.cheshireterminal.ai`. See `cloudflare/README.md`.
+> Edge Worker hosts (`install.onchainai.fund`, `install.cheshireterminal.ai`) currently proxy GitHub `main`, which is GoBot-branded. Use this checkout’s `install.sh` for `$CLAWD`. See `cloudflare/README.md`.
 
 > **Free AI included** — no API keys required to get started.  
 > The installer pre-configures [zkrouter](https://zk.x402.wtf) (free AI routing) and a  

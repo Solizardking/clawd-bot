@@ -20,9 +20,10 @@ mkdir -p ~/Backups/clawd-migrate
 tar -czf ~/Backups/clawd-migrate/source-$(date -u +%Y%m%dT%H%M%SZ).tar.gz \
   -C "$HOME" .openclaw .hermes .grok .moltbot .clawdbot .agents 2>/dev/null || true
 
-# 3. Install Clawd (complete stack: core-ai MCP + Vulcan)
-curl -fsSL https://install.onchainai.fund | CLAWDBOT_INSTALL_COMPLETE=1 bash
-# aliases:
+# 3. Install Clawd / $CLAWD from THIS checkout (not install.onchainai.fund —
+#    GitHub main currently ships GoBot / $GOBOT into ~/.gobot)
+CLAWDBOT_INSTALL_COMPLETE=1 bash install.sh
+# aliases (only after upstream is Clawd again):
 #   curl -fsSL https://install.cheshireterminal.ai | CLAWDBOT_INSTALL_COMPLETE=1 bash
 #   npx clawdbot-install --complete
 

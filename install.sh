@@ -233,7 +233,15 @@ install_vulcan() {
   if check_cmd vulcan; then success "Vulcan: $(command -v vulcan)"; return; fi
   check_cmd curl || { warn "curl not found; skipping Vulcan install"; return; }
   info "Installing Vulcan CLI for Phoenix paper/live perps..."
-  curl -fsSL https://github.com/Ellipsis-Labs/vulcan-cli/releases/latest/download/install.sh | sh || warn "Vulcan install failed"
+  # Vulcan's installer prompts on the TTY for agent skills. Unattended default is N.
+  local vulcan_sh
+  vulcan_sh="$(mktemp)"
+  if curl -fsSL https://github.com/Ellipsis-Labs/vulcan-cli/releases/latest/download/install.sh -o "$vulcan_sh"; then
+    CI=1 sh "$vulcan_sh" </dev/null || warn "Vulcan install failed"
+  else
+    warn "Vulcan install script download failed"
+  fi
+  rm -f "$vulcan_sh"
   check_cmd vulcan && success "Vulcan: $(command -v vulcan)" || warn "Vulcan not found on PATH after install"
 }
 

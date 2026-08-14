@@ -1,10 +1,10 @@
 {
-  "name": "clawd-zero-service",
+  "name": "clawd-bot-service",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "license": "MIT",
-  "description": "Backend service that drives the Zero agent (headless stream-json) as a blockchain-finance + equities research agent (Zero Clawd).",
+  "description": "Clawd Bot zero-service: SSE bridge, Grok runner, MCP, and Solana Core AI tools.",
   "engines": {
     "node": ">=20"
   },

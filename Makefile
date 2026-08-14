@@ -42,11 +42,13 @@ BIN_CLI   := $(BUILD_DIR)/clawdbot
 BIN_TUI   := $(BUILD_DIR)/clawdbot-tui
 OODA_DIR  := ./ooda
 
-.PHONY: all build orin rpi riscv macos cross tui web docker docker-orin clean install test lint verify audit release-check deps ooda-deps ooda-lint ooda-loop ooda-tui ooda-verify scan-i2c help
+BIN_DESK  := $(BUILD_DIR)/clawdbot-desktop
+
+.PHONY: all build orin rpi riscv macos cross tui web docker docker-orin desktop dmg npm-pack fly-launch clean install test lint verify audit release-check deps ooda-deps ooda-lint ooda-loop ooda-tui ooda-verify scan-i2c help
 
 # ── Default ───────────────────────────────────────────────────────────
 
-all: build tui
+all: build tui desktop
 
 # ── Build for current platform ────────────────────────────────────────
 
@@ -63,6 +65,24 @@ tui:
 	$(GOBUILD) -o $(BIN_TUI) ./cmd/clawdbot-tui
 	@echo "✓ $(BIN_TUI) built"
 	@ls -lh $(BIN_TUI)
+
+desktop:
+	@echo "🦞 Building Clawd Bot desktop host..."
+	@mkdir -p $(BUILD_DIR)
+	$(GOBUILD) -o $(BIN_DESK) ./cmd/clawdbot-desktop
+	@echo "✓ $(BIN_DESK) built"
+
+dmg: desktop
+	@chmod +x desktop/scripts/build-dmg.sh
+	./desktop/scripts/build-dmg.sh
+
+npm-pack:
+	npm --prefix packages/clawd-bot test
+	cd packages/clawd-bot && npm pack --dry-run
+
+fly-launch:
+	@chmod +x scripts/fly-launch-clawdbot.sh
+	./scripts/fly-launch-clawdbot.sh
 
 web:
 	@echo "🦞 Building ClawdBot Web Console..."
@@ -240,8 +260,12 @@ help:
 	@echo ""
 	@echo "  build       Build for current platform"
 	@echo "  tui         Build TUI launcher"
+	@echo "  desktop     Build Clawd Bot desktop host"
+	@echo "  dmg         Build macOS Clawd Bot.app + DMG"
+	@echo "  npm-pack    Test and pack the clawd-bot npm package"
+	@echo "  fly-launch  Create/deploy the clawdbot Fly machine"
 	@echo "  web         Build web frontend + backend"
-	@echo "  all         Build CLI + TUI"
+	@echo "  all         Build CLI + TUI + desktop"
 	@echo "  orin        Cross-compile for NVIDIA Orin Nano (linux/arm64)"
 	@echo "  rpi         Cross-compile for Raspberry Pi (linux/arm64)"
 	@echo "  riscv       Cross-compile for RISC-V (linux/riscv64)"

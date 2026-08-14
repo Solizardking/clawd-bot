@@ -1,0 +1,39 @@
+# Clawd Bot — Fly.io machine
+#
+#   fly apps create clawdbot
+#   fly deploy -c fly.toml
+#
+# Binds the desktop host (identity + skill picker + catalog) on $PORT.
+
+app = "clawdbot"
+primary_region = "iad"
+
+[build]
+  dockerfile = "Dockerfile.clawdbot"
+
+[env]
+  CLAWD_DESKTOP_OPEN = "0"
+  CLAWD_DESKTOP_ADDR = "0.0.0.0:8080"
+  ZERO_MODEL = "grok-4.6"
+  XAI_MODEL = "grok-4.6"
+  XAI_BASE_URL = "https://api.x.ai/v1"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+  [[http_service.checks]]
+    interval = "15s"
+    timeout = "2s"
+    grace_period = "10s"
+    method = "GET"
+    path = "/health"
+
+[[vm]]
+  memory = "512mb"
+  cpu_kind = "shared"
+  cpus = 1

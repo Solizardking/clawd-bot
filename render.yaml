@@ -1,11 +1,12 @@
-# Zero Clawd — standalone Render deploy.
+# Clawd Bot — standalone Render deploy (zero-service SSE bridge).
 #
-# One Docker web service: the Node SSE bridge + the compiled Zero Clawd agent
+# One Docker web service: the Node SSE bridge + the compiled Clawd agent
 # baked into a single image (see zero-service/Dockerfile, build context = repo
 # root so both zero-main/ and zero-service/ are available).
+# Prefer Fly for the public Clawd Bot desktop host: fly.toml / Dockerfile.clawdbot
 services:
   - type: web
-    name: zero-clawd-service
+    name: clawdbot-service
     runtime: docker
     region: oregon
     plan: starter

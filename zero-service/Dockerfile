@@ -1,4 +1,4 @@
-# Zero Clawd service: builds the Zero Go binary, runs the Node SSE bridge.
+# Clawd Bot zero-service: builds the agent binary, runs the Node SSE bridge.
 # Build context MUST be the repo root (so both zero-main/ and zero-service/ are
 # available). Render: dockerfilePath=./zero-service/Dockerfile, dockerContext=.
 

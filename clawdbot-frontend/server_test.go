@@ -35,7 +35,7 @@ func TestDeckServesHTML(t *testing.T) {
 	if !strings.Contains(ct, "text/html") {
 		t.Fatalf("content-type = %s", ct)
 	}
-	if !bytes.Contains(rec.Body.Bytes(), []byte("Grok Deck")) {
+	if !bytes.Contains(rec.Body.Bytes(), []byte("Clawd Bot")) {
 		t.Fatal("missing deck title")
 	}
 }

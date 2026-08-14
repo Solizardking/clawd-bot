@@ -1,0 +1,81 @@
+name: clawdbot-release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: go test ./pkg/identity ./pkg/catalog ./pkg/desktop ./clawdbot-frontend
+      - run: npm test --prefix packages/clawd-bot
+      - run: npm test --prefix packages/clawdbot-install
+
+  go-release:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - run: |
+          mkdir -p dist
+          GOOS=linux GOARCH=amd64 go build -trimpath -ldflags="-s -w" -o dist/clawdbot-linux-amd64 ./cmd/clawdbot
+          GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o dist/clawdbot-linux-arm64 ./cmd/clawdbot
+          GOOS=darwin GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o dist/clawdbot-darwin-arm64 ./cmd/clawdbot
+          GOOS=darwin GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o dist/clawdbot-desktop-darwin-arm64 ./cmd/clawdbot-desktop
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  dmg:
+    needs: test
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - run: chmod +x desktop/scripts/build-dmg.sh
+      - run: ./desktop/scripts/build-dmg.sh
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: build/ClawdBot-*.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  npm:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+      - run: npm test --prefix packages/clawd-bot
+      - run: npm publish --access public
+        working-directory: packages/clawd-bot
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        continue-on-error: true

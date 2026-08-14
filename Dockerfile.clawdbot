@@ -1,0 +1,27 @@
+# syntax=docker/dockerfile:1
+# Clawd Bot public host: desktop catalog + identity + skill picker.
+
+FROM golang:1.26.4-alpine AS builder
+RUN apk add --no-cache git make
+WORKDIR /src
+COPY go.mod go.sum* ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/clawdbot-desktop ./cmd/clawdbot-desktop
+RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/clawdbot ./cmd/clawdbot
+
+FROM alpine:3.22
+LABEL org.opencontainers.image.title="clawdbot" \
+      org.opencontainers.image.description="Clawd Bot — Solana-native agent desktop host" \
+      org.opencontainers.image.source="https://github.com/Solizardking/clawdbot-go" \
+      org.opencontainers.image.licenses="MIT"
+RUN apk add --no-cache ca-certificates tzdata
+WORKDIR /app
+COPY --from=builder /out/clawdbot-desktop /app/clawdbot-desktop
+COPY --from=builder /out/clawdbot /app/clawdbot
+COPY CLAWD.md CONSTITUTION.md SOUL.md IDENTITY.md six-laws.md strategy.md program.md schema.sql install.sh start.sh CLAWDBOT.md /app/identity/
+ENV CLAWDBOT_IDENTITY_DIR=/app/identity \
+    CLAWD_DESKTOP_OPEN=0 \
+    CLAWD_DESKTOP_ADDR=0.0.0.0:8080
+EXPOSE 8080
+ENTRYPOINT ["/app/clawdbot-desktop"]

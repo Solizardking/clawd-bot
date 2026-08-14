@@ -31,11 +31,11 @@ type File struct {
 
 // Manifest is the on-disk identity surface bundled into Clawd Bot.
 type Manifest struct {
-	Product  string `json:"product"`
-	Slug     string `json:"slug"`
-	Axiom    string `json:"axiom"`
-	Root     string `json:"root"`
-	Files    []File `json:"files"`
+	Product  string   `json:"product"`
+	Slug     string   `json:"slug"`
+	Axiom    string   `json:"axiom"`
+	Root     string   `json:"root"`
+	Files    []File   `json:"files"`
 	Missing  []string `json:"missing,omitempty"`
 	Warnings []string `json:"warnings,omitempty"`
 }

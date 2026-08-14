@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clawdbot · Grok Deck</title>
+<title>Clawd Bot</title>
 <meta name="color-scheme" content="dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -77,8 +77,8 @@
     <div class="brand">
       <div class="mark"></div>
       <div>
-        <div class="name">Clawdbot</div>
-        <div class="sub">grok-4.6 · xAI</div>
+        <div class="name">Clawd Bot</div>
+        <div class="sub">grok-4.6 · solana-native</div>
       </div>
     </div>
     <nav class="side-nav">
@@ -110,7 +110,7 @@
           <button class="chip on" id="prioChip">priority</button>
         </div>
         <div class="row">
-          <textarea id="prompt" placeholder="Ask Grok — PumpFun mints, X heat, sizing math, Imagine…"></textarea>
+          <textarea id="prompt" placeholder="Ask Clawd Bot — PumpFun mints, X heat, sizing math, Imagine…"></textarea>
           <button class="btn" id="send">Send</button>
           <button class="btn ghost" id="compact">Compact</button>
         </div>
@@ -150,7 +150,7 @@ const promptEl = document.getElementById("prompt");
 const tierPill = document.getElementById("tierPill");
 const chips = [...document.querySelectorAll(".chip[data-tool]")];
 const prioChip = document.getElementById("prioChip");
-let items = [{ role: "system", content: "You are Clawd's Grok control deck." }];
+let items = [{ role: "system", content: "You are Clawd Bot." }];
 let previousId = "";
 let compacting = false;
 
@@ -335,7 +335,7 @@ document.getElementById("compact").onclick = async () => {
   } finally { compacting = false; }
 };
 
-addMsg("sys", "Grok deck · grok-4.6 Responses API · " + BASE);
+addMsg("sys", "Clawd Bot deck · grok-4.6 Responses API · " + BASE);
 loadHealth();
 </script>
 </body>
