@@ -12,7 +12,7 @@ import { spawnSync } from "node:child_process";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO = join(__dirname, "..");
-const CB = (process.env.CLAWDBROWSER_ROOT || "/Users/8bit/ClawdBrowser").replace(/\/+$/, "");
+const CB = (process.env.CLAWDBROWSER_ROOT || `${process.env.HOME || ""}/ClawdBrowser`).replace(/\/+$/, "");
 const OUT_FULL = join(REPO, "catalogs", "sol-gpt-tools.json");
 const OUT_NAMES = join(REPO, "catalogs", "sol-gpt-tool-names.json");
 

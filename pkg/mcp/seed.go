@@ -38,7 +38,7 @@ const (
 // BuildCoreAIMCPServers returns the default core-ai birth/install MCP seed.
 // coreAIDir is the on-disk core-ai sidecar root used for helius/pump stdio paths;
 // HTTP remotes (zkcompression, robinhood-trading) do not depend on it.
-// ClawdBrowser zero-service paths come from CLAWDBROWSER_ROOT (default /Users/8bit/ClawdBrowser).
+// ClawdBrowser zero-service paths come from CLAWDBROWSER_ROOT (default $HOME/ClawdBrowser).
 func BuildCoreAIMCPServers(coreAIDir string) map[string]ServerConfig {
 	coreAIDir = strings.TrimSpace(coreAIDir)
 	if coreAIDir == "" {

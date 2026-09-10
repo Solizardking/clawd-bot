@@ -14,8 +14,8 @@ Public surfaces for the current ecosystem:
 - **Terminal** — `https://cheshireterminal.ai`
 
 Local runtime catalog roots:
-- **Skills** — `/Users/8bit/skills/skills` (`CLAWDBOT_SKILLS_DIR`)
-- **Agents** — `/Users/8bit/agents/agents/src` (`CLAWDBOT_AGENTS_DIR`)
+- **Skills** — `$CLAWDBOT_SKILLS_DIR` (default `~/skills/skills`)
+- **Agents** — `$CLAWDBOT_AGENTS_DIR` (default `~/agents/agents/src`)
 - **ZK primitives** — `./zk-primitives` (`CLAWDBOT_ZK_PRIMITIVES_DIR`)
 - **Cloudflare installer Worker** — `./cloudflare/install-worker.js`
 
@@ -48,7 +48,7 @@ Every spawn gets:
 
 | Surface | Detail |
 |---------|--------|
-| **ClawdBrowser zero-service** | `$CLAWDBROWSER_ROOT` (default `/Users/8bit/ClawdBrowser`) — `src/clawd/*`, `mcp-clawd.mjs`, `mcp-soltrader.mjs`, `server.mjs`, `zero-runner.mjs`, … |
+| **ClawdBrowser zero-service** | `$CLAWDBROWSER_ROOT` (default `$HOME/ClawdBrowser`) — `src/clawd/*`, `mcp-clawd.mjs`, `mcp-soltrader.mjs`, `server.mjs`, `zero-runner.mjs`, … |
 | **SOL GPT tools** | Full catalog snapshot in `catalogs/sol-gpt-tools.json` (**181** tools / **124** core) — Kimi, Laguna, Opus 5, DeepSeek, Grok share the same non-custodial set |
 | **MCP** | `clawd` + `clawd-soltrader` stdio → ClawdBrowser paths; plus `robinhood-trading` HTTP |
 

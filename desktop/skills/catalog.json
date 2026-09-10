@@ -1,7 +1,7 @@
 {
   "product": "Clawd Bot",
   "generatedAt": "2026-08-14T02:52:17.050Z",
-  "coreAiDir": "/Users/8bit/solana-clawd-agent-kit-2/core-ai",
+  "coreAiDir": "$HOME/.clawdbot/core-ai",
   "skills": [
     {
       "slug": "helius-cli",

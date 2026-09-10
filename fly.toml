@@ -5,7 +5,7 @@
 #
 # Binds the desktop host (identity + skill picker + catalog) on $PORT.
 
-app = "clawdbot"
+app = "clawd-bot-app"
 primary_region = "iad"
 
 [build]

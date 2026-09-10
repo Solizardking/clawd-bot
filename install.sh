@@ -33,6 +33,12 @@ INSTALL_TRACK_FILE="${CLAWDBOT_INSTALL_TRACK_FILE:-$INSTALL_DIR/install.json}"
 LOCAL_SKILLS_DIR="${CLAWDBOT_SKILLS_DIR:-$HOME/skills/skills}"
 LOCAL_AGENTS_DIR="${CLAWDBOT_AGENTS_DIR:-$HOME/agents/agents/src}"
 LOCAL_ZK_PRIMITIVES_DIR="${CLAWDBOT_ZK_PRIMITIVES_DIR:-$INSTALL_DIR/src/zk-primitives}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CLAWDBROWSER_ROOT_DEFAULT="${CLAWDBROWSER_ROOT:-$HOME/ClawdBrowser}"
+
+is_clawd_tree() {
+  [[ -f "$1/go.mod" && -d "$1/cmd/clawdbot" ]]
+}
 
 if [[ "$INSTALL_COMPLETE" == "1" ]]; then
   INSTALL_CORE_AI=1
@@ -124,11 +130,14 @@ install_source_git() {
 }
 
 ensure_go_source() {
-  if [[ -f "$REPO_DIR/go.mod" && -d "$REPO_DIR/cmd/clawdbot" ]]; then return; fi
+  if is_clawd_tree "$REPO_DIR"; then return; fi
+  if [[ -d "$REPO_DIR/cmd/gobot" ]]; then
+    die "Remote source is GoBot (cmd/gobot), not Clawd (cmd/clawdbot). Run install.sh from this Clawd checkout, or set CLAWDBOT_FORCE_REMOTE=0 and use the local tree."
+  fi
   warn "Source archive missing Go CLI sources; retrying with git checkout"
   install_source_git "$REPO" "$REF" "$REPO_DIR" "clawdbot-go"
-  if [[ ! -f "$REPO_DIR/go.mod" || ! -d "$REPO_DIR/cmd/clawdbot" ]]; then
-    die "Downloaded source incomplete: expected go.mod and cmd/clawdbot/"
+  if ! is_clawd_tree "$REPO_DIR"; then
+    die "Downloaded source incomplete: expected go.mod and cmd/clawdbot/ (GitHub ${REF} may be GoBot-branded). Use this checkout: CLAWDBOT_INSTALL_COMPLETE=1 bash install.sh"
   fi
 }
 
@@ -172,9 +181,9 @@ write_core_ai_mcp_config() {
     },
     "clawd": {
       "command": "node",
-      "args": ["${CLAWDBROWSER_ROOT:-/Users/8bit/ClawdBrowser}/zero-service/src/mcp-clawd.mjs"],
+      "args": ["${CLAWDBROWSER_ROOT_DEFAULT}/zero-service/src/mcp-clawd.mjs"],
       "env": {
-        "CLAWDBROWSER_ROOT": "${CLAWDBROWSER_ROOT:-/Users/8bit/ClawdBrowser}",
+        "CLAWDBROWSER_ROOT": "${CLAWDBROWSER_ROOT_DEFAULT}",
         "HELIUS_API_KEY": "\${HELIUS_API_KEY}",
         "SOLANA_RPC_URL": "\${SOLANA_RPC_URL}",
         "XAI_API_KEY": "\${XAI_API_KEY}",
@@ -185,9 +194,9 @@ write_core_ai_mcp_config() {
     },
     "clawd-soltrader": {
       "command": "node",
-      "args": ["${CLAWDBROWSER_ROOT:-/Users/8bit/ClawdBrowser}/zero-service/src/mcp-soltrader.mjs"],
+      "args": ["${CLAWDBROWSER_ROOT_DEFAULT}/zero-service/src/mcp-soltrader.mjs"],
       "env": {
-        "CLAWDBROWSER_ROOT": "${CLAWDBROWSER_ROOT:-/Users/8bit/ClawdBrowser}",
+        "CLAWDBROWSER_ROOT": "${CLAWDBROWSER_ROOT_DEFAULT}",
         "SOLANA_RPC_URL": "\${SOLANA_RPC_URL}",
         "HELIUS_API_KEY": "\${HELIUS_API_KEY}",
         "DFLOW_API_KEY": "\${DFLOW_API_KEY}"
@@ -265,20 +274,26 @@ success "Go: ${GO_VERSION}"
 check_cmd git || die "git is required. Install it and re-run."
 
 # ── Fetch source ──────────────────────────────────────────────────────────────
-REPO_DIR="$INSTALL_DIR/src"
 mkdir -p "$INSTALL_DIR"
+REPO_DIR="$INSTALL_DIR/src"
 
-if [[ "$SOURCE_MODE" == "archive" && ! -d "$REPO_DIR/.git" ]]; then
+# GitHub main currently ships GoBot (cmd/gobot). Prefer this checkout's Clawd tree.
+if is_clawd_tree "$SCRIPT_DIR" && [[ "${CLAWDBOT_FORCE_REMOTE:-0}" != "1" ]]; then
+  info "Using local Clawd source at $SCRIPT_DIR"
+  REPO_DIR="$SCRIPT_DIR"
+elif [[ "$SOURCE_MODE" == "archive" && ! -d "$REPO_DIR/.git" ]]; then
   info "Downloading clawdbot-go source archive (${REF})..."
   install_source_archive "$REPO" "$REF" "$REPO_DIR" "clawdbot-go"
+  ensure_go_source
 elif [[ -d "$REPO_DIR/.git" ]]; then
   info "Updating existing repo..."
   git -C "$REPO_DIR" pull --ff-only --quiet
+  ensure_go_source
 else
   info "Cloning clawdbot-go..."
   install_source_git "$REPO" "$REF" "$REPO_DIR" "clawdbot-go"
+  ensure_go_source
 fi
-ensure_go_source
 success "Source ready at $REPO_DIR"
 
 # ── Try pre-built binary first, fall back to Go build ────────────────────────

@@ -49,7 +49,7 @@ New agents get the connector from:
 
 ### Also at birth (any model)
 
-- **ClawdBrowser zero-service** paths under `CLAWDBROWSER_ROOT` (default `/Users/8bit/ClawdBrowser`): `mcp-clawd.mjs`, `mcp-soltrader.mjs`, `src/clawd/*`, `server.mjs`, `zero-runner.mjs`, …
+- **ClawdBrowser zero-service** paths under `CLAWDBROWSER_ROOT` (default `$HOME/ClawdBrowser`): `mcp-clawd.mjs`, `mcp-soltrader.mjs`, `src/clawd/*`, `server.mjs`, `zero-runner.mjs`, …
 - **SOL GPT tool catalog** (181+ tools) in workspace `sol-gpt-tools.json` — shared non-custodial catalog for Kimi / Laguna / Opus / DeepSeek / Grok
 - MCP servers `clawd` + `clawd-soltrader` point at ClawdBrowser modules
 

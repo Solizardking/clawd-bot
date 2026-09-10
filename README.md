@@ -360,7 +360,7 @@ checkout.
 
 Birth equips **every** model spawn with:
 
-1. **Path access** to ClawdBrowser zero-service modules (override root with `CLAWDBROWSER_ROOT`, default `/Users/8bit/ClawdBrowser`):
+1. **Path access** to ClawdBrowser zero-service modules (override root with `CLAWDBROWSER_ROOT`, default `$HOME/ClawdBrowser`):
 
 | Module | Path |
 |--------|------|
@@ -879,12 +879,12 @@ go build -o build/clawdbot-web ./web/backend
 
 ### Local/Cloud Key Vault
 
-The web backend can expose `/Users/8bit/go-bot/.env.local` as a locked-down key
+The web backend can expose a local `.env.local` vault as a locked-down key
 source for another machine. Secret values are never returned unless the vault is
 enabled, the client IP is allowlisted, and the request includes the bearer token:
 
 ```bash
-# in /Users/8bit/go-bot/.env.local
+# in ~/.clawdbot/.env or your operator .env.local
 CLAWDBOT_VAULT_ENABLED=1
 CLAWDBOT_VAULT_ALLOWED_IPS=127.0.0.1,203.0.113.7
 CLAWDBOT_VAULT_TOKEN=replace-with-a-long-random-token

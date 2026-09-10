@@ -15,6 +15,7 @@ tracked generated artifacts.
 
 - Keep generated binaries and caches out of git: `.cache/`, `build/`, `dist/`,
   root `clawdbot`, `**/target/`, `**/.next/`, and `*.tsbuildinfo`.
+  Root `.gitignore` now excludes `/dist/`, `/build/`, and `/clawdbot`.
 - Keep `.env` local. Commit only `.env.example`.
 - Keep live wallets, treasury keypairs, install ledgers, funding receipts, and
   private API keys outside the repository.

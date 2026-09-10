@@ -9,8 +9,13 @@ import (
 	"time"
 )
 
-// Default ClawdBrowser root on this machine. Override with CLAWDBROWSER_ROOT.
-const DefaultClawdBrowserRoot = "/Users/8bit/ClawdBrowser"
+// DefaultClawdBrowserRoot is $HOME/ClawdBrowser. Override with CLAWDBROWSER_ROOT.
+func DefaultClawdBrowserRoot() string {
+	if home, err := os.UserHomeDir(); err == nil && strings.TrimSpace(home) != "" {
+		return filepath.Join(home, "ClawdBrowser")
+	}
+	return "ClawdBrowser"
+}
 
 // Relative zero-service modules every birth surface must be able to resolve.
 var ClawdBrowserZeroServiceModules = []string{
@@ -44,7 +49,7 @@ func ClawdBrowserRoot() string {
 	if v := strings.TrimSpace(os.Getenv("CLAWDBROWSER_ROOT")); v != "" {
 		return filepath.Clean(v)
 	}
-	return DefaultClawdBrowserRoot
+	return DefaultClawdBrowserRoot()
 }
 
 // ResolveClawdBrowserPath joins root with a relative module path.
@@ -222,8 +227,6 @@ func FindRepoRoot(start string) (string, error) {
 	if start != "" {
 		candidates = append(candidates, start)
 	}
-	// Developer monorepo default (same machine as ClawdBrowser).
-	candidates = append(candidates, "/Users/8bit/drive/zero-clawd")
 
 	seen := map[string]bool{}
 	for _, c := range candidates {

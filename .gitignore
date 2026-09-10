@@ -105,6 +105,12 @@ sol-gpt-workspace/
 finance-gpt-workspace/
 zero-clawd-workspace/
 
+# Build artifacts / local binaries (never publish)
+/dist/
+/build/
+/clawdbot
+*.tsbuildinfo
+
 # OS / editor junk
 .DS_Store
 *.swp

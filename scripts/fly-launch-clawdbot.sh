@@ -7,7 +7,7 @@ if ! command -v fly >/dev/null 2>&1; then
   echo "install flyctl: https://fly.io/docs/hands-on/install-flyctl/" >&2
   exit 1
 fi
-if ! fly apps list 2>/dev/null | grep -q '^clawdbot'; then
-  fly apps create clawdbot --org personal || fly apps create clawdbot
+if ! fly apps list 2>/dev/null | grep -q 'clawd-bot-app'; then
+  fly apps create clawd-bot-app
 fi
 fly deploy -c fly.toml --ha=false

@@ -1,7 +1,7 @@
 # ClawdBot-Go — Agent Handoff Document
 
 **Repo:** `https://github.com/Solizardking/clawdbot-go`  
-**Local path:** `/Users/8bit/clawdbot-go`  
+**Local path:** clone of this repository  
 **Language:** Go 1.26.4+  
 **Module:** `github.com/8bitlabs/clawdbot`  
 **Public gateway:** `https://zk.x402.wtf`  
@@ -161,7 +161,7 @@ signatures or a queued status. The installer writes the non-secret receipt to
 ## Build & Test
 
 ```bash
-cd /Users/8bit/clawdbot-go    # or clone from GitHub
+cd /path/to/clawdbot-go    # this checkout
 
 go mod download
 go build ./...                 # must compile cleanly

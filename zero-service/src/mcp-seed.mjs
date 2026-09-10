@@ -3,11 +3,14 @@
  * No filesystem I/O — safe for unit tests and ensureWorkspace.
  */
 
+import { homedir } from "node:os";
+import { join } from "node:path";
+
 export const ROBINHOOD_TRADING_SERVER_NAME = "robinhood-trading";
 export const ROBINHOOD_TRADING_MCP_URL = "https://agent.robinhood.com/mcp/trading";
 
 export const DEFAULT_CLAWDBROWSER_ROOT =
-  process.env.CLAWDBROWSER_ROOT || "/Users/8bit/ClawdBrowser";
+  process.env.CLAWDBROWSER_ROOT || join(homedir(), "ClawdBrowser");
 
 export const CLAWD_MCP_SERVER_NAME = "clawd";
 export const CLAWD_SOLTRADER_SERVER_NAME = "clawd-soltrader";

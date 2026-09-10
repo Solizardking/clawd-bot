@@ -1,10 +1,8 @@
 {
   "mcpServers": {
     "vulcan": {
-      "command": "/Users/8bit/.local/bin/vulcan",
-      "args": [
-        "mcp"
-      ]
+      "command": "vulcan",
+      "args": ["mcp"]
     },
     "robinhood-trading": {
       "type": "http",
@@ -12,20 +10,16 @@
     },
     "clawd": {
       "command": "node",
-      "args": [
-        "/Users/8bit/ClawdBrowser/zero-service/src/mcp-clawd.mjs"
-      ],
+      "args": ["zero-service/src/mcp-clawd.mjs"],
       "env": {
-        "CLAWDBROWSER_ROOT": "/Users/8bit/ClawdBrowser"
+        "CLAWDBROWSER_ROOT": "."
       }
     },
     "clawd-soltrader": {
       "command": "node",
-      "args": [
-        "/Users/8bit/ClawdBrowser/zero-service/src/mcp-soltrader.mjs"
-      ],
+      "args": ["zero-service/src/mcp-soltrader.mjs"],
       "env": {
-        "CLAWDBROWSER_ROOT": "/Users/8bit/ClawdBrowser"
+        "CLAWDBROWSER_ROOT": "."
       }
     }
   }
